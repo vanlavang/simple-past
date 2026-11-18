@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sơ Đồ Tư Duy: Thì Quá Khứ Đơn (Chữ To Rõ - 16:9)</title>
+    <style>
+        /* ================= CSS RESET & BIẾN CƠ BẢN ================= */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        :root {
+            --bg-color: #f8fbff;
+            --primary-blue: #0f4c81; 
+            --branch1-blue: #1d61c4;   
+            --branch2-green: #2fa145;  
+            --branch3-red: #ea3323;    
+            --branch4-purple: #7a31b6; 
+            --note-bg: #f3faec;
+            --text-dark: #222;
+        }
+
+        /* KHÓA CUỘN MÀN HÌNH - ÉP VỪA 1 TRANG 16:9 */
+        html, body {
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            overflow: hidden; /* Cấm cuộn */
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ================= TOOLBAR CHỨC NĂNG ================= */
+        .toolbar {
+            background: #fff;
+            padding: 0.5vh 2vw;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1vw;
+            z-index: 10000;
+            position: relative;
+            height: 5vh; 
+            align-items: center;
+        }
+
+        .btn {
+            padding: 0.4vh 1vw;
+            border: 0.2vh solid var(--primary-blue);
+            background: #fff;
+            color: var(--primary-blue);
+            border-radius: 1vh;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            font-size: clamp(11px, 1.4vh, 16px);
+            display: inline-block;
+            text-decoration: none; /* Thêm để a href không bị gạch chân */
+        }
+
+        .btn:hover, .btn.active { background: var(--primary-blue); color: #fff; }
+        .btn-draw { border-color: #f26522; color: #f26522; }
+        .btn-draw:hover, .btn-draw.active { background: #f26522; color: #fff; }
+        .btn-step { border-color: #3ab54a; color: #3ab54a; }
+        .btn-step:hover, .btn-step.active { background: #3ab54a; color: #fff; }
+
+        /* ================= BỐ CỤC MINDMAP ================= */
+        .mindmap-wrapper {
+            flex-grow: 1;
+            position: relative;
+            padding: 1.5vh 1.5vw;
+            height: 95vh; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .mindmap-container {
+            display: grid;
+            grid-template-columns: 1fr minmax(140px, 0.4fr) 1fr; /* Thu hẹp cột giữa tối đa */
+            grid-auto-rows: 100%;
+            gap: 1vh 1.5vw;
+            width: 100%;
+            height: 100%;
+            max-width: 1600px;
+            position: relative;
+        }
+
+        /* LỚP SVG ĐỂ VẼ ĐƯỜNG KẺ */
+        #connections {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1; 
+            pointer-events: none;
+        }
+
+        /* Phân bổ Grid */
+        /* Giảm gap xuống 1.2vh để nhường chỗ cho text to ra */
+        .left-col { grid-column: 1; display: flex; flex-direction: column; gap: 1.2vh; justify-content: center; z-index: 2; position: relative; height: 100%;}
+        .right-col { grid-column: 3; display: flex; flex-direction: column; gap: 1.2vh; justify-content: center; z-index: 2; position: relative; height: 100%;}
+        .center-col { grid-column: 2; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 3; position: relative; height: 100%;}
+
+        /* KHỐI NHÁNH DÙNG CHUNG (ĐÃ TĂNG FONT) */
+        .box {
+            background: #fff; border-radius: 1.2vh; padding: 1.2vh;
+            box-shadow: 0 0.3vh 0.8vh rgba(0,0,0,0.1); position: relative; 
+            border: 0.25vh solid #ccc;
+            font-size: clamp(13px, 1.7vh, 20px); /* FONT TO HƠN RÕ RÀNG */
+            font-weight: 500; 
+            width: 100%;
+            margin-top: 1.5vh; 
+        }
+        
+        .box-header {
+            color: #fff; padding: 0.2vh 1.2vw; border-radius: 1.5vh; 
+            display: inline-flex; align-items: center; justify-content: center;
+            font-weight: bold; margin-bottom: 0.2vh;
+            font-size: clamp(15px, 2vh, 22px); /* TIÊU ĐỀ TO HƠN */
+            position: absolute;
+            top: -1.5vh;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+        }
+        
+        /* ======== KHỐI TRUNG TÂM ======== */
+        .center-box {
+            border: 0.3vh solid var(--primary-blue); border-radius: 1vh; padding: 1vh;
+            text-align: center; background: #fff; box-shadow: 0 0.5vh 1vh rgba(0,0,0,0.15);
+            max-width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .center-box h1 { color: var(--primary-blue); font-size: clamp(14px, 2vh, 22px); line-height: 1.1; font-weight: 800;}
+        .center-box .sub-title { color: var(--primary-blue); font-size: clamp(10px, 1.3vh, 14px); font-weight: bold; margin-top: 0.3vh;}
+        
+        /* Khóa cứng kích thước ảnh trung tâm gọn gàng */
+        .center-box img.main-icon { 
+            width: 6vh; 
+            height: 6vh; 
+            max-width: 60px;
+            max-height: 60px;
+            object-fit: contain; 
+            margin-bottom: 0.5vh; 
+            position: relative; 
+            z-index: 1;
+        }
+
+        /* Nhánh màu sắc */
+        .branch-1 { border-color: var(--branch1-blue); }
+        .branch-1 .box-header { background: var(--branch1-blue); }
+        .branch-1 .icon-item { color: var(--branch1-blue); font-weight: bold; }
+        
+        .branch-2 { border-color: var(--branch2-green); }
+        .branch-2 .box-header { background: var(--branch2-green); }
+        
+        .branch-3 { border-color: var(--branch3-red); }
+        .branch-3 .box-header { background: var(--branch3-red); }
+
+        .branch-4 { border-color: var(--branch4-purple); }
+        .branch-4 .box-header { background: var(--branch4-purple); }
+
+        /* Danh sách Icon Nhánh Trái */
+        .icon-list { display: flex; flex-direction: column; gap: 0.6vh; margin-top: 0.5vh;}
+        .icon-list-item { display: flex; align-items: flex-start; gap: 0.5vw; border-bottom: 1px dashed #eee; padding-bottom: 0.5vh;}
+        .icon-list-item:last-child { border-bottom: none; padding-bottom: 0;}
+        .icon-list-item img { width: 2.2vh; height: 2.2vh; margin-top: 0.2vh; object-fit: contain; flex-shrink: 0;}
+
+        /* Khối lưu ý */
+        .note-box {
+            background: var(--note-bg); border-radius: 0.8vh; padding: 0.6vh; margin-top: 0.8vh;
+            display: flex; gap: 0.5vw; align-items: flex-start;
+            border: 1px solid #d4e8c6;
+        }
+        .note-box img { width: 2vh; height: 2vh; margin-top: 0.2vh; object-fit: contain; flex-shrink: 0; }
+        .note-box-title { font-weight: bold; color: var(--branch2-green); margin-bottom: 0.1vh;}
+        .branch-3 .note-box-title { color: var(--branch3-red); }
+        .branch-4 .note-box-title { color: var(--branch4-purple); }
+
+        /* Highlight cấu trúc */
+        .struct-highlight {
+            background: #eaeaea; padding: 0.2vh 0.6vw; border-radius: 0.5vh; display: inline-block; font-weight: bold;
+            margin: 0.4vh 0; font-size: 1.05em;
+        }
+        .branch-2 .struct-highlight { background: #e0f2e5; color: #155724; }
+        .branch-3 .struct-highlight { background: #fae3e3; color: #721c24; }
+        .branch-4 .struct-highlight { background: #f0e6f7; color: #431668; }
+
+        ul.example-list { list-style: none; padding-left: 0.2vw; margin-top: 0.5vh;}
+        ul.example-list li { margin-bottom: 0.4vh; padding-left: 1.2vw; position: relative;}
+        ul.example-list li::before { content: '•'; position: absolute; left: 0; font-weight: bold; font-size: 1.2em; top: -0.2vh;}
+
+        /* ================= HIỆU ỨNG STEP-BY-STEP ================= */
+        .step { opacity: 0; transform: translateY(2vh) scale(0.95); transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); visibility: hidden; }
+        .step.visible { opacity: 1; transform: translateY(0) scale(1); visibility: visible; }
+
+        /* ================= NGÔN NGỮ & TABS (EN/VN) ================= */
+        .vn-only { font-size: 0.85em !important; color: #555; display: block; margin-top: 0.1vh;}
+        body.tab-en .vn-only { display: none; }
+
+        /* ================= TỪ ĐIỂN TƯƠNG TÁC ================= */
+        .clickable-word { cursor: pointer; transition: color 0.2s, background 0.2s; position: relative; display: inline-block; font-weight: 600; color: #111;}
+        .clickable-word:hover { color: var(--branch1-blue); background: rgba(0, 113, 188, 0.1); border-radius: 0.3vh; }
+        .translatable-block { cursor: context-menu; }
+        .translatable-block:hover { background: rgba(242, 101, 34, 0.05); }
+
+        /* Modal */
+        #dict-modal, #trans-modal {
+            position: fixed; background: rgba(0,0,0,0.8); top: 0; left: 0; width: 100vw; height: 100vh;
+            display: none; justify-content: center; align-items: center; z-index: 10001;
+        }
+        .modal-content {
+            background: #fff; padding: 2vh 2vw; border-radius: 1.5vh; max-width: 400px; width: 90%;
+            position: relative; box-shadow: 0 1vh 3vh rgba(0,0,0,0.5); animation: popIn 0.3s ease;
+        }
+        .modal-close { position: absolute; top: 1vh; right: 1.5vw; font-size: 3vh; cursor: pointer; color: #888; }
+        .modal-close:hover { color: red; }
+        .dict-word { font-size: clamp(20px, 2.5vh, 28px); color: var(--primary-blue); font-weight: bold; }
+        .dict-ipa { color: #d32f2f; font-family: 'Courier New', Courier, monospace; margin: 0.5vh 0; font-size: clamp(12px, 1.5vh, 18px);}
+        .dict-type { font-style: italic; color: #666; font-size: clamp(11px, 1.4vh, 16px);}
+        .dict-meaning { margin-top: 1vh; font-size: clamp(14px, 1.8vh, 22px); font-weight: bold;}
+        .trans-title { font-weight: bold; color: var(--branch1-blue); margin-bottom: 1vh; border-bottom: 0.2vh solid #eee; padding-bottom: 0.5vh; font-size: clamp(14px, 1.8vh, 20px);}
+        .trans-text { font-size: clamp(13px, 1.6vh, 18px); line-height: 1.5;}
+
+        /* ================= CANVAS VẼ ================= */
+        #draw-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 9999; pointer-events: none; touch-action: none; }
+        body.pen-active #draw-canvas { pointer-events: auto; cursor: crosshair; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    </style>
+</head>
+<body class="tab-en">
+
+    <canvas id="draw-canvas"></canvas>
+
+    <div class="toolbar">
+        <a href="../SIMPLE PAST.html" class="btn">🏠 Home</a>
+        <button class="btn" onclick="openVerbDictModal()" title="Tra cứu động từ V1 - V2 - V3" style="border-color:#0284c7; color:#0284c7;">📖 Từ Điển</button>
+        <button class="btn active" id="btn-tab-en" onclick="switchTab('en')">🇬🇧 English</button>
+        <button class="btn" id="btn-tab-vn" onclick="switchTab('vn')">🇻🇳 Vietnamese</button>
+        <button class="btn btn-step" id="btn-step" onclick="nextStep()">Tiến Trình (Step: 0/5)</button>
+        <button class="btn btn-step" onclick="showAllSteps()">Hiện Tất Cả</button>
+        <button class="btn btn-draw" id="btn-draw" onclick="togglePen()">✏️ Bút : OFF</button>
+        <button class="btn btn-draw" onclick="clearInk()">🗑 Xóa Mực</button>
+    </div>
+
+    <div class="mindmap-wrapper">
+        <div class="mindmap-container">
+            <!-- ĐƯỜNG KẺ SVG -->
+            <svg id="connections"></svg>
+            
+            <!-- CỘT TRÁI -->
+            <div class="left-col">
+                <!-- 1. CẤU TẠO -->
+                <div class="box branch-1 step" data-step="2" id="box-branch-1">
+                    <div class="box-header">1. CẤU TẠO</div>
+                    <div class="icon-list">
+                        <div class="icon-list-item translatable-block" data-vn-trans="Dùng để nói về hành động hoặc trạng thái đã xảy ra trước thời điểm hiện tại.">
+                            <img src="https://cdn-icons-png.flaticon.com/512/1828/1828819.png" alt="Plus">
+                            <div>Dùng để nói về hành động/trạng thái <b class="icon-item">đã xảy ra trước hiện tại.</b></div>
+                        </div>
+                        <div class="icon-list-item translatable-block" data-vn-trans="Diễn tả hành động đã kết thúc, không còn tiếp diễn như thì hiện tại tiếp diễn.">
+                            <img src="https://cdn-icons-png.flaticon.com/512/825/825590.png" alt="Checklist">
+                            <div>Diễn tả hành động <b class="icon-item">đã kết thúc</b>, không còn tiếp diễn.</div>
+                        </div>
+                        <div class="icon-list-item translatable-block" data-vn-trans="Ví dụ: Wolfgang tham gia một cuộc thi và cậu ấy đã giành được huy chương.">
+                            <img src="https://cdn-icons-png.flaticon.com/512/3112/3112946.png" alt="Medal">
+                            <div><b>Ví dụ:</b> Wolfgang tham gia thi và đã giành huy chương.</div>
+                        </div>
+                        <div class="icon-list-item translatable-block" data-vn-trans="Diễn tả cảm xúc hoặc trạng thái trong quá khứ với động từ to be (was, were).">
+                            <img src="https://cdn-icons-png.flaticon.com/512/3593/3593455.png" alt="Thought">
+                            <div>Cảm xúc/trạng thái trong quá khứ với to be <b class="icon-item">(was, were)</b>.</div>
+                        </div>
+                        <div class="icon-list-item translatable-block" data-vn-trans="Với động từ to be: was not (wasn't) (số ít), were not (weren't) (số nhiều).">
+                            <img src="https://cdn-icons-png.flaticon.com/512/4140/4140048.png" alt="Person">
+                            <div>
+                                <b class="icon-item">Động từ to be:</b>
+                                <b class="icon-item">was not (wasn't)</b> (số ít),
+                                <b class="icon-item">were not (weren't)</b> (số nhiều).
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. PHỦ ĐỊNH -->
+                <div class="box branch-3 step" data-step="4" id="box-branch-3">
+                    <div class="box-header">3. PHỦ ĐỊNH</div>
+                    <div style="display:flex; align-items:center; gap: 1vw; margin-top: 0.5vh;">
+                        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828899.png" style="width:2.5vh; height:2.5vh;">
+                        <div>
+                            <div style="color:var(--branch3-red); font-weight:bold;">Cấu trúc chung:</div>
+                            <div class="struct-highlight">S + did not (didn't) + V (nguyên thể) + ...</div>
+                            <div style="font-size: 0.85em; color:#555;">(không “to”)</div>
+                        </div>
+                    </div>
+                    
+                    <div style="border-top: 1px dashed var(--branch3-red); margin-top: 0.8vh; padding-top: 0.8vh;">
+                        <b style="color:var(--branch3-red);">Ví dụ:</b>
+                        <ul class="example-list">
+                            <li class="translatable-block" data-vn-trans="Tôi đã không chơi bóng đá hôm qua.">
+                                <span class="eng-sentence">I <b style="color:var(--branch3-red)">did not (didn't) play</b> football yesterday.</span>
+                                <span class="vn-only">(Tôi đã không chơi bóng đá hôm qua.)</span>
+                            </li>
+                            <li class="translatable-block" data-vn-trans="Cô ấy đã không thăm ông bà của mình.">
+                                <span class="eng-sentence">She <b style="color:var(--branch3-red)">didn't visit</b> her grandparents.</span>
+                                <span class="vn-only">(Cô ấy đã không thăm ông bà của mình.)</span>
+                            </li>
+                            <li class="translatable-block" data-vn-trans="Chúng tôi đã không hoàn thành bài tập về nhà.">
+                                <span class="eng-sentence">We <b style="color:var(--branch3-red)">didn't finish</b> our homework.</span>
+                                <span class="vn-only">(Chúng tôi đã không hoàn thành bài tập về nhà.)</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="note-box" style="background: #fcf1f1; border-color: #f7d2d2;">
+                        <img src="https://cdn-icons-png.flaticon.com/512/1005/1005141.png" alt="Note">
+                        <div>
+                            <div class="note-box-title">Lưu ý:</div>
+                            Dùng <b>did not (didn't)</b> cho tất cả các chủ ngữ.<br>
+                            Động từ luôn ở nguyên thể (không "to").
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CỘT GIỮA -->
+            <div class="center-col">
+                <div class="center-node step" data-step="1" id="center-box">
+                    <div class="center-box">
+                        <img class="main-icon" src="https://cdn-icons-png.flaticon.com/512/3588/3588658.png" alt="Trung Tâm">
+                        <h1 class="eng-sentence">THÌ QUÁ KHỨ ĐƠN</h1>
+                        <div class="sub-title eng-sentence">(SIMPLE PAST TENSE)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CỘT PHẢI -->
+            <div class="right-col">
+                <!-- 2. KHẲNG ĐỊNH -->
+                <div class="box branch-2 step" data-step="3" id="box-branch-2">
+                    <div class="box-header">2. KHẲNG ĐỊNH</div>
+                    <div style="display:flex; align-items:center; gap: 1vw; margin-top: 0.5vh;">
+                        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828819.png" style="width:2.5vh; height:2.5vh;">
+                        <div>
+                            <div style="color:var(--branch2-green); font-weight:bold;">Cấu trúc chung:</div>
+                            <div class="struct-highlight">S + V<sub>2</sub>/ed + ...</div>
+                            <div style="font-size: 0.85em; color:#555;">(V<sub>2</sub>: động từ ở quá khứ)</div>
+                        </div>
+                    </div>
+
+                    <div style="border-top: 1px dashed var(--branch2-green); margin-top: 0.8vh; padding-top: 0.8vh;">
+                        <b style="color:var(--branch2-green);">Ví dụ:</b>
+                        <ul class="example-list">
+                            <li class="translatable-block" data-vn-trans="Tôi đã chơi bóng đá hôm qua.">
+                                <span class="eng-sentence">I <b style="color:var(--branch2-green)">played</b> football yesterday.</span>
+                                <span class="vn-only">(Tôi đã chơi bóng đá hôm qua.)</span>
+                            </li>
+                            <li class="translatable-block" data-vn-trans="Cô ấy đã thăm ông bà của mình vào tuần trước.">
+                                <span class="eng-sentence">She <b style="color:var(--branch2-green)">visited</b> her grandparents last week.</span>
+                                <span class="vn-only">(Cô ấy đã thăm ông bà của mình vào tuần trước.)</span>
+                            </li>
+                            <li class="translatable-block" data-vn-trans="Chúng tôi đã hoàn thành bài tập về nhà.">
+                                <span class="eng-sentence">We <b style="color:var(--branch2-green)">finished</b> our homework.</span>
+                                <span class="vn-only">(Chúng tôi đã hoàn thành bài tập về nhà.)</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="note-box">
+                        <img src="https://cdn-icons-png.flaticon.com/512/1005/1005141.png" alt="Note">
+                        <div>
+                            <div class="note-box-title">Lưu ý:</div>
+                            Động từ thường thêm <b>-ed</b> ở cuối.<br>
+                            Bất quy tắc: <span class="eng-sentence">go &rarr; went, see &rarr; saw, ...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. NGHI VẤN -->
+                <div class="box branch-4 step" data-step="5" id="box-branch-4">
+                    <div class="box-header">4. NGHI VẤN (CÂU HỎI)</div>
+                    <div style="display:flex; align-items:center; gap: 1vw; margin-top: 0.5vh;">
+                        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828843.png" style="width:2.5vh; height:2.5vh;">
+                        <div>
+                            <div style="color:var(--branch4-purple); font-weight:bold;">Cấu trúc chung:</div>
+                            <div class="struct-highlight">Did + S + V (nguyên thể) + ... ?</div>
+                            <div style="font-size: 0.85em; color:#555;">(không “to”)</div>
+                        </div>
+                    </div>
+
+                    <div style="border-top: 1px dashed var(--branch4-purple); margin-top: 0.8vh; padding-top: 0.8vh;">
+                        <b style="color:var(--branch4-purple);">Ví dụ:</b>
+                        <ul class="example-list">
+                            <li class="translatable-block" data-vn-trans="Bạn đã chơi bóng đá hôm qua phải không?">
+                                <span class="eng-sentence"><b style="color:var(--branch4-purple)">Did</b> you <b style="color:var(--branch4-purple)">play</b> football yesterday?</span>
+                                <span class="vn-only">(Bạn đã chơi bóng đá hôm qua phải không?)</span>
+                            </li>
+                            <li class="translatable-block" data-vn-trans="Cô ấy đã thăm ông bà của mình phải không?">
+                                <span class="eng-sentence"><b style="color:var(--branch4-purple)">Did</b> she <b style="color:var(--branch4-purple)">visit</b> her grandparents?</span>
+                                <span class="vn-only">(Cô ấy đã thăm ông bà của mình phải không?)</span>
+                            </li>
+                            <li class="translatable-block" data-vn-trans="Chúng ta đã hoàn thành bài tập về nhà chưa?">
+                                <span class="eng-sentence"><b style="color:var(--branch4-purple)">Did</b> we <b style="color:var(--branch4-purple)">finish</b> our homework?</span>
+                                <span class="vn-only">(Chúng ta đã hoàn thành bài tập về nhà chưa?)</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="note-box" style="background: #f7f3fb; border-color: #e4d3f5;">
+                        <img src="https://cdn-icons-png.flaticon.com/512/1005/1005141.png" alt="Note">
+                        <div>
+                            <div class="note-box-title">Lưu ý:</div>
+                            Dùng <b>Did</b> cho tất cả các chủ ngữ.<br>
+                            Động từ luôn ở nguyên thể (không "to").
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL TỪ ĐIỂN & DỊCH -->
+    <div id="dict-modal" onclick="closeModal(event, 'dict-modal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="modal-close" onclick="closeModal(null, 'dict-modal')">&times;</span>
+            <div class="dict-word" id="dict-word">Word</div>
+            <div class="dict-ipa" id="dict-ipa">/ipa/</div>
+            <div class="dict-type" id="dict-type">(type)</div>
+            <div class="dict-meaning" id="dict-meaning">Meaning</div>
+            <button class="btn" style="margin-top:1.5vh; width:100%; border-radius:1vh; padding: 1vh;" onclick="speakCurrentWord()">🔊 Nghe Phát Âm</button>
+        </div>
+    </div>
+    <div id="trans-modal" onclick="closeModal(event, 'trans-modal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="modal-close" onclick="closeModal(null, 'trans-modal')">&times;</span>
+            <div class="trans-title">DỊCH NGHĨA</div>
+            <div class="trans-text" id="trans-text">Bản dịch...</div>
+        </div>
+    </div>
+
+    <script>
+        const vocabulary = {
+            "simple": { ipa: "/ˈsɪm.pəl/", type: "adj", vn: "đơn giản" },
+            "past": { ipa: "/pɑːst/", type: "n/adj", vn: "quá khứ" },
+            "tense": { ipa: "/tens/", type: "n", vn: "thì (ngữ pháp)" },
+            "was": { ipa: "/wɒz/", type: "v", vn: "đã là (số ít)" },
+            "were": { ipa: "/wɜːr/", type: "v", vn: "đã là (số nhiều)" },
+            "did": { ipa: "/dɪd/", type: "v", vn: "đã làm (trợ động từ)" },
+            "didn't": { ipa: "/ˈdɪd.ənt/", type: "v", vn: "đã không (did not)" },
+            "play": { ipa: "/pleɪ/", type: "v", vn: "chơi" },
+            "played": { ipa: "/pleɪd/", type: "v", vn: "đã chơi" },
+            "football": { ipa: "/ˈfʊt.bɔːl/", type: "n", vn: "bóng đá" },
+            "yesterday": { ipa: "/ˈjes.tə.deɪ/", type: "adv", vn: "hôm qua" },
+            "visit": { ipa: "/ˈvɪz.ɪt/", type: "v", vn: "thăm, ghé thăm" },
+            "visited": { ipa: "/ˈvɪz.ɪ.tɪd/", type: "v", vn: "đã thăm" },
+            "her": { ipa: "/hɜːr/", type: "pron", vn: "của cô ấy" },
+            "grandparents": { ipa: "/ˈɡræn.peə.rənts/", type: "n", vn: "ông bà" },
+            "last": { ipa: "/lɑːst/", type: "adj", vn: "trước, qua" },
+            "week": { ipa: "/wiːk/", type: "n", vn: "tuần" },
+            "finish": { ipa: "/ˈfɪn.ɪʃ/", type: "v", vn: "hoàn thành" },
+            "finished": { ipa: "/ˈfɪn.ɪʃt/", type: "v", vn: "đã hoàn thành" },
+            "our": { ipa: "/aʊər/", type: "pron", vn: "của chúng tôi" },
+            "homework": { ipa: "/ˈhəʊm.wɜːk/", type: "n", vn: "bài tập về nhà" },
+            "go": { ipa: "/ɡoʊ/", type: "v", vn: "đi" },
+            "went": { ipa: "/went/", type: "v", vn: "đã đi" },
+            "see": { ipa: "/siː/", type: "v", vn: "nhìn thấy" },
+            "saw": { ipa: "/sɔː/", type: "v", vn: "đã nhìn thấy" }
+        };
+
+        let currentWordForSpeech = "";
+
+        // THUẬT TOÁN WRAP TỪ VỰNG MỚI (An Toàn Cho HTML)
+        function wrapWordsInNode(element) {
+            const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, null, false);
+            const textNodes = [];
+            let node;
+            while (node = walker.nextNode()) {
+                textNodes.push(node);
+            }
+
+            textNodes.forEach(n => {
+                const text = n.nodeValue;
+                if (!text.trim()) return;
+                
+                // Nếu đang nằm trong thẻ script, style hoặc đã bọc rồi thì bỏ qua
+                if (n.parentNode.tagName === 'SCRIPT' || n.parentNode.tagName === 'STYLE' || n.parentNode.classList.contains('clickable-word')) return;
+
+                const parts = text.split(/([ \n\t.,?()&rarr;/]+)/);
+                const fragment = document.createDocumentFragment();
+
+                parts.forEach(part => {
+const clean = part.toLowerCase().replace(/[^a-z']/g, '');
+                    if (clean.length > 0) {
+                        const span = document.createElement('span');
+                        span.className = 'clickable-word';
+                        span.onclick = (e) => { e.stopPropagation(); lookupWord(clean); };
+                        span.textContent = part;
+                        fragment.appendChild(span);
+                    } else {
+                        fragment.appendChild(document.createTextNode(part));
+                    }
+                });
+
+                n.parentNode.replaceChild(fragment, n);
+            });
+        }
+
+        // Kích hoạt thuật toán cho tất cả các vùng cần bắt từ vựng
+        document.querySelectorAll('.eng-sentence').forEach(el => wrapWordsInNode(el));
+
+        // Tra cứu từ
+        function lookupWord(cleanWord) {
+            if (document.body.classList.contains('pen-active')) return;
+            if(!cleanWord) return;
+            currentWordForSpeech = cleanWord;
+            const wordData = vocabulary[cleanWord];
+            document.getElementById('dict-word').innerText = cleanWord;
+            if (wordData) {
+                document.getElementById('dict-ipa').innerText = wordData.ipa;
+                document.getElementById('dict-type').innerText = "(" + wordData.type + ")";
+                document.getElementById('dict-meaning').innerText = wordData.vn;
+            } else {
+                document.getElementById('dict-ipa').innerText = "/.../";
+                document.getElementById('dict-type').innerText = "(Vocabulary)";
+                document.getElementById('dict-meaning').innerText = "Vui lòng xem qua ngữ cảnh.";
+            }
+            document.getElementById('dict-modal').style.display = 'flex';
+        }
+
+        function speakCurrentWord() {
+            if ('speechSynthesis' in window && currentWordForSpeech !== "") {
+                const utterance = new SpeechSynthesisUtterance(currentWordForSpeech);
+                utterance.lang = 'en-US';
+                window.speechSynthesis.speak(utterance);
+            } else {
+                alert("Trình duyệt không hỗ trợ phát âm.");
+            }
+        }
+
+        // Dịch block
+        document.querySelectorAll('.translatable-block').forEach(el => {
+            el.addEventListener('contextmenu', function(e) {
+                if (document.body.classList.contains('pen-active')) return;
+                e.preventDefault();
+                const transText = this.getAttribute('data-vn-trans');
+                if(transText) {
+                    document.getElementById('trans-text').innerText = transText;
+                    document.getElementById('trans-modal').style.display = 'flex';
+                }
+            });
+        });
+
+        document.body.addEventListener('contextmenu', function(e) {
+            if(!e.target.closest('.translatable-block') && !document.body.classList.contains('pen-active')){
+               e.preventDefault();
+            }
+        });
+
+        function closeModal(e, modalId) {
+            if(e) e.stopPropagation();
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function switchTab(tab) {
+            if(tab === 'en') {
+                document.body.classList.remove('tab-vn'); document.body.classList.add('tab-en');
+                document.getElementById('btn-tab-en').classList.add('active'); document.getElementById('btn-tab-vn').classList.remove('active');
+            } else {
+                document.body.classList.remove('tab-en'); document.body.classList.add('tab-vn');
+                document.getElementById('btn-tab-vn').classList.add('active'); document.getElementById('btn-tab-en').classList.remove('active');
+            }
+        }
+
+        // ================= VẼ ĐƯỜNG SVG =================
+        const branchesConfig = [
+            { id: 'box-branch-1', color: 'var(--branch1-blue)' },
+            { id: 'box-branch-2', color: 'var(--branch2-green)' },
+            { id: 'box-branch-3', color: 'var(--branch3-red)' },
+            { id: 'box-branch-4', color: 'var(--branch4-purple)' }
+        ];
+
+        function drawConnections() {
+            const svg = document.getElementById('connections');
+            svg.innerHTML = ''; 
+            const container = document.querySelector('.mindmap-container').getBoundingClientRect();
+            const center = document.getElementById('center-box').getBoundingClientRect();
+            
+            branchesConfig.forEach(branch => {
+                const targetBox = document.getElementById(branch.id);
+                if(!targetBox) return;
+                
+                const targetRect = targetBox.getBoundingClientRect();
+                
+                let startX, startY, tx, ty, cx1, cy1, cx2, cy2;
+
+                startX = center.left + center.width/2 - container.left;
+                startY = center.top + center.height/2 - container.top;
+
+                if (targetRect.right < center.left) { 
+                    tx = targetRect.right - container.left;
+                    ty = targetRect.top + targetRect.height/2 - container.top;
+                    cx1 = (startX + tx) / 2; cy1 = startY;
+                    cx2 = (startX + tx) / 2; cy2 = ty;
+                } else if (targetRect.left > center.right) { 
+                    tx = targetRect.left - container.left;
+                    ty = targetRect.top + targetRect.height/2 - container.top;
+                    cx1 = (startX + tx) / 2; cy1 = startY;
+                    cx2 = (startX + tx) / 2; cy2 = ty;
+                } else {
+                    tx = targetRect.left + targetRect.width/2 - container.left;
+                    ty = targetRect.top - container.top;
+                    cx1 = startX; cy1 = (startY + ty) / 2;
+                    cx2 = tx; cy2 = (startY + ty) / 2;
+                }
+
+                let strokeColor = branch.color;
+                if(branch.color.includes('var')) {
+                    const varName = branch.color.match(/var\(([^)]+)\)/)[1];
+                    strokeColor = getComputedStyle(document.documentElement).getPropertyValue(varName).trim() || '#333';
+                }
+
+                const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                const d = `M ${startX} ${startY} C ${cx1} ${cy1}, ${cx2} ${cy2}, ${tx} ${ty}`;
+                
+                path.setAttribute('d', d);
+                path.setAttribute('stroke', strokeColor);
+                path.setAttribute('stroke-width', '4');
+                path.setAttribute('fill', 'none');
+                
+                const stepRequired = parseInt(targetBox.closest('.step').getAttribute('data-step'));
+                path.style.opacity = (currentStep >= stepRequired) ? '1' : '0';
+                path.style.transition = 'opacity 0.6s ease';
+                path.setAttribute('data-target-step', stepRequired);
+
+                svg.appendChild(path);
+            });
+        }
+
+        let currentStep = 0;
+        const totalSteps = 5;
+        const stepElements = document.querySelectorAll('.step');
+
+        function nextStep() {
+            if (currentStep < totalSteps) {
+                currentStep++;
+                document.querySelectorAll(`.step[data-step="${currentStep}"]`).forEach(el => el.classList.add('visible'));
+                document.getElementById('btn-step').innerText = `Tiến Trình (Step: ${currentStep}/${totalSteps})`;
+                
+                document.querySelectorAll('#connections path').forEach(path => {
+                    if(parseInt(path.getAttribute('data-target-step')) === currentStep) path.style.opacity = '1';
+                });
+            }
+        }
+        
+        function prevStep() {
+            if (currentStep > 0) {
+                document.querySelectorAll(`.step[data-step="${currentStep}"]`).forEach(el => el.classList.remove('visible'));
+                document.querySelectorAll('#connections path').forEach(path => {
+                    if(parseInt(path.getAttribute('data-target-step')) === currentStep) path.style.opacity = '0';
+                });
+                currentStep--;
+                document.getElementById('btn-step').innerText = `Tiến Trình (Step: ${currentStep}/${totalSteps})`;
+            }
+        }
+
+        function showAllSteps() {
+            stepElements.forEach(el => el.classList.add('visible'));
+            currentStep = totalSteps;
+            document.getElementById('btn-step').innerText = `Tiến Trình (Step: ${totalSteps}/${totalSteps})`;
+            document.querySelectorAll('#connections path').forEach(path => path.style.opacity = '1');
+        }
+
+        setTimeout(() => { 
+            drawConnections(); 
+            nextStep();        
+        }, 300);
+
+        document.addEventListener('click', function(e) {
+            if (isPenActive) return;
+            if (e.target.closest('.toolbar') || e.target.closest('.modal-content') || e.target.closest('.clickable-word') || e.target.closest('.modal-close')) {
+                return;
+            }
+            nextStep();
+        });
+
+        window.addEventListener('resize', drawConnections);
+
+        // ================= PEN =================
+        const canvas = document.getElementById('draw-canvas');
+        const ctx = canvas.getContext('2d', { desynchronized: true });
+        const PEN_COLOR = '#f26522';
+        const PEN_SIZE = 4;
+        
+        let isPenActive = false, isDrawing = false, lastX = 0, lastY = 0;
+
+        function initContext() { ctx.strokeStyle = PEN_COLOR; ctx.lineWidth = PEN_SIZE; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; }
+        function togglePen() {
+            isPenActive = !isPenActive;
+            const btn = document.getElementById('btn-draw');
+            if (isPenActive) { document.body.classList.add('pen-active'); btn.classList.add('active'); btn.innerText = "✏️ Bút : ON"; } 
+            else { document.body.classList.remove('pen-active'); btn.classList.remove('active'); btn.innerText = "✏️ Bút : OFF"; }
+        }
+        function clearInk() { ctx.clearRect(0, 0, canvas.width, canvas.height); }
+        function resizeCanvas() { 
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = canvas.width || window.innerWidth;
+            tempCanvas.height = canvas.height || window.innerHeight;
+            tempCanvas.getContext('2d').drawImage(canvas, 0, 0);
+            canvas.width = window.innerWidth; canvas.height = window.innerHeight; 
+            initContext(); ctx.drawImage(tempCanvas, 0, 0); drawConnections(); 
+        }
+        window.addEventListener('resize', resizeCanvas); resizeCanvas();
+
+        function startDraw(e) { if (!isPenActive) return; if (e.pointerType === 'mouse' && e.button !== 0) return;
+            e.preventDefault(); isDrawing = true; lastX = e.clientX; lastY = e.clientY;
+            ctx.beginPath(); ctx.moveTo(lastX, lastY); ctx.lineTo(lastX, lastY); ctx.stroke();
+        }
+        function draw(e) { if (!isPenActive || !isDrawing) return; e.preventDefault();
+            ctx.lineTo(e.clientX, e.clientY); ctx.stroke(); lastX = e.clientX; lastY = e.clientY;
+        }
+        function stopDraw() { if (!isDrawing) return; isDrawing = false; ctx.closePath(); }
+
+        canvas.addEventListener('pointerdown', startDraw); canvas.addEventListener('pointermove', draw);
+        canvas.addEventListener('pointerup', stopDraw); canvas.addEventListener('pointercancel', stopDraw); canvas.addEventListener('pointerout', stopDraw);
+
+        document.addEventListener('keydown', function(e) {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+            if (e.key === 'p' || e.key === 'P') { togglePen(); return; }
+            if (e.key === 'Escape') { if (isPenActive) togglePen(); return; }
+            if (['PageDown', 'ArrowRight', 'ArrowDown', ' ', 'Enter'].includes(e.key)) { e.preventDefault(); nextStep(); } 
+            else if (['PageUp', 'ArrowLeft', 'ArrowUp'].includes(e.key)) { e.preventDefault(); prevStep(); }
+        });
+
+        function openVerbDictModal() {
+            const modal = document.getElementById('verb-dict-modal');
+            const iframe = document.getElementById('vdict-iframe');
+            if (iframe && !iframe.src && iframe.dataset.src) {
+                iframe.src = iframe.dataset.src;
+            }
+            if (modal) modal.style.display = 'flex';
+        }
+        function closeVerbDictModal() {
+            const modal = document.getElementById('verb-dict-modal');
+            if (modal) modal.style.display = 'none';
+        }
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeVerbDictModal();
+        });
+    </script>
+
+<!-- VERB DICTIONARY MODAL -->
+<style>
+.vdict-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(4px);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
+  animation: vdictFadeIn 0.2s ease-out;
+}
+.vdict-modal-box {
+  width: min(1200px, 96vw);
+  height: min(88vh, 850px);
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.vdict-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #0B3C5D;
+  color: #ffffff;
+  padding: 12px 20px;
+  flex-shrink: 0;
+}
+.vdict-title {
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.vdict-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.vdict-btn-ext {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.18);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.vdict-btn-ext:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+.vdict-btn-close {
+  background: rgba(239, 68, 68, 0.85);
+  color: #ffffff;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.vdict-btn-close:hover {
+  background: #dc2626;
+}
+.vdict-modal-body {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: #F4F8FB;
+}
+.vdict-modal-body iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+@keyframes vdictFadeIn {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+</style>
+
+<div id="verb-dict-modal" class="vdict-modal-overlay" style="display:none;" onclick="if(event.target===this) closeVerbDictModal()">
+  <div class="vdict-modal-box">
+    <div class="vdict-modal-header">
+      <div class="vdict-title">
+        <span>📖</span> English Verb Dictionary (V1 - V2 - V3)
+      </div>
+      <div class="vdict-actions">
+        <a id="vdict-open-newtab" href="ENGLISH VERB DICTIONARY.html" target="_blank" class="vdict-btn-ext" title="Mở trong tab mới">
+          ↗ Mở tab mới
+        </a>
+        <button type="button" class="vdict-btn-close" onclick="closeVerbDictModal()" title="Đóng">✕</button>
+      </div>
+    </div>
+    <div class="vdict-modal-body">
+      <iframe id="vdict-iframe" data-src="ENGLISH VERB DICTIONARY.html" title="English Verb Dictionary"></iframe>
+    </div>
+  </div>
+</div>
+</body>
+</html>

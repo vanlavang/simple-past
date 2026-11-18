@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simple Past Tense | Thư Viện Học Tiếng Anh Tương Tác</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Quicksand:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0f2744;
+    --blue: #2563eb;
+    --blue-dark: #1d4ed8;
+    --blue-light: #eff6ff;
+    --pale: #f0f7ff;
+    --ink: #1e293b;
+    --muted: #64748b;
+    --line: #e2e8f0;
+    --white: #ffffff;
+    --shadow-sm: 0 4px 6px -1px rgba(0,0,0,0.05);
+    --shadow-md: 0 10px 25px -3px rgba(37,99,235,0.1);
+    --shadow-lg: 0 20px 30px -5px rgba(37,99,235,0.15);
+    --radius: 18px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    margin: 0;
+    font-family: 'Nunito', 'Segoe UI', Arial, sans-serif;
+    color: var(--ink);
+    background: linear-gradient(135deg, #eef5ff 0%, #f8fbff 50%, #e8f2fe 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  header {
+    color: #fff;
+    background: linear-gradient(135deg, #0f2744 0%, #1e3a8a 50%, #2563eb 100%);
+    padding: 38px 20px 34px;
+    box-shadow: 0 10px 30px rgba(15,39,68,0.2);
+    position: relative;
+    overflow: hidden;
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-inner, main { width: min(1120px, 94%); margin: auto; }
+  .eyebrow {
+    margin: 0 0 8px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 800;
+    color: #93c5fd;
+  }
+  h1 {
+    margin: 0;
+    font-family: 'Quicksand', 'Nunito', sans-serif;
+    font-size: clamp(28px, 4.5vw, 42px);
+    font-weight: 800;
+    letter-spacing: -0.5px;
+  }
+  .subtitle {
+    margin: 10px 0 0;
+    opacity: .92;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.5;
+    color: #e0f2fe;
+    max-width: 650px;
+  }
+  main { padding: 32px 0 50px; flex: 1; }
+  .toolbar {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    align-items: center;
+    background: #fff;
+    border: 1.5px solid var(--line);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    box-shadow: var(--shadow-sm);
+  }
+  .search-wrap {
+    flex: 1 1 280px;
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  .search-wrap svg {
+    position: absolute;
+    left: 14px;
+    width: 18px;
+    height: 18px;
+    fill: var(--muted);
+  }
+  input[type="search"] {
+    width: 100%;
+    padding: 12px 14px 12px 42px;
+    border: 1.5px solid var(--line);
+    border-radius: 12px;
+    font-size: 15px;
+    font-family: inherit;
+    outline: none;
+    transition: all 0.2s;
+  }
+  input[type="search"]:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 4px rgba(37,99,235,0.12);
+  }
+  .count {
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 700;
+    padding: 4px 10px;
+    background: var(--pale);
+    border-radius: 20px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 18px;
+    margin-top: 24px;
+  }
+  .lesson {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    text-decoration: none;
+    color: inherit;
+    background: #fff;
+    border: 2px solid var(--line);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+  }
+  .lesson:hover {
+    transform: translateY(-5px);
+    border-color: var(--blue);
+    box-shadow: var(--shadow-md);
+  }
+  .lesson:active {
+    transform: translateY(-2px);
+  }
+  .number {
+    flex: 0 0 52px;
+    height: 52px;
+    display: grid;
+    place-items: center;
+    border-radius: 14px;
+    font-weight: 900;
+    font-size: 22px;
+    transition: transform 0.2s;
+  }
+  .lesson:hover .number {
+    transform: scale(1.08);
+  }
+  .badge-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 6px;
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+  }
+  .lesson-info { flex: 1; }
+  .lesson-title {
+    font-weight: 800;
+    font-size: 17px;
+    line-height: 1.35;
+    color: var(--ink);
+  }
+  .lesson-desc {
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+  .open-arrow {
+    font-size: 18px;
+    color: var(--muted);
+    transition: transform 0.2s, color 0.2s;
+  }
+  .lesson:hover .open-arrow {
+    transform: translateX(4px);
+    color: var(--blue);
+  }
+
+  /* Variations */
+  .card-1 .number { background: #fee2e2; color: #ef4444; }
+  .card-1 .badge-tag { background: #fee2e2; color: #b91c1c; }
+  .card-2 .number { background: #fef3c7; color: #d97706; }
+  .card-2 .badge-tag { background: #fef3c7; color: #b45309; }
+  .card-3 .number { background: #e0f2fe; color: #0284c7; }
+  .card-3 .badge-tag { background: #e0f2fe; color: #0369a1; }
+  .card-4 .number { background: #ede9fe; color: #7c3aed; }
+  .card-4 .badge-tag { background: #ede9fe; color: #6d28d9; }
+  .card-5 .number { background: #ecfdf5; color: #059669; }
+  .card-5 .badge-tag { background: #ecfdf5; color: #047857; }
+  .card-6 .number { background: #fdf2f8; color: #db2777; }
+  .card-6 .badge-tag { background: #fdf2f8; color: #be185d; }
+  .card-7 .number { background: #f0fdf4; color: #16a34a; }
+  .card-7 .badge-tag { background: #dcfce7; color: #15803d; }
+  .card-8 .number { background: #e0e7ff; color: #4338ca; }
+  .card-8 .badge-tag { background: #e0e7ff; color: #3730a3; }
+  .card-9 .number { background: #cffafe; color: #0891b2; }
+  .card-9 .badge-tag { background: #a5f3fc; color: #0e7490; }
+  .card-10 .number { background: #fff7ed; color: #ea580c; }
+  .card-10 .badge-tag { background: #ffedd5; color: #c2410c; }
+
+  .btn-dict-top {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #0284c7, #2563eb);
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 10px 18px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(37,99,235,0.25);
+    transition: all 0.2s;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+  .btn-dict-top:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(37,99,235,0.35);
+  }
+
+  /* Verb Dictionary Modal Styles */
+  .vdict-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(4px);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    box-sizing: border-box;
+    animation: vdictFadeIn 0.2s ease-out;
+  }
+  .vdict-modal-box {
+    width: min(1200px, 96vw);
+    height: min(88vh, 850px);
+    background: #ffffff;
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  .vdict-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #0B3C5D;
+    color: #ffffff;
+    padding: 12px 20px;
+    flex-shrink: 0;
+  }
+  .vdict-title {
+    font-size: 16px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .vdict-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .vdict-btn-ext {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.18);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 8px;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .vdict-btn-ext:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+  .vdict-btn-close {
+    background: rgba(239, 68, 68, 0.85);
+    color: #ffffff;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+  .vdict-btn-close:hover {
+    background: #dc2626;
+  }
+  .vdict-modal-body {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background: #F4F8FB;
+  }
+  .vdict-modal-body iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+  }
+  @keyframes vdictFadeIn {
+    from { opacity: 0; transform: scale(0.98); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  .empty {
+    display: none;
+    margin: 30px 0;
+    padding: 40px 20px;
+    text-align: center;
+    color: var(--muted);
+    background: #fff;
+    border-radius: var(--radius);
+    border: 2px dashed var(--line);
+    font-size: 15px;
+    font-weight: 600;
+  }
+  footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 20px 12px 30px;
+  }
+  @media(max-width: 600px) {
+    header { padding: 26px 16px; }
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <p class="eyebrow">Interactive English Grammar Series</p>
+    <h1>Simple Past Tense (Thì Quá Khứ Đơn)</h1>
+    <p class="subtitle">Thư viện bài học toàn diện: lý thuyết sơ đồ tư duy, bài tập chia thì, trò chơi ghép câu hỏi và bộ quiz tổng hợp có âm thanh.</p>
+  </div>
+</header>
+<main>
+  <div class="toolbar">
+    <div class="search-wrap">
+      <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      <input id="search" type="search" placeholder="Tìm kiếm bài học, trò chơi, bài tập..." aria-label="Tìm kiếm bài học">
+    </div>
+    <button type="button" class="btn-dict-top" onclick="openVerbDictModal()" title="Tra cứu nhanh động từ V1 - V2 - V3">
+      📖 Tra Từ Điển
+    </button>
+    <span class="count" id="count">10 bài học</span>
+  </div>
+  <section class="grid" id="lessons" aria-label="Danh sách bài học">
+    
+    <!-- 01 Adding -ed: 3 Dạng Bài Tập -->
+    <a class="lesson card-1" href="DATAS/Adding-ed.html">
+      <span class="number">01</span>
+      <div class="lesson-info">
+        <span class="badge-tag">Bộ 3 Dạng Bài Tập (45 câu)</span>
+        <div class="lesson-title">Adding -ed & 3 Dạng Bài Tập Trọng Tâm</div>
+        <div class="lesson-desc">Trọn bộ 3 dạng: (1) Chọn đúng trắc nghiệm • (2) Điền từ & chia động từ • (3) Đặt câu hỏi WH-.</div>
+      </div>
+      <span class="open-arrow">➔</span>
+    </a>
+
+    <!-- 02 Dropdown Exercise -->
+    <a class="lesson card-2" href="DATAS/Dropdown-Exercise.html">
+      <span class="number">02</span>
+      <div class="lesson-info">
+        <span class="badge-tag">Exercise • Audio</span>
+        <div class="lesson-title">Dropdown Exercise (48 câu)</div>
+        <div class="lesson-desc">Luyện điền từ dropdown 4 phần kèm phát âm câu và từ điển tra cứu.</div>
+      </div>
+      <span class="open-arrow">➔</span>
+    </a>
+
+    <!-- 03 Question Builder -->
+    <a class="lesson card-3" href="DATAS/questin%20build.html">
+      <span class="number">03</span>
+      <div class="lesson-info">
+        <span class="badge-tag">Game Ghép Câu</span>
+        <div class="lesson-title">Question Builder (WH- Questions)</div>
+        <div class="lesson-desc">4 cấp độ ghép câu hỏi, kéo thả từ mượt mà, phát âm giọng chuẩn và pháo hoa.</div>
+      </div>
+      <span class="open-arrow">➔</span>
+    </a>
+
+    <!-- 04 Comprehensive Quiz -->
+    <a class="lesson card-4" href="DATAS/Quiz_Quakhu_TongHop.html">
+      <span class="number">04</span>
+      <div class="lesson-info">
+        <span class="badge-tag">Đặc Biệt • 109 Câu Hỏi</span>
+        <div class="lesson-title">Simple Past – Comprehensive Quiz</div>
+        <div class="lesson-desc">Kho 109 câu hỏi WH- chia 4 level, âm thanh thực tế, kéo thả reorder và từ điển offline.</div>
+      </div>
+      <span class="open-arrow">➔</span>
+    </a>
+
+    <!-- 05 Simple Past Lesson Mindmap -->
+    <a class="lesson card-5" href="DATAS/simple%20pass-lesson.html">
+      <span class="number">05</span>
+      <div class="lesson-info">
+        <span class="badge-tag">Sơ Đồ Tư Duy</span>
+        <div class="lesson-title">Simple Past Mindmap Lesson</div>
+        <div class="lesson-desc">Tổng hợp lý thuyết thì quá khứ đơn trực quan bằng sơ đồ tư duy sinh động.</div>
+      </div>
+      <span class="open-arrow">➔</span>
+    </a>
+
+    <!-- 06 Structure -->
+    <a class="lesson card-6" href="DATAS/Structure.html">
+      <span class="number">06</span>
+      <div class="lesson-info">
+        <span class="badge-tag">Cấu Trúc Ngữ Pháp</span>
+        <div class="lesson-title">Grammar Structure (16:9)</div>
+        <div class="lesson-desc">Công thức khẳng định, phủ định, nghi vấn và ví dụ minh họa rõ nét.</div>
+      </div>
+      <span class="open-arrow">➔</span>
+    </a>
+
+    <!-- 07 Pronunciation ED -->
+    <a class="lesson card-7" href="DATAS/pronunuciation%20ED.html">
+      <span class="number">07</span>
+      <div class="lesson-info">
+        <span class="badge-tag">Phát Âm • Audio</span>
+        <div class="lesson-title">Pronunciation ED Master</div>
+        <div class="lesson-desc">3 quy tắc phát âm đuôi -ed (/ɪd/, /t/, /d/), bài tập phân loại kéo thả và mini quiz.</div>
+      </div>
+      <span class="open-arrow">➔</span>
+    </a>
+
+    <!-- 08 Irregular Verbs Master V2 -->
+    <a class="lesson card-8" href="DATAS/irregular_verbs.html">
+      <span class="number">08</span>
+      <div class="lesson-info">
+        <span class="badge-tag">Game Thử Thách • 6 Chế Độ</span>
+        <div class="lesson-title">Irregular Verbs Master V2</div>
+        <div class="lesson-desc">6 chế độ chơi lôi cuốn (Find V2, Complete, Match, Memory Cards, Master Table) với 100 động từ và âm thanh TTS.</div>
+      </div>
+      <span class="open-arrow">➔</span>
+    </a>
+
+    <!-- 09 Past Tense Detective (sort time.html) -->
+    <a class="lesson card-9" href="DATAS/sort%20time.html">
+      <span class="number">09</span>
+      <div class="lesson-info">
+        <span class="badge-tag">Game Thám Tử • Audio 001.mp3</span>
+        <div class="lesson-title">Past Tense Detective – Sort Time (60 câu)</div>
+        <div class="lesson-desc">4 chế độ chơi: (1) Find The Past • (2) Time Detective • (3) Verb Detective • (4) Sentence Challenge có giọng đọc chuẩn từ 001.mp3.</div>
+      </div>
+      <span class="open-arrow">➔</span>
+    </a>
+
+    <!-- 10 English Verb Dictionary -->
+    <a class="lesson card-10" href="DATAS/ENGLISH%20VERB%20DICTIONARY.html">
+      <span class="number">10</span>
+      <div class="lesson-info">
+        <span class="badge-tag">Tra Cứu • Động Từ Bất Quy Tắc</span>
+        <div class="lesson-title">English Verb Dictionary (V1 - V2 - V3)</div>
+        <div class="lesson-desc">Từ điển tra cứu nhanh động từ quá khứ, phát âm chuẩn giọng bản xứ, quiz phản xạ và speed control.</div>
+      </div>
+      <span class="open-arrow">➔</span>
+    </a>
+
+  </section>
+  <div class="empty" id="empty">Không tìm thấy bài học nào phù hợp với từ khóa của bạn.</div>
+</main>
+<footer>Simple Past Tense Master • Offline Interactive Learning Suite</footer>
+
+<!-- VERB DICTIONARY MODAL -->
+<div id="verb-dict-modal" class="vdict-modal-overlay" style="display:none;" onclick="if(event.target===this) closeVerbDictModal()">
+  <div class="vdict-modal-box">
+    <div class="vdict-modal-header">
+      <div class="vdict-title">
+        <span>📖</span> English Verb Dictionary (V1 - V2 - V3)
+      </div>
+      <div class="vdict-actions">
+        <a id="vdict-open-newtab" href="DATAS/ENGLISH VERB DICTIONARY.html" target="_blank" class="vdict-btn-ext" title="Mở trong tab mới">
+          ↗ Mở tab mới
+        </a>
+        <button type="button" class="vdict-btn-close" onclick="closeVerbDictModal()" title="Đóng">✕</button>
+      </div>
+    </div>
+    <div class="vdict-modal-body">
+      <iframe id="vdict-iframe" data-src="DATAS/ENGLISH VERB DICTIONARY.html" title="English Verb Dictionary"></iframe>
+    </div>
+  </div>
+</div>
+
+<script>
+  function openVerbDictModal() {
+    const modal = document.getElementById('verb-dict-modal');
+    const iframe = document.getElementById('vdict-iframe');
+    if (iframe && !iframe.src && iframe.dataset.src) {
+      iframe.src = iframe.dataset.src;
+    }
+    if (modal) modal.style.display = 'flex';
+  }
+  function closeVerbDictModal() {
+    const modal = document.getElementById('verb-dict-modal');
+    if (modal) modal.style.display = 'none';
+  }
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeVerbDictModal();
+  });
+  const search = document.getElementById('search');
+  const cards = [...document.querySelectorAll('.lesson')];
+  const count = document.getElementById('count');
+  const empty = document.getElementById('empty');
+  function filterLessons() {
+    const query = search.value.trim().toLowerCase();
+    let visible = 0;
+    cards.forEach(card => {
+      const match = card.textContent.toLowerCase().includes(query);
+      card.style.display = match ? 'flex' : 'none';
+      if (match) visible++;
+    });
+    count.textContent = `${visible} / ${cards.length} bài học`;
+    empty.style.display = visible ? 'none' : 'block';
+  }
+  search.addEventListener('input', filterLessons);
+  filterLessons();
+</script>
+</body>
+</html>

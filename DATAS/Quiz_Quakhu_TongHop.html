@@ -1,0 +1,5305 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Simple Past WH- Questions Builder | Luyện Ghép Câu Quá Khứ Đơn</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ===================================================
+           RESET & CSS VARIABLES
+        =================================================== */
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #1d4ed8;
+            --primary-light: #eff6ff;
+            --secondary: #8b5cf6;
+            --secondary-dark: #6d28d9;
+            --success: #10b981;
+            --success-dark: #059669;
+            --success-light: #ecfdf5;
+            --danger: #ef4444;
+            --danger-dark: #dc2626;
+            --danger-light: #fef2f2;
+            --warning: #f59e0b;
+            --warning-dark: #d97706;
+            --warning-light: #fffbeb;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --gray-light: #f1f5f9;
+            --border: #e2e8f0;
+            --white: #ffffff;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+            --shadow-md: 0 6px 16px rgba(0,0,0,0.08);
+            --shadow-lg: 0 12px 28px rgba(0,0,0,0.12);
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --radius-full: 9999px;
+            --font-main: 'Nunito', 'Segoe UI', Arial, sans-serif;
+            --font-display: 'Quicksand', 'Nunito', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background: linear-gradient(135deg, #f0f4f9 0%, #e2eaf5 50%, #dbeafe 100%);
+            color: var(--dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* ===================================================
+           HEADER & NAV
+        =================================================== */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 2px solid var(--border);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .logo-icon {
+            font-size: 26px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+            color: white;
+        }
+
+        .app-title h1 {
+            font-family: var(--font-display);
+            font-size: 20px;
+            font-weight: 800;
+            background: linear-gradient(120deg, var(--primary-dark), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0;
+            letter-spacing: -0.3px;
+        }
+
+        .app-title p {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--gray);
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-family: var(--font-main);
+            font-size: 13px;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            border: 1.5px solid var(--border);
+            background: white;
+            color: var(--dark);
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+        }
+
+        .nav-btn:hover {
+            background: var(--gray-light);
+            border-color: #cbd5e1;
+            transform: translateY(-1px);
+        }
+
+        .nav-btn:active {
+            transform: translateY(1px);
+        }
+
+        .nav-btn.primary {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+        }
+
+        .nav-btn.primary:hover {
+            background: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+
+        .stats-badge-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--gray-light);
+            padding: 4px 10px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        /* Thanh Speed Header */
+        .speed-control-bar {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--gray-light);
+            padding: 3px 8px;
+            border-radius: 12px;
+            border: 1.5px solid var(--border);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+            transition: all 0.2s ease;
+        }
+
+        .speed-bar-label {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--gray);
+            padding-left: 2px;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            user-select: none;
+            white-space: nowrap;
+        }
+
+        .speed-pill-group {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            background: rgba(255, 255, 255, 0.85);
+            padding: 2px;
+            border-radius: 9px;
+            border: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .speed-pill-btn {
+            background: transparent;
+            border: none;
+            outline: none;
+            font-family: var(--font-main);
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--gray);
+            padding: 4px 9px;
+            border-radius: 7px;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            line-height: 1.2;
+        }
+
+        .speed-pill-btn:hover {
+            color: var(--dark);
+            background: rgba(0,0,0,0.05);
+        }
+
+        .speed-pill-btn.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 2px 6px rgba(59, 130, 246, 0.35);
+        }
+
+        .stat-badge {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 13px;
+            font-weight: 800;
+            padding: 4px 8px;
+            border-radius: 8px;
+        }
+
+        .stat-badge.correct {
+            color: var(--success);
+            background: rgba(16, 185, 129, 0.12);
+        }
+
+        .stat-badge.wrong {
+            color: var(--danger);
+            background: rgba(239, 68, 68, 0.12);
+        }
+
+        .stat-badge.timer {
+            color: var(--primary);
+            background: rgba(59, 130, 246, 0.12);
+            font-family: monospace;
+            font-size: 14px;
+        }
+
+        /* ===================================================
+           MAIN CONTAINER & SCREENS
+        =================================================== */
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            max-width: 1000px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .screen {
+            display: none;
+            width: 100%;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .screen.active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* ===================================================
+           SCREEN 1: MENU SCREEN
+        =================================================== */
+        .menu-hero {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .menu-hero h2 {
+            font-family: var(--font-display);
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+
+        .menu-hero p {
+            font-size: 16px;
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .level-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .level-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            border: 2px solid var(--border);
+            padding: 24px 20px;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .level-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+            border-color: currentColor;
+        }
+
+        .level-card:active {
+            transform: translateY(-2px);
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .level-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+        }
+
+        .level-badge {
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: var(--radius-full);
+            letter-spacing: 0.5px;
+        }
+
+        .level-card h3 {
+            font-family: var(--font-display);
+            font-size: 20px;
+            font-weight: 800;
+            margin: 0;
+            color: var(--dark);
+        }
+
+        .level-card p {
+            font-size: 14px;
+            color: var(--gray);
+            margin: 0;
+            line-height: 1.45;
+            flex-grow: 1;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 10px;
+            border-top: 1px dashed var(--border);
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .card-start-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 13px;
+            color: white;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        }
+
+        /* Color variations for level cards */
+        .card-l1 { color: #2563eb; }
+        .card-l1 .level-icon { background: #eff6ff; color: #2563eb; }
+        .card-l1 .level-badge { background: #dbeafe; color: #1e40af; }
+        .card-l1 .card-start-btn { background: #2563eb; }
+
+        .card-l2 { color: #059669; }
+        .card-l2 .level-icon { background: #ecfdf5; color: #059669; }
+        .card-l2 .level-badge { background: #d1fae5; color: #065f46; }
+        .card-l2 .card-start-btn { background: #059669; }
+
+        .card-l3 { color: #d97706; }
+        .card-l3 .level-icon { background: #fffbeb; color: #d97706; }
+        .card-l3 .level-badge { background: #fef3c7; color: #92400e; }
+        .card-l3 .card-start-btn { background: #d97706; }
+
+        .card-l4 { color: #7c3aed; }
+        .card-l4 .level-icon { background: #f5f3ff; color: #7c3aed; }
+        .card-l4 .level-badge { background: #ede9fe; color: #5b21b6; }
+        .card-l4 .card-start-btn { background: #7c3aed; }
+
+        .menu-tips {
+            margin-top: 28px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 13px;
+            color: var(--gray);
+            box-shadow: var(--shadow-sm);
+            max-width: 700px;
+        }
+
+        .menu-tips span.tip-icon {
+            font-size: 20px;
+        }
+
+        /* ===================================================
+           SCREEN 2: GAME SCREEN
+        =================================================== */
+        .game-wrapper {
+            width: 100%;
+            max-width: 860px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* Progress Bar */
+        .progress-section {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--gray);
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 12px;
+            background: white;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #10b981, #3b82f6);
+            border-radius: var(--radius-full);
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Prompt Card */
+        .prompt-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            border: 2px solid var(--border);
+            padding: 22px 26px;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            position: relative;
+        }
+
+        .prompt-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .prompt-type-badge {
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 8px;
+            background: var(--primary-light);
+            color: var(--primary);
+            letter-spacing: 0.5px;
+        }
+
+        .prompt-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-icon-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            border: 1.5px solid var(--border);
+            background: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 17px;
+            color: var(--dark);
+            transition: all 0.2s;
+        }
+
+        .action-icon-btn:hover {
+            background: var(--gray-light);
+            border-color: #cbd5e1;
+            transform: scale(1.05);
+        }
+
+        .action-icon-btn:active {
+            transform: scale(0.95);
+        }
+
+        .action-icon-btn.active {
+            background: var(--primary-light);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .prompt-body {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .prompt-emoji {
+            font-size: 50px;
+            width: 72px;
+            height: 72px;
+            min-width: 72px;
+            background: #f8fafc;
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: bounceIn 0.4s ease;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.7); opacity: 0; }
+            70% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .prompt-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .prompt-text {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--dark);
+            line-height: 1.4;
+        }
+
+        .prompt-text .clickable-word {
+            cursor: pointer;
+            padding: 2px 4px;
+            border-radius: 6px;
+            transition: all 0.15s;
+            display: inline-block;
+        }
+
+        .prompt-text .clickable-word:hover {
+            color: var(--primary);
+            background: var(--primary-light);
+            box-shadow: 0 1px 3px rgba(59, 130, 246, 0.2);
+        }
+
+        .prompt-translation {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--gray);
+            line-height: 1.4;
+            display: none;
+            padding-top: 6px;
+            border-top: 1px dashed var(--border);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .prompt-translation.show {
+            display: block;
+        }
+
+        /* Build Area (Drop Zone) */
+        .build-section {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .zone-label {
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: var(--gray);
+            letter-spacing: 0.6px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .build-area {
+            width: 100%;
+            min-height: 100px;
+            background: white;
+            border: 3px dashed #cbd5e1;
+            border-radius: var(--radius-lg);
+            padding: 16px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            justify-content: flex-start;
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.03);
+        }
+
+        .build-area.drag-over {
+            border-color: var(--primary);
+            background: #f0f7ff;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+        }
+
+        .build-area.correct {
+            border-color: var(--success);
+            border-style: solid;
+            background: var(--success-light);
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2);
+        }
+
+        .build-area.wrong {
+            border-color: var(--danger);
+            border-style: solid;
+            background: var(--danger-light);
+            animation: shake 0.4s ease;
+        }
+
+        .build-area-placeholder {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            color: #94a3b8;
+            font-size: 15px;
+            font-weight: 600;
+            pointer-events: none;
+            text-align: center;
+            width: 90%;
+        }
+
+        /* Word Bank */
+        .bank-section {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .word-bank {
+            width: 100%;
+            min-height: 90px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px);
+            border: 2px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 16px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        /* Word Buttons */
+        .word-btn {
+            font-family: var(--font-main);
+            font-size: 19px;
+            font-weight: 700;
+            padding: 10px 18px;
+            border-radius: 12px;
+            border: 2px solid #cbd5e1;
+            background: white;
+            color: var(--dark);
+            cursor: pointer;
+            box-shadow: 0 4px 0 #94a3b8;
+            transition: all 0.12s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.2;
+            width: fit-content;
+            touch-action: manipulation;
+        }
+
+        .word-btn:hover {
+            background: #f8fafc;
+            border-color: #94a3b8;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #94a3b8;
+        }
+
+        .word-btn:active {
+            transform: translateY(4px);
+            box-shadow: none;
+        }
+
+        .word-btn.in-build {
+            background: var(--primary-light);
+            border-color: var(--primary);
+            color: var(--primary-dark);
+            box-shadow: 0 4px 0 #93c5fd;
+        }
+
+        .word-btn.in-build:hover {
+            background: #dbeafe;
+            box-shadow: 0 6px 0 #93c5fd;
+        }
+
+        .word-btn.punctuation {
+            background: #faf5ff;
+            border-color: #c084fc;
+            color: #7e22ce;
+            box-shadow: 0 4px 0 #d8b4fe;
+            font-size: 22px;
+            padding: 8px 16px;
+        }
+
+        .word-btn.punctuation:hover {
+            background: #f3e8ff;
+            box-shadow: 0 6px 0 #d8b4fe;
+        }
+
+        .word-btn.dragging {
+            opacity: 0.4;
+            transform: scale(0.95);
+        }
+
+        /* Controls Toolbar */
+        .controls-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-top: 6px;
+            flex-wrap: wrap;
+        }
+
+        .controls-left, .controls-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .ctrl-btn {
+            font-family: var(--font-main);
+            font-size: 15px;
+            font-weight: 800;
+            padding: 12px 20px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.15s ease;
+            box-shadow: 0 4px 0 rgba(0,0,0,0.15);
+        }
+
+        .ctrl-btn:active {
+            transform: translateY(4px);
+            box-shadow: none !important;
+        }
+
+        .ctrl-btn.secondary {
+            background: white;
+            color: var(--dark);
+            border: 2px solid var(--border);
+            box-shadow: 0 4px 0 #cbd5e1;
+        }
+
+        .ctrl-btn.secondary:hover {
+            background: var(--gray-light);
+        }
+
+        .ctrl-btn.hint {
+            background: var(--warning-light);
+            color: var(--warning-dark);
+            border: 2px solid #fde68a;
+            box-shadow: 0 4px 0 #fcd34d;
+        }
+
+        .ctrl-btn.hint:hover {
+            background: #fef3c7;
+        }
+
+        .ctrl-btn.check {
+            background: var(--success);
+            color: white;
+            box-shadow: 0 4px 0 var(--success-dark);
+            font-size: 16px;
+            padding: 12px 28px;
+        }
+
+        .ctrl-btn.check:hover {
+            background: #059669;
+        }
+
+        .ctrl-btn.next {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 0 var(--primary-dark);
+            font-size: 16px;
+            padding: 12px 28px;
+            display: none;
+            animation: pulseBtn 1.5s infinite;
+        }
+
+        @keyframes pulseBtn {
+            0% { box-shadow: 0 4px 0 var(--primary-dark), 0 0 0 0 rgba(59, 130, 246, 0.4); }
+            70% { box-shadow: 0 4px 0 var(--primary-dark), 0 0 0 10px rgba(59, 130, 246, 0); }
+            100% { box-shadow: 0 4px 0 var(--primary-dark), 0 0 0 0 rgba(59, 130, 246, 0); }
+        }
+
+        .ctrl-btn.next:hover {
+            background: var(--primary-dark);
+        }
+
+        /* ===================================================
+           SCREEN 3: END SCREEN
+        =================================================== */
+        .end-card {
+            background: white;
+            border-radius: 24px;
+            border: 2px solid var(--border);
+            padding: 40px 30px;
+            max-width: 520px;
+            width: 100%;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            animation: zoomIn 0.4s ease;
+        }
+
+        @keyframes zoomIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .trophy-badge {
+            font-size: 80px;
+            line-height: 1;
+            filter: drop-shadow(0 8px 16px rgba(245, 158, 11, 0.3));
+            animation: trophyBounce 1.5s infinite alternate;
+        }
+
+        @keyframes trophyBounce {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-10px); }
+        }
+
+        .stars-row {
+            display: flex;
+            gap: 8px;
+            font-size: 32px;
+            color: #fbbf24;
+        }
+
+        .end-title {
+            font-family: var(--font-display);
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--dark);
+            margin: 0;
+        }
+
+        .end-subtitle {
+            font-size: 15px;
+            color: var(--gray);
+            margin: 0;
+        }
+
+        .score-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        .score-item {
+            background: var(--gray-light);
+            border-radius: 14px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .score-item .label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--gray);
+            text-transform: uppercase;
+        }
+
+        .score-item .value {
+            font-size: 24px;
+            font-weight: 900;
+            color: var(--dark);
+        }
+
+        .score-item.highlight {
+            background: var(--primary-light);
+        }
+
+        .score-item.highlight .value {
+            color: var(--primary);
+        }
+
+        .end-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+        }
+
+        /* ===================================================
+           DICTIONARY POPUP & MODALS
+        =================================================== */
+        .dict-popover {
+            position: fixed;
+            display: none;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            border: 2.5px solid var(--primary);
+            padding: 18px 20px;
+            z-index: 10000;
+            width: 320px;
+            max-width: 90vw;
+            animation: popIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.85); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .dict-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1.5px solid var(--border);
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+
+        .dict-word-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--primary-dark);
+            text-transform: capitalize;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dict-speaker-btn {
+            background: var(--primary-light);
+            border: none;
+            color: var(--primary);
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s;
+        }
+
+        .dict-speaker-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .dict-close-btn {
+            background: #e2e8f0;
+            border: none;
+            color: var(--dark);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .dict-phonetic {
+            font-family: Arial, sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 4px;
+        }
+
+        .dict-pos {
+            font-size: 13px;
+            font-style: italic;
+            font-weight: 700;
+            color: var(--success-dark);
+            margin-bottom: 8px;
+        }
+
+        .dict-meaning {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--dark);
+            line-height: 1.4;
+            background: #f8fafc;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border-left: 3px solid var(--primary);
+        }
+
+        /* Translation Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .trans-modal {
+            background: white;
+            border-radius: 20px;
+            padding: 26px;
+            max-width: 480px;
+            width: 100%;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            animation: zoomIn 0.25s ease;
+        }
+
+        .trans-modal h3 {
+            font-family: var(--font-display);
+            font-size: 20px;
+            color: var(--dark);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .trans-modal p {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary-dark);
+            background: var(--primary-light);
+            padding: 16px;
+            border-radius: 12px;
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        /* Canvas for confetti */
+        #confettiCanvas {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: 99999;
+            display: none;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-8px); }
+            40%, 80% { transform: translateX(8px); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header {
+                padding: 8px 12px;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            .logo-icon {
+                width: 36px;
+                height: 36px;
+                font-size: 20px;
+            }
+            .app-title h1 {
+                font-size: 16px;
+            }
+            .prompt-body {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            .prompt-emoji {
+                width: 52px;
+                height: 52px;
+                min-width: 52px;
+                font-size: 36px;
+            }
+            .prompt-text {
+                font-size: 20px;
+            }
+            .word-btn {
+                font-size: 16px;
+                padding: 8px 14px;
+            }
+            .ctrl-btn {
+                padding: 10px 16px;
+                font-size: 14px;
+            }
+            .controls-toolbar {
+                justify-content: center;
+            }
+            .controls-left, .controls-right {
+                width: 100%;
+                justify-content: center;
+            }}
+            .ctrl-btn.check, .ctrl-btn.next {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    
+        /* Master Audio Player Bar (sounds/Quiz_Quakhu_TongHop.mp3) */
+        .audio-master-bar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(16px);
+            border: 2px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 12px 20px;
+            margin: 12px auto 6px auto;
+            max-width: 960px;
+            width: calc(100% - 32px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            box-shadow: var(--shadow-md);
+            color: var(--dark);
+            z-index: 50;
+            transition: all 0.3s ease;
+        }
+
+        .audio-master-bar:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .amb-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex: 1.2;
+            min-width: 250px;
+        }
+
+        .amb-play-btn {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0284c7, #6366f1);
+            border: none;
+            color: white;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            flex-shrink: 0;
+        }
+
+        .amb-play-btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 6px 18px rgba(2, 132, 199, 0.5);
+        }
+
+        .amb-play-btn:active {
+            transform: scale(0.95);
+        }
+
+        .amb-info {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            overflow: hidden;
+        }
+
+        .amb-title-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .amb-badge {
+            background: var(--primary-light);
+            color: var(--primary);
+            border: 1px solid #bae6fd;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 2px 7px;
+            border-radius: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .amb-title {
+            font-weight: 800;
+            font-size: 14px;
+            color: var(--dark);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .amb-sentence {
+            font-size: 12.5px;
+            color: var(--gray);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-style: italic;
+        }
+
+        /* Sound Wave animation */
+        .amb-wave-box {
+            display: inline-flex;
+            align-items: flex-end;
+            gap: 2.5px;
+            height: 14px;
+            margin-left: 6px;
+        }
+
+        .amb-wave-bar {
+            width: 3px;
+            background: var(--primary);
+            border-radius: 2px;
+            height: 4px;
+            transition: height 0.15s ease;
+        }
+
+        .amb-playing .amb-wave-bar:nth-child(1) {
+            animation: waveBounce 0.8s ease-in-out infinite alternate;
+        }
+        .amb-playing .amb-wave-bar:nth-child(2) {
+            animation: waveBounce 0.6s ease-in-out infinite alternate 0.2s;
+        }
+        .amb-playing .amb-wave-bar:nth-child(3) {
+            animation: waveBounce 0.9s ease-in-out infinite alternate 0.4s;
+        }
+        .amb-playing .amb-wave-bar:nth-child(4) {
+            animation: waveBounce 0.7s ease-in-out infinite alternate 0.1s;
+        }
+
+        @keyframes waveBounce {
+            0% { height: 3px; }
+            100% { height: 14px; }
+        }
+
+        .amb-center {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 2;
+            min-width: 200px;
+        }
+
+        .amb-time {
+            font-size: 12px;
+            font-weight: 700;
+            font-family: monospace;
+            color: var(--gray);
+            min-width: 42px;
+            text-align: center;
+        }
+
+        .amb-slider {
+            flex: 1;
+            height: 6px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: #cbd5e1;
+            border-radius: 4px;
+            outline: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .amb-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            box-shadow: 0 0 6px rgba(2, 132, 199, 0.6);
+            transition: transform 0.15s;
+        }
+
+        .amb-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.3);
+        }
+
+        .amb-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .amb-speed-group {
+            display: flex;
+            background: #f1f5f9;
+            border-radius: 8px;
+            padding: 2px;
+        }
+
+        .qb-speed-btn {
+            background: transparent;
+            border: none;
+            color: var(--gray);
+            font-size: 12px;
+            font-weight: 800;
+            padding: 4px 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.15s;
+            font-family: inherit;
+        }
+
+        .qb-speed-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .amb-toggle-label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12.5px;
+            font-weight: 700;
+            color: var(--dark);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .amb-toggle-label input[type="checkbox"] {
+            accent-color: var(--primary);
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        /* Pulsing audio icon on question card */
+        .action-icon-btn.playing-audio {
+            background: #e0f2fe !important;
+            color: #0369a1 !important;
+            border-color: #0284c7 !important;
+            animation: pulseRing 1s infinite alternate;
+        }
+
+        /* Expected Answer Box */
+        .expected-answer-box {
+            background: #eff6ff;
+            border: 2px solid #93c5fd;
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #1d4ed8;
+            text-align: center;
+            margin-top: 8px;
+            animation: fadeIn 0.25s ease;
+        }
+
+        @keyframes pulseRing {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(2, 132, 199, 0.4); }
+            100% { transform: scale(1.15); box-shadow: 0 0 0 8px rgba(2, 132, 199, 0); }
+        }
+
+        @media (max-width: 820px) {
+            .audio-master-bar {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+                padding: 12px 14px;
+            }
+            .amb-center { width: 100%; }
+            .amb-right { justify-content: space-between; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Confetti Canvas -->
+    <canvas id="confettiCanvas"></canvas>
+
+    <!-- Modal dịch nghĩa tiếng Việt -->
+    <div class="modal-overlay" id="transModalOverlay" onclick="closeTransModal()">
+        <div class="trans-modal" onclick="event.stopPropagation()">
+            <h3>🇻🇳 Dịch Nghĩa Câu Hỏi</h3>
+            <p id="transModalText"></p>
+            <button class="ctrl-btn secondary" onclick="closeTransModal()" style="align-self: center;">Đóng (Close)</button>
+        </div>
+    </div>
+
+    <!-- Từ điển tra cứu nhanh Popover -->
+    <div id="dictPopover" class="dict-popover">
+        <div class="dict-head">
+            <div class="dict-word-title">
+                <span id="dictWord">word</span>
+                <button class="dict-speaker-btn" onclick="playDictVoice()" title="Nghe phát âm">🔊</button>
+            </div>
+            <button class="dict-close-btn" onclick="closeDictPopover()">✕</button>
+        </div>
+        <div class="dict-phonetic" id="dictPhonetic">/wɜːd/</div>
+        <div class="dict-pos" id="dictPos">v.</div>
+        <div class="dict-meaning" id="dictMeaning">Nghĩa tiếng Việt</div>
+    </div>
+
+    <!-- Header & Navigation -->
+    <header>
+        <div class="nav-left">
+            <a href="../SIMPLE PAST.html" class="logo-badge" title="Về danh mục bài học Simple Past">
+                <div class="logo-icon">⚡</div>
+                <div class="app-title">
+                    <h1>WH- Questions Builder</h1>
+                    <p>Simple Past Tense Master</p>
+                </div>
+            </a>
+        </div>
+        
+        <div class="nav-actions">
+            <!-- Nút về danh mục bài học -->
+            <a href="../SIMPLE PAST.html" class="nav-btn" title="Quay về menu toàn bộ khoá học">
+                🏠 Menu Bài Học
+            </a>
+
+            <!-- Nút mở từ điển động từ -->
+            <button class="nav-btn" onclick="openVerbDictModal()" title="Tra cứu động từ V1 - V2 - V3">
+                📖 Từ Điển Động Từ
+            </button>
+
+            <!-- Nút chọn cấp độ (chỉ hiện khi đang chơi) -->
+            <button class="nav-btn" id="btnSelectLevel" onclick="goMenu()" style="display: none;" title="Quay về chọn cấp độ">
+                📑 Chọn Cấp Độ
+            </button>
+
+            <!-- Nút bật/tắt âm thanh -->
+            <button class="nav-btn" id="btnToggleSound" onclick="toggleMute()" title="Bật/Tắt âm thanh">
+                🔊 Âm thanh
+            </button>
+
+            <!-- Thanh Speed điều chỉnh tốc độ đọc -->
+            <div class="speed-control-bar" title="Tốc độ phát âm và đọc câu (Nhanh / Chậm)">
+                <span class="speed-bar-label">⚡ Tốc độ:</span>
+                <div class="speed-pill-group">
+                    <button type="button" class="speed-pill-btn" data-speed="0.8" onclick="setGlobalSpeed(0.8, this)" title="Đọc chậm">0.8x</button>
+                    <button type="button" class="speed-pill-btn active" data-speed="1.0" onclick="setGlobalSpeed(1.0, this)" title="Tốc độ chuẩn">1.0x</button>
+                    <button type="button" class="speed-pill-btn" data-speed="1.25" onclick="setGlobalSpeed(1.25, this)" title="Đọc nhanh">1.25x</button>
+                </div>
+            </div>
+
+            <!-- Bộ đếm kết quả trên Header -->
+            <div class="stats-badge-group" id="headerStatsGroup" style="display: none;">
+                <div class="stat-badge correct" title="Số câu đúng">
+                    ✔ <span id="statCorrect">0</span>
+                </div>
+                <div class="stat-badge wrong" title="Số câu sai">
+                    ✖ <span id="statWrong">0</span>
+                </div>
+                <div class="stat-badge timer" title="Thời gian làm bài">
+                    ⏱ <span id="statTimer">00:00</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    
+
+
+    <main>
+        <!-- SCREEN 1: MENU SCREEN -->
+        <div id="screen-menu" class="screen active">
+            <div class="menu-hero">
+                <h2>Chọn Cấp Độ Luyện Tập</h2>
+                <p>Khám phá 109 câu hỏi Thì Quá Khứ Đơn đa dạng với âm thanh chuẩn, từ điển tra cứu tích hợp và hiệu ứng sinh động.</p>
+            </div>
+
+            <div class="level-grid">
+                <!-- Level 1 -->
+                <div class="level-card card-l1" onclick="startGame(1)">
+                    <div class="card-top">
+                        <div class="level-icon">🎯</div>
+                        <span class="level-badge">Cơ Bản</span>
+                    </div>
+                    <h3>Level 1: Nhận Diện WH- Questions</h3>
+                    <p>Dựa trên câu trần thuật đã cho, chọn và sắp xếp từ để tạo câu hỏi WH- tương ứng.</p>
+                    <div class="card-footer">
+                        <span>27 câu hỏi</span>
+                        <span class="card-start-btn">Bắt đầu ➔</span>
+                    </div>
+                </div>
+
+                <!-- Level 2 -->
+                <div class="level-card card-l2" onclick="startGame(2)">
+                    <div class="card-top">
+                        <div class="level-icon">🧩</div>
+                        <span class="level-badge">Thực Hành</span>
+                    </div>
+                    <h3>Level 2: Ghép Câu Hỏi Tự Do</h3>
+                    <p>Rèn luyện tư duy trật tự từ: từ để hỏi, trợ động từ DID, chủ ngữ, động từ nguyên mẫu và trạng từ.</p>
+                    <div class="card-footer">
+                        <span>27 câu hỏi</span>
+                        <span class="card-start-btn">Bắt đầu ➔</span>
+                    </div>
+                </div>
+
+                <!-- Level 3 -->
+                <div class="level-card card-l3" onclick="startGame(3)">
+                    <div class="card-top">
+                        <div class="level-icon">🔄</div>
+                        <span class="level-badge">Phản Xạ Dịch</span>
+                    </div>
+                    <h3>Level 3: Tiếng Việt ➔ Tiếng Anh</h3>
+                    <p>Đọc câu hỏi bằng Tiếng Việt và ghép thành câu hỏi hoàn chỉnh bằng Tiếng Anh chuẩn ngữ pháp.</p>
+                    <div class="card-footer">
+                        <span>27 câu hỏi</span>
+                        <span class="card-start-btn">Bắt đầu ➔</span>
+                    </div>
+                </div>
+
+                <!-- Level 4 -->
+                <div class="level-card card-l4" onclick="startGame(4)">
+                    <div class="card-top">
+                        <div class="level-icon">🏆</div>
+                        <span class="level-badge">Nâng Cao</span>
+                    </div>
+                    <h3>Level 4: Thử Thách Tổng Hợp</h3>
+                    <p>Chinh phục các câu hỏi dài, phong phú về tình huống giao tiếp và từ vựng mở rộng.</p>
+                    <div class="card-footer">
+                        <span>28 câu hỏi</span>
+                        <span class="card-start-btn">Bắt đầu ➔</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-tips">
+                <span class="tip-icon">💡</span>
+                <span><b>Mẹo học:</b> Bạn có thể click vào bất kỳ từ tiếng Anh nào trong câu đề bài để tra từ điển & nghe phát âm. Nhấn chuột phải hoặc nút 👁️ để xem bản dịch tiếng Việt!</span>
+            </div>
+        </div>
+
+        <!-- SCREEN 2: GAME SCREEN -->
+        <div id="screen-game" class="screen">
+            <div class="game-wrapper">
+                
+                <!-- Tiến độ làm bài -->
+                <div class="progress-section">
+                    <div class="progress-info">
+                        <span id="levelIndicator">LEVEL 1 • CÂU 1 / 27</span>
+                        <span id="progressPercent">0%</span>
+                    </div>
+                    <div class="progress-track">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                </div>
+
+                <!-- Đề bài câu hỏi -->
+                <div class="prompt-card">
+                    <div class="prompt-header">
+                        <span class="prompt-type-badge" id="promptTypeBadge">CÂU TRẦN THUẬT GỐC</span>
+                        <div class="prompt-actions">
+                            <button class="action-icon-btn" id="btnAudioPrompt" onclick="playCurrentAudio()" title="Nghe phát âm câu hỏi">
+                                🔊
+                            </button>
+                            <button class="action-icon-btn" id="btnTranslateToggle" onclick="toggleTranslation()" title="Xem / Ẩn bản dịch Tiếng Việt">
+                                👁️
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="prompt-body">
+                        <div class="prompt-emoji" id="promptEmoji">🗺️</div>
+                        <div class="prompt-content">
+                            <div class="prompt-text" id="promptText">
+                                <!-- Chữ được bọc clickable-word -->
+                            </div>
+                            <div class="prompt-translation" id="promptTranslation">
+                                <!-- Bản dịch tiếng Việt -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vùng ghép câu (Drop Zone) -->
+                <div class="build-section">
+                    <div class="zone-label">
+                        <span>Khu vực ghép câu (Nhấn hoặc kéo từ vào đây):</span>
+                        <span style="color: var(--primary); cursor: pointer;" onclick="giveHint()" title="Nhận gợi ý từ tiếp theo">💡 Gợi ý từ</span>
+                    </div>
+                    <div class="build-area" id="buildArea" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
+                        <div class="build-area-placeholder" id="buildPlaceholder">
+                            Nhấn hoặc kéo từ ở bên dưới vào đây để ghép thành câu hỏi đúng...
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ngân hàng từ (Word Bank) -->
+                <div class="bank-section">
+                    <div class="zone-label">
+                        <span>Ngân hàng từ vựng:</span>
+                        <span>(Click để chọn / Kéo thả để xếp vị trí)</span>
+                    </div>
+                    <div class="word-bank" id="wordBank">
+                        <!-- Các nút từ được sinh ra ở đây -->
+                    </div>
+                </div>
+
+                <!-- Thanh công cụ hành động -->
+                <div class="controls-toolbar">
+                    <div class="controls-left">
+                        <button class="ctrl-btn secondary" onclick="undoWord()" title="Bỏ từ vừa ghép gần nhất">
+                            ↺ Hoàn tác
+                        </button>
+                        <button class="ctrl-btn secondary" onclick="clearArea()" title="Xóa toàn bộ từ đã ghép">
+                            🗑 Làm lại
+                        </button>
+                        <button class="ctrl-btn hint" onclick="giveHint()" title="Tự động đặt từ đúng tiếp theo">
+                            💡 Gợi ý
+                        </button>
+                    </div>
+
+                    <div class="controls-right">
+                        <button class="ctrl-btn check" id="btnCheck" onclick="checkAnswer()">
+                            ✔ Kiểm Tra
+                        </button>
+                        <button class="ctrl-btn next" id="btnNext" onclick="nextQuestion()">
+                            ➔ Câu Tiếp Theo
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- SCREEN 3: END SCREEN -->
+        <div id="screen-end" class="screen">
+            <div class="end-card">
+                <div class="trophy-badge" id="endTrophy">🏆</div>
+                <div class="stars-row" id="endStars">⭐⭐⭐</div>
+                
+                <h2 class="end-title" id="endTitle">Hoàn Thành Xuất Sắc!</h2>
+                <p class="end-subtitle" id="endSubtitle">Bạn đã xuất sắc vượt qua toàn bộ câu hỏi trong cấp độ này!</p>
+
+                <div class="score-grid">
+                    <div class="score-item highlight">
+                        <span class="label">Độ Chính Xác</span>
+                        <span class="value" id="endAccuracy">100%</span>
+                    </div>
+                    <div class="score-item">
+                        <span class="label">Thời Gian</span>
+                        <span class="value" id="endTime">00:00</span>
+                    </div>
+                    <div class="score-item">
+                        <span class="label">Trả Lời Đúng</span>
+                        <span class="value" id="endCorrect">27/27</span>
+                    </div>
+                    <div class="score-item">
+                        <span class="label">Số Lần Thử Lại</span>
+                        <span class="value" id="endWrong">0</span>
+                    </div>
+                </div>
+
+                <div class="end-actions">
+                    <button class="ctrl-btn check" onclick="replayLevel()" style="width: 100%; justify-content: center;">
+                        🔄 Chơi Lại Cấp Độ Này
+                    </button>
+                    <button class="ctrl-btn secondary" onclick="goMenu()" style="width: 100%; justify-content: center;">
+                        📑 Chọn Cấp Độ Khác
+                    </button>
+                    <a href="../SIMPLE PAST.html" class="ctrl-btn secondary" style="width: 100%; justify-content: center; text-decoration: none;">
+                        🏠 Về Danh Mục Bài Học
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        /* ===================================================
+           DATA: 109 QUESTIONS & 298 DICTIONARY WORDS
+        =================================================== */
+        const rawData = [
+// LEVEL 1 (27 questions)
+            [1, '🗺️', 'I went somewhere yesterday.', 'Where did you go yesterday ?', 'Hôm qua bạn đã đi đâu ?', 1],
+            [1, '🍕', 'She ate something last night.', 'What did she eat last night ?', 'Tối qua cô ấy đã ăn gì ?', 2],
+            [1, '⏰', 'They finished at some time yesterday afternoon.', 'When did they finish yesterday afternoon ?', 'Họ đã hoàn thành khi nào vào chiều hôm qua ?', 3],
+            [1, '🤝', 'You met someone last Sunday.', 'Who did you meet last Sunday ?', 'Bạn đã gặp ai Chủ nhật trước ?', 4],
+            [1, '😢', 'He cried two days ago.', 'Why did he cry two days ago ?', 'Tại sao anh ấy lại khóc cách đây hai ngày ?', 5],
+            [1, '✈️', 'You traveled last summer.', 'How did you travel last summer ?', 'Bạn đã đi du lịch bằng cách nào mùa hè năm ngoái ?', 6],
+            [1, '🛍️', 'Your mother bought something last Monday.', 'What did your mother buy last Monday ?', 'Mẹ bạn đã mua gì thứ Hai tuần trước ?', 7],
+            [1, '🏞️', 'They visited somewhere last weekend.', 'Where did they visit last weekend ?', 'Họ đã thăm nơi nào cuối tuần trước ?', 8],
+            [1, '⚽', 'Tom played something yesterday morning.', 'What did Tom play yesterday morning ?', 'Tom đã chơi gì sáng hôm qua ?', 9],
+            [1, '🚶‍♀️', 'She went somewhere a week ago.', 'Where did she go a week ago ?', 'Cô ấy đã đi đâu một tuần trước ?', 10],
+            [1, '📚', 'You read something last week.', 'What did you read last week ?', 'Bạn đã đọc gì tuần trước ?', 11],
+            [1, '👀', 'He saw something in the park yesterday evening.', 'What did he see in the park yesterday evening ?', 'Anh ấy đã thấy gì ở công viên tối hôm qua ?', 12],
+            [1, '🎁', 'You made something for her three days ago.', 'What did you make for her three days ago ?', 'Bạn đã làm gì cho cô ấy 3 ngày trước ?', 13],
+            [1, '🤝', 'They helped someone last month.', 'Who did they help last month ?', 'Họ đã giúp ai tháng trước ?', 14],
+            [1, '🚗', 'Your father washed something yesterday.', 'What did your father wash yesterday ?', 'Bố bạn đã rửa gì hôm qua ?', 15],
+            [1, '😴', 'You slept late last night.', 'Why did you sleep late last night ?', 'Tại sao bạn ngủ trễ tối qua ?', 16],
+            [1, '🎨', 'She painted something a month ago.', 'What did she paint a month ago ?', 'Cô ấy đã vẽ gì một tháng trước ?', 17],
+            [1, '🏃‍♂️', 'He ran somewhere last Friday.', 'Where did he run last Friday ?', 'Anh ấy đã chạy ở đâu thứ Sáu trước ?', 18],
+            [1, '🏗️', 'They built something last year.', 'What did they build last year ?', 'Họ đã xây gì năm ngoái ?', 19],
+            [1, '📦', 'You opened something yesterday afternoon.', 'What did you open yesterday afternoon ?', 'Bạn đã mở gì chiều hôm qua ?', 20],
+            [1, '📞', 'She called someone four days ago.', 'Who did she call four days ago ?', 'Cô ấy đã gọi ai 4 ngày trước ?', 21],
+            [1, '🔍', 'He lost something last Tuesday.', 'What did he lose last Tuesday ?', 'Anh ấy đã làm mất gì thứ Ba trước ?', 22],
+            [1, '💡', 'They found something two weeks ago.', 'What did they find two weeks ago ?', 'Họ đã tìm thấy gì 2 tuần trước ?', 23],
+            [1, '🎁', 'You gave her something a year ago.', 'What did you give her a year ago ?', 'Bạn đã tặng cô ấy gì một năm trước ?', 24],
+            [1, '🎒', 'You took something last Wednesday.', 'What did you take last Wednesday ?', 'Bạn đã lấy gì thứ Tư trước ?', 25],
+            [1, '📺', 'She watched something this morning.', 'What did she watch this morning ?', 'Sáng nay cô ấy đã xem gì ?', 26],
+            [1, '🥤', 'He drank something yesterday evening.', 'What did he drink yesterday evening ?', 'Tối qua anh ấy đã uống gì ?', 27],
+
+            // LEVEL 2 (27 questions)
+            [2, '🧹', 'You cleaned something last Friday.', 'What did you clean last Friday ?', 'Bạn đã dọn dẹp gì thứ Sáu trước ?', 28],
+            [2, '🍳', 'Your mom cooked something last Wednesday.', 'What did your mom cook last Wednesday ?', 'Mẹ bạn đã nấu gì thứ Tư trước ?', 29],
+            [2, '🎸', 'She played something last night.', 'What did she play last night ?', 'Tối qua cô ấy đã chơi gì ?', 30],
+            [2, '🏔️', 'They visited somewhere last winter.', 'Where did they visit last winter ?', 'Họ đã thăm nơi nào mùa đông trước ?', 31],
+            [2, '🚲', 'You went to the park by some way yesterday.', 'How did you go to the park yesterday ?', 'Bạn đi công viên bằng cách nào hôm qua ?', 32],
+            [2, '👵', 'She helped someone last Thursday.', 'Who did she help last Thursday ?', 'Cô ấy đã giúp ai thứ Năm trước ?', 33],
+            [2, '🛒', 'He bought something two days ago.', 'What did he buy two days ago ?', 'Anh ấy đã mua gì 2 ngày trước ?', 34],
+            [2, '🛬', 'They arrived at some time last month.', 'When did they arrive last month ?', 'Tháng trước họ đến khi nào ?', 35],
+            [2, '🥪', 'You ate something for lunch yesterday afternoon.', 'What did you eat for lunch yesterday afternoon ?', 'Trưa hôm qua bạn đã ăn gì ?', 36],
+            [2, '☕', 'He drank something this morning.', 'What did he drink this morning ?', 'Sáng nay anh ấy đã uống gì ?', 37],
+            [2, '📝', 'You wrote something three weeks ago.', 'What did you write three weeks ago ?', 'Bạn đã viết gì 3 tuần trước ?', 38],
+            [2, '🚌', 'She went to school by some way yesterday morning.', 'How did she go to school yesterday morning ?', 'Sáng qua cô ấy đến trường bằng cách nào ?', 39],
+            [2, '🔑', 'He found the key somewhere last Tuesday.', 'Where did he find the key last Tuesday ?', 'Anh ấy tìm thấy chìa khóa ở đâu thứ Ba trước ?', 40],
+            [2, '📖', 'They studied something yesterday.', 'What did they study yesterday ?', 'Hôm qua họ đã học gì ?', 41],
+            [2, '👀', 'You saw someone last week.', 'Who did you see last week ?', 'Tuần trước bạn đã thấy ai ?', 42],
+            [2, '🚪', 'She closed something six months ago.', 'What did she close six months ago ?', 'Cô ấy đã đóng gì 6 tháng trước ?', 43],
+            [2, '📱', 'He lost his phone at some time last year.', 'When did he lose his phone last year ?', 'Anh ấy mất điện thoại khi nào vào năm ngoái ?', 44],
+            [2, '🏃', 'They left early yesterday evening.', 'Why did they leave early yesterday evening ?', 'Tại sao tối qua họ rời đi sớm ?', 45],
+            [2, '🚂', 'You traveled to Hanoi by some way last summer.', 'How did you travel to Hanoi last summer ?', 'Bạn du lịch Hà Nội bằng cách nào mùa hè trước ?', 46],
+            [2, '💊', 'She took something last Saturday.', 'What did she take last Saturday ?', 'Thứ Bảy trước cô ấy đã lấy/uống gì ?', 47],
+            [2, '🎁', 'He gave you something a month ago.', 'What did he give you a month ago ?', 'Anh ấy đã tặng bạn gì một tháng trước ?', 48],
+            [2, '👨‍👩‍👧', 'They met someone four days ago.', 'Who did they meet four days ago ?', 'Họ đã gặp ai 4 ngày trước ?', 49],
+            [2, '🧠', 'You learned something in 2024.', 'What did you learn in 2024 ?', 'Bạn đã học gì năm 2024 ?', 50],
+            [2, '📍', 'You went somewhere yesterday.', 'Where did you go yesterday ?', 'Hôm qua bạn đi đâu ?', 51],
+            [2, '🍽️', 'They ate something last night.', 'What did they eat last night ?', 'Tối qua họ ăn gì ?', 52],
+            [2, '🕒', 'She arrived at some time last Thursday.', 'When did she arrive last Thursday ?', 'Cô ấy đến khi nào vào thứ Năm trước ?', 53],
+            [2, '🤝', 'You met someone last week.', 'Who did you meet last week ?', 'Tuần trước bạn đã gặp ai ?', 54],
+
+            // LEVEL 3 (27 questions - Vietnamese prompt)
+            [3, '😭', 'Tại sao anh ấy lại khóc 5 ngày trước ?', 'Why did he cry five days ago ?', 'Tại sao anh ấy lại khóc 5 ngày trước ?', 55],
+            [3, '🚂', 'Họ đã đi du lịch bằng cách nào mùa xuân năm ngoái ?', 'How did they travel last spring ?', 'Họ đã đi du lịch bằng cách nào mùa xuân năm ngoái ?', 56],
+            [3, '🛍️', 'Anh ấy đã mua gì thứ Hai tuần trước ?', 'What did he buy last Monday ?', 'Anh ấy đã mua gì thứ Hai tuần trước ?', 57],
+            [3, '🏥', 'Bác sĩ đã đi đâu chiều hôm qua ?', 'Where did the doctor go yesterday afternoon ?', 'Bác sĩ đã đi đâu chiều hôm qua ?', 58],
+            [3, '📖', 'Cô ấy đã đọc gì hai tuần trước ?', 'What did she read two weeks ago ?', 'Cô ấy đã đọc gì hai tuần trước ?', 59],
+            [3, '👀', 'Họ đã thấy gì thứ Bảy tuần trước ?', 'What did they see last Saturday ?', 'Họ đã thấy gì thứ Bảy tuần trước ?', 60],
+            [3, '🛠️', 'Bạn đã làm/chế tạo gì sáng hôm qua ?', 'What did you make yesterday morning ?', 'Bạn đã làm/chế tạo gì sáng hôm qua ?', 61],
+            [3, '👩‍🏫', 'Giáo viên đã giúp ai ba ngày trước ?', 'Who did the teacher help three days ago ?', 'Giáo viên đã giúp ai ba ngày trước ?', 62],
+            [3, '👕', 'Cô ấy đã giặt gì tháng trước ?', 'What did she wash last month ?', 'Cô ấy đã giặt gì tháng trước ?', 63],
+            [3, '😴', 'Tại sao bạn lại ngủ trễ tối hôm qua ?', 'Why did you sleep late yesterday evening ?', 'Tại sao bạn lại ngủ trễ tối hôm qua ?', 64],
+            [3, '🎨', 'Họ đã vẽ/sơn gì mùa thu năm ngoái ?', 'What did they paint last autumn ?', 'Họ đã vẽ/sơn gì mùa thu năm ngoái ?', 65],
+            [3, '🏃‍♂️', 'Anh ấy đã chạy ở đâu bốn ngày trước ?', 'Where did he run four days ago ?', 'Anh ấy đã chạy ở đâu bốn ngày trước ?', 66],
+            [3, '🏗️', 'Họ đã xây gì vào năm 2023 ?', 'What did they build in 2023 ?', 'Họ đã xây gì vào năm 2023 ?', 67],
+            [3, '📦', 'Bạn đã mở gì ngày hôm qua ?', 'What did you open yesterday ?', 'Bạn đã mở gì ngày hôm qua ?', 68],
+            [3, '📞', 'Anh ấy đã gọi cho ai thứ Sáu trước ?', 'Who did he call last Friday ?', 'Anh ấy đã gọi cho ai thứ Sáu trước ?', 69],
+            [3, '❓', 'Bạn đã làm mất gì một tháng trước ?', 'What did you lose a month ago ?', 'Bạn đã làm mất gì một tháng trước ?', 70],
+            [3, '💡', 'Họ đã tìm thấy gì mùa đông năm ngoái ?', 'What did they find last winter ?', 'Họ đã tìm thấy gì mùa đông năm ngoái ?', 71],
+            [3, '🎁', 'Anh ấy đã tặng cô ấy gì một năm trước ?', 'What did he give her a year ago ?', 'Anh ấy đã tặng cô ấy gì một năm trước ?', 72],
+            [3, '🎒', 'Bạn đã lấy gì 6 tháng trước ?', 'What did you take six months ago ?', 'Bạn đã lấy gì 6 tháng trước ?', 73],
+            [3, '📺', 'Tối qua họ đã xem gì ?', 'What did they watch last night ?', 'Tối qua họ đã xem gì ?', 74],
+            [3, '🧃', 'Chiều hôm qua cô ấy đã uống gì ?', 'What did she drink yesterday afternoon ?', 'Chiều hôm qua cô ấy đã uống gì ?', 75],
+            [3, '🧹', 'Anh ấy đã dọn dẹp gì hai tháng trước ?', 'What did he clean two months ago ?', 'Anh ấy đã dọn dẹp gì hai tháng trước ?', 76],
+            [3, '🍳', 'Tối qua bạn nấu món gì cho bữa tối ?', 'What did you cook for dinner yesterday evening ?', 'Tối qua bạn nấu món gì cho bữa tối ?', 77],
+            [3, '🎹', 'Cô ấy đã chơi gì thứ Ba tuần trước ?', 'What did she play last Tuesday ?', 'Cô ấy đã chơi gì thứ Ba tuần trước ?', 78],
+            [3, '🇺🇸', 'Bạn đã đi Mỹ khi nào ?', 'When did you go to America ?', 'Bạn đã đi Mỹ khi nào ?', 79],
+            [3, '🗓️', 'Bạn đã làm gì năm 2024 ?', 'What did you do in 2024 ?', 'Bạn đã làm gì năm 2024 ?', 80],
+            [3, '🗺️', 'Họ đã đi đâu tháng trước ?', 'Where did they go last month ?', 'Họ đã đi đâu tháng trước ?', 81],
+
+            // LEVEL 4 (28 questions)
+            [4, '🕒', 'He finished his homework at some time last Wednesday.', 'When did he finish his homework last Wednesday ?', 'Anh ấy hoàn thành bài tập khi nào thứ Tư trước ?', 82],
+            [4, '🏢', 'You met the manager somewhere yesterday afternoon.', 'Where did you meet the manager yesterday afternoon ?', 'Bạn gặp quản lý ở đâu chiều qua ?', 83],
+            [4, '✈️', 'They traveled alone last summer.', 'Why did they travel alone last summer ?', 'Tại sao họ đi du lịch một mình mùa hè trước ?', 84],
+            [4, '🚲', 'She rode the bike by some way three days ago.', 'How did she ride the bike three days ago ?', 'Cô ấy đi xe đạp bằng cách nào 3 ngày trước ?', 85],
+            [4, '👗', 'Your sister bought something yesterday morning.', 'What did your sister buy yesterday morning ?', 'Chị bạn mua gì sáng hôm qua ?', 86],
+            [4, '🏕️', 'Your family camped somewhere last weekend.', 'Where did your family camp last weekend ?', 'Gia đình bạn cắm trại ở đâu cuối tuần trước ?', 87],
+            [4, '📖', 'The students read something last Thursday.', 'What did the students read last Thursday ?', 'Học sinh đã đọc gì thứ Năm trước ?', 88],
+            [4, '🐒', 'He saw something at the zoo two days ago.', 'What did he see at the zoo two days ago ?', 'Anh ấy đã thấy gì ở sở thú 2 ngày trước ?', 89],
+            [4, '🎉', 'You had the party at some time last Saturday.', 'When did you have the party last Saturday ?', 'Bạn tổ chức tiệc khi nào thứ Bảy trước ?', 90],
+            [4, '👴', 'She helped the old man by some way five days ago.', 'How did she help the old man five days ago ?', 'Cô ấy giúp ông lão bằng cách nào 5 ngày trước ?', 91],
+            [4, '🧼', 'They washed something last night.', 'What did they wash last night ?', 'Tối qua họ rửa/giặt gì ?', 92],
+            [4, '👶', 'The baby slept late yesterday.', 'Why did the baby sleep late yesterday ?', 'Tại sao em bé ngủ muộn hôm qua ?', 93],
+            [4, '🖼️', 'They painted that picture at some time last year.', 'When did they paint that picture last year ?', 'Họ đã vẽ bức tranh đó khi nào năm ngoái ?', 94],
+            [4, '🏃‍♀️', 'She ran somewhere yesterday morning.', 'Where did she run yesterday morning ?', 'Sáng qua cô ấy chạy ở đâu ?', 95],
+            [4, '🏢', 'The company built that building at some time in 2023.', 'When did the company build that building in 2023 ?', 'Công ty xây tòa nhà đó khi nào năm 2023 ?', 96],
+            [4, '📦', 'You opened that box last Friday.', 'Why did you open that box last Friday ?', 'Tại sao bạn mở hộp đó thứ Sáu trước ?', 97],
+            [4, '📞', 'She called someone last night.', 'Who did she call last night ?', 'Tối qua cô ấy gọi cho ai ?', 98],
+            [4, '🎒', 'He lost his backpack somewhere six days ago.', 'Where did he lose his backpack six days ago ?', 'Anh ấy mất balo ở đâu 6 ngày trước ?', 99],
+            [4, '🔑', 'You found the key by some way yesterday afternoon.', 'How did you find the key yesterday afternoon ?', 'Chiều qua bạn tìm thấy chìa khóa bằng cách nào ?', 100],
+            [4, '💸', 'He took something from you three months ago.', 'What did he take from you three months ago ?', 'Anh ấy đã lấy gì từ bạn 3 tháng trước ?', 101],
+            [4, '🎥', 'They made that video somewhere last spring.', 'Where did they make that video last spring ?', 'Họ quay video đó ở đâu mùa xuân năm ngoái ?', 102],
+            [4, '🍿', 'You watched something last weekend.', 'What did you watch last weekend ?', 'Bạn xem gì cuối tuần trước ?', 103],
+            [4, '🍷', 'He drank wine yesterday evening.', 'Why did he drink wine yesterday evening ?', 'Tại sao tối qua anh ấy uống rượu ?', 104],
+            [4, '🏫', 'They cleaned the classroom at some time last Monday.', 'When did they clean the classroom last Monday ?', 'Họ dọn phòng học khi nào thứ Hai trước ?', 105],
+            [4, '🥘', 'Your mother cooked dinner by some way two weeks ago.', 'How did your mother cook dinner two weeks ago ?', 'Mẹ bạn nấu bữa tối bằng cách nào 2 tuần trước ?', 106],
+            [4, '🎹', 'He played the piano somewhere last Sunday.', 'Where did he play the piano last Sunday ?', 'Anh ấy chơi piano ở đâu Chủ nhật trước ?', 107],
+            [4, '🇬🇧', 'You learned English at some time in 2024.', 'When did you learn English in 2024 ?', 'Bạn học tiếng Anh khi nào năm 2024 ?', 108],
+            [4, '🚕', 'They took a taxi by some way yesterday morning.', 'How did they take a taxi yesterday morning ?', 'Sáng qua họ bắt taxi bằng cách nào ?', 109]
+        ];
+
+        const dictionary = {
+        "12": {
+                "ipa": "/twelv/",
+                "pos": "number",
+                "vn": "số 12"
+        },
+        "800": {
+                "ipa": "/eɪt əˈklɒk/",
+                "pos": "number",
+                "vn": "8 giờ"
+        },
+        "900": {
+                "ipa": "/naɪn əˈklɒk/",
+                "pos": "number",
+                "vn": "9 giờ"
+        },
+        "a": {
+                "ipa": "/ə/",
+                "pos": "article",
+                "vn": "một"
+        },
+        "about": {
+                "ipa": "/əˈbaʊt/",
+                "pos": "preposition",
+                "vn": "khoảng, về"
+        },
+        "abroad": {
+                "ipa": "/əˈbrɔːd/",
+                "pos": "adverb",
+                "vn": "ở nước ngoài"
+        },
+        "absent": {
+                "ipa": "/ˈæb.sənt/",
+                "pos": "adjective",
+                "vn": "vắng mặt"
+        },
+        "accidentally": {
+                "ipa": "/ˌæk.sɪˈden.təl.i/",
+                "pos": "adverb",
+                "vn": "tình cờ, vô tình"
+        },
+        "after": {
+                "ipa": "/ˈɑːf.tər/",
+                "pos": "preposition",
+                "vn": "sau khi"
+        },
+        "afternoon": {
+                "ipa": "/ˌɑːf.təˈnuːn/",
+                "pos": "noun",
+                "vn": "buổi chiều"
+        },
+        "ago": {
+                "ipa": "/əˈɡəʊ/",
+                "pos": "adverb",
+                "vn": "trước đây, về trước"
+        },
+        "all": {
+                "ipa": "/ɔːl/",
+                "pos": "pronoun/adjective",
+                "vn": "tất cả"
+        },
+        "almost": {
+                "ipa": "/ˈɔːl.məʊst/",
+                "pos": "adverb",
+                "vn": "hầu như, gần như"
+        },
+        "an": {
+                "ipa": "/ən/",
+                "pos": "article",
+                "vn": "một (trước nguyên âm)"
+        },
+        "and": {
+                "ipa": "/ænd/",
+                "pos": "conjunction",
+                "vn": "và"
+        },
+        "are": {
+                "ipa": "/ɑːr/",
+                "pos": "verb (to be)",
+                "vn": "thì, là, ở (số nhiều)"
+        },
+        "assignment": {
+                "ipa": "/əˈsaɪn.mənt/",
+                "pos": "noun",
+                "vn": "bài tập, nhiệm vụ được giao"
+        },
+        "at": {
+                "ipa": "/æt/",
+                "pos": "preposition",
+                "vn": "lúc, tại, ở"
+        },
+        "ate": {
+                "ipa": "/eɪt/",
+                "pos": "v. (eat)",
+                "vn": "đã ăn"
+        },
+        "backpack": {
+                "ipa": "/ˈbæk.pæk/",
+                "pos": "noun",
+                "vn": "ba lô"
+        },
+        "bag": {
+                "ipa": "/bæɡ/",
+                "pos": "noun",
+                "vn": "cái túi, cặp xách"
+        },
+        "beautiful": {
+                "ipa": "/ˈbjuː.tɪ.fəl/",
+                "pos": "adjective",
+                "vn": "đẹp, xinh đẹp"
+        },
+        "because": {
+                "ipa": "/bɪˈkɒz/",
+                "pos": "conjunction",
+                "vn": "bởi vì"
+        },
+        "become": {
+                "ipa": "/bɪˈkʌm/",
+                "pos": "verb",
+                "vn": "trở thành, trở nên"
+        },
+        "bedtime": {
+                "ipa": "/ˈbed.taɪm/",
+                "pos": "noun",
+                "vn": "giờ đi ngủ"
+        },
+        "belong": {
+                "ipa": "/bɪˈlɒŋ/",
+                "pos": "verb",
+                "vn": "thuộc về"
+        },
+        "belongs": {
+                "ipa": "/bɪˈlɒŋz/",
+                "pos": "verb",
+                "vn": "thuộc về (ngôi thứ 3 số ít)"
+        },
+        "best": {
+                "ipa": "/best/",
+                "pos": "adjective/adverb",
+                "vn": "tốt nhất, giỏi nhất"
+        },
+        "better": {
+                "ipa": "/ˈbet.ər/",
+                "pos": "adjective/adverb",
+                "vn": "tốt hơn, đẹp hơn"
+        },
+        "bicycle": {
+                "ipa": "/ˈbaɪ.sɪ.kəl/",
+                "pos": "noun",
+                "vn": "xe đạp"
+        },
+        "black": {
+                "ipa": "/blæk/",
+                "pos": "adjective",
+                "vn": "màu đen"
+        },
+        "blue": {
+                "ipa": "/bluː/",
+                "pos": "adjective",
+                "vn": "màu xanh dương"
+        },
+        "books": {
+                "ipa": "/bʊks/",
+                "pos": "noun (plural)",
+                "vn": "những quyển sách"
+        },
+        "born": {
+                "ipa": "/bɔːn/",
+                "pos": "adjective/verb",
+                "vn": "được sinh ra"
+        },
+        "borrow": {
+                "ipa": "/ˈbɒr.əʊ/",
+                "pos": "verb",
+                "vn": "mượn"
+        },
+        "borrowed": {
+                "ipa": "/ˈbɒr.əʊd/",
+                "pos": "verb (V2/V3)",
+                "vn": "đã mượn"
+        },
+        "bought": {
+                "ipa": "/bɔːt/",
+                "pos": "v. (buy)",
+                "vn": "đã mua"
+        },
+        "brother": {
+                "ipa": "/ˈbrʌð.ər/",
+                "pos": "noun",
+                "vn": "anh/em trai"
+        },
+        "brother's": {
+                "ipa": "/ˈbrʌð.ərz/",
+                "pos": "noun",
+                "vn": "của anh/em trai"
+        },
+        "brown": {
+                "ipa": "/braʊn/",
+                "pos": "noun/adjective",
+                "vn": "tên riêng (Brown) / màu nâu"
+        },
+        "bus": {
+                "ipa": "/bʌs/",
+                "pos": "noun",
+                "vn": "xe buýt"
+        },
+        "buy": {
+                "ipa": "/baɪ/",
+                "pos": "v.",
+                "vn": "mua"
+        },
+        "by": {
+                "ipa": "/baɪ/",
+                "pos": "preposition",
+                "vn": "bằng cách, bởi, bên cạnh"
+        },
+        "called": {
+                "ipa": "/kɔːld/",
+                "pos": "v. (call)",
+                "vn": "đã gọi"
+        },
+        "can": {
+                "ipa": "/kæn/",
+                "pos": "modal verb",
+                "vn": "có thể"
+        },
+        "car": {
+                "ipa": "/kɑːr/",
+                "pos": "noun",
+                "vn": "xe hơi, ô tô"
+        },
+        "carried": {
+                "ipa": "/ˈkær.id/",
+                "pos": "verb (V2)",
+                "vn": "đã mang, vác (quá khứ của carry)"
+        },
+        "choose": {
+                "ipa": "/tʃuːz/",
+                "pos": "verb",
+                "vn": "chọn, lựa chọn"
+        },
+        "christmas": {
+                "ipa": "/ˈkrɪs.məs/",
+                "pos": "noun",
+                "vn": "Lễ Giáng sinh"
+        },
+        "class": {
+                "ipa": "/klɑːs/",
+                "pos": "noun",
+                "vn": "lớp học"
+        },
+        "cleaned": {
+                "ipa": "/kliːnd/",
+                "pos": "v. (clean)",
+                "vn": "đã dọn dẹp"
+        },
+        "coffee": {
+                "ipa": "/ˈkɒf.i/",
+                "pos": "noun",
+                "vn": "cà phê"
+        },
+        "cooked": {
+                "ipa": "/kʊkt/",
+                "pos": "v. (cook)",
+                "vn": "đã nấu"
+        },
+        "cooking": {
+                "ipa": "/ˈkʊk.ɪŋ/",
+                "pos": "verb (V-ing)",
+                "vn": "đang nấu ăn"
+        },
+        "cooks": {
+                "ipa": "/kʊks/",
+                "pos": "verb",
+                "vn": "nấu ăn (ngôi 3 số ít)"
+        },
+        "country": {
+                "ipa": "/ˈkʌn.tri/",
+                "pos": "noun",
+                "vn": "quốc gia, đất nước"
+        },
+        "cousin": {
+                "ipa": "/ˈkʌz.ən/",
+                "pos": "noun",
+                "vn": "anh/chị/em họ"
+        },
+        "cups": {
+                "ipa": "/kʌps/",
+                "pos": "noun (plural)",
+                "vn": "những chiếc cốc/tách"
+        },
+        "dan": {
+                "ipa": "/dæn/",
+                "pos": "noun",
+                "vn": "tên riêng (Dan)"
+        },
+        "days": {
+                "ipa": "/deɪz/",
+                "pos": "noun (plural)",
+                "vn": "những ngày"
+        },
+        "decide": {
+                "ipa": "/dɪˈsaɪd/",
+                "pos": "verb",
+                "vn": "quyết định"
+        },
+        "did": {
+                "ipa": "/dɪd/",
+                "pos": "v. (auxiliary)",
+                "vn": "đã (trợ động từ thì quá khứ)"
+        },
+        "dinner": {
+                "ipa": "/ˈdɪn.ər/",
+                "pos": "noun",
+                "vn": "bữa tối"
+        },
+        "do": {
+                "ipa": "/duː/",
+                "pos": "verb / auxiliary",
+                "vn": "làm, trợ động từ hiện tại"
+        },
+        "does": {
+                "ipa": "/dʌz/",
+                "pos": "verb / auxiliary",
+                "vn": "làm, trợ động từ (ngôi thứ 3 số ít)"
+        },
+        "dress": {
+                "ipa": "/dres/",
+                "pos": "noun",
+                "vn": "cái váy"
+        },
+        "dresses": {
+                "ipa": "/ˈdres.ɪz/",
+                "pos": "noun (plural)",
+                "vn": "những cái váy"
+        },
+        "drew": {
+                "ipa": "/druː/",
+                "pos": "verb (V2)",
+                "vn": "đã vẽ (quá khứ của draw)"
+        },
+        "drinks": {
+                "ipa": "/drɪŋks/",
+                "pos": "verb",
+                "vn": "uống (ngôi 3 số ít)"
+        },
+        "drove": {
+                "ipa": "/drəʊv/",
+                "pos": "verb (V2)",
+                "vn": "đã lái xe (quá khứ của drive)"
+        },
+        "drives": {
+                "ipa": "/draɪvz/",
+                "pos": "verb",
+                "vn": "lái xe (ngôi 3 số ít)"
+        },
+        "early": {
+                "ipa": "/ˈɜːr.li/",
+                "pos": "adv/adj",
+                "vn": "sớm"
+        },
+        "email": {
+                "ipa": "/ˈiː.meɪl/",
+                "pos": "verb/noun",
+                "vn": "gửi email, thư điện tử"
+        },
+        "emailed": {
+                "ipa": "/ˈiː.meɪld/",
+                "pos": "verb (V2)",
+                "vn": "đã gửi email (quá khứ của email)"
+        },
+        "english": {
+                "ipa": "/ˈɪŋ.ɡlɪʃ/",
+                "pos": "noun",
+                "vn": "tiếng Anh"
+        },
+        "enjoy": {
+                "ipa": "/ɪnˈdʒɔɪ/",
+                "pos": "verb",
+                "vn": "thưởng thức, thích"
+        },
+        "enjoying": {
+                "ipa": "/ɪnˈdʒɔɪ.ɪŋ/",
+                "pos": "verb (V-ing)",
+                "vn": "đang thưởng thức, thích thú"
+        },
+        "evening": {
+                "ipa": "/ˈiːv.nɪŋ/",
+                "pos": "noun",
+                "vn": "buổi tối"
+        },
+        "every": {
+                "ipa": "/ˈev.ri/",
+                "pos": "adjective",
+                "vn": "mỗi, mọi"
+        },
+        "famous": {
+                "ipa": "/ˈfeɪ.məs/",
+                "pos": "adjective",
+                "vn": "nổi tiếng"
+        },
+        "father": {
+                "ipa": "/ˈfɑː.ðər/",
+                "pos": "noun",
+                "vn": "bố, cha"
+        },
+        "favorite": {
+                "ipa": "/ˈfeɪ.vər.ɪt/",
+                "pos": "adjective",
+                "vn": "yêu thích"
+        },
+        "few": {
+                "ipa": "/fjuː/",
+                "pos": "adjective/pronoun",
+                "vn": "một vài, ít"
+        },
+        "film": {
+                "ipa": "/fɪlm/",
+                "pos": "noun",
+                "vn": "bộ phim"
+        },
+        "finish": {
+                "ipa": "/ˈfɪnɪʃ/",
+                "pos": "v.",
+                "vn": "hoàn thành"
+        },
+        "finished": {
+                "ipa": "/ˈfɪnɪʃt/",
+                "pos": "v. (finish)",
+                "vn": "đã hoàn thành"
+        },
+        "for": {
+                "ipa": "/fɔːr/",
+                "pos": "preposition",
+                "vn": "cho, đối với, trong khoảng"
+        },
+        "friday": {
+                "ipa": "/ˈfraɪ.deɪ/",
+                "pos": "noun",
+                "vn": "thứ Sáu"
+        },
+        "fridays": {
+                "ipa": "/ˈfraɪ.deɪz/",
+                "pos": "noun (plural)",
+                "vn": "những ngày thứ Sáu"
+        },
+        "gate": {
+                "ipa": "/ɡeɪt/",
+                "pos": "noun",
+                "vn": "cổng"
+        },
+        "go": {
+                "ipa": "/ɡəʊ/",
+                "pos": "v.",
+                "vn": "đi"
+        },
+        "grandparents": {
+                "ipa": "/ˈɡræn.peə.rənts/",
+                "pos": "noun (plural)",
+                "vn": "ông bà"
+        },
+        "had": {
+                "ipa": "/hæd/",
+                "pos": "verb (V2/V3)",
+                "vn": "đã có, đã dùng bữa (quá khứ của have)"
+        },
+        "hard": {
+                "ipa": "/hɑːd/",
+                "pos": "adverb/adjective",
+                "vn": "chăm chỉ, khó khăn"
+        },
+        "have": {
+                "ipa": "/hæv/",
+                "pos": "verb",
+                "vn": "có"
+        },
+        "he": {
+                "ipa": "/hiː/",
+                "pos": "pronoun",
+                "vn": "anh ấy, ông ấy"
+        },
+        "hometown": {
+                "ipa": "/ˈhəʊm.taʊn/",
+                "pos": "noun",
+                "vn": "quê hương"
+        },
+        "homework": {
+                "ipa": "/ˈhəʊm.wɜːk/",
+                "pos": "noun",
+                "vn": "bài tập về nhà"
+        },
+        "hospital": {
+                "ipa": "/ˈhɒs.pɪ.təl/",
+                "pos": "noun",
+                "vn": "bệnh viện"
+        },
+        "hour": {
+                "ipa": "/aʊər/",
+                "pos": "noun",
+                "vn": "giờ đồng hồ"
+        },
+        "hours": {
+                "ipa": "/ˈaʊ.ərz/",
+                "pos": "noun (plural)",
+                "vn": "những giờ đồng hồ"
+        },
+        "how": {
+                "ipa": "/haʊ/",
+                "pos": "adv.",
+                "vn": "như thế nào"
+        },
+        "hurried": {
+                "ipa": "/ˈhʌr.id/",
+                "pos": "verb (V2)",
+                "vn": "đã vội vã, nhanh chóng (quá khứ của hurry)"
+        },
+        "i": {
+                "ipa": "/aɪ/",
+                "pos": "pronoun",
+                "vn": "tôi, mình"
+        },
+        "improve": {
+                "ipa": "/ɪmˈpruːv/",
+                "pos": "verb",
+                "vn": "cải thiện, nâng cao"
+        },
+        "in": {
+                "ipa": "/ɪn/",
+                "pos": "preposition",
+                "vn": "ở trong, vào (thời gian)"
+        },
+        "instead": {
+                "ipa": "/ɪnˈsted/",
+                "pos": "adverb",
+                "vn": "thay vì, thay vào đó"
+        },
+        "is": {
+                "ipa": "/ɪz/",
+                "pos": "verb (to be)",
+                "vn": "thì, là, ở (số ít)"
+        },
+        "it": {
+                "ipa": "/ɪt/",
+                "pos": "pronoun",
+                "vn": "nó"
+        },
+        "jo": {
+                "ipa": "/dʒəʊ/",
+                "pos": "noun",
+                "vn": "tên riêng (Jo)"
+        },
+        "jon": {
+                "ipa": "/dʒɒn/",
+                "pos": "noun",
+                "vn": "tên riêng (Jon)"
+        },
+        "last": {
+                "ipa": "/lɑːst/",
+                "pos": "adj.",
+                "vn": "trước / vừa qua"
+        },
+        "listened": {
+                "ipa": "/ˈlɪs.ənd/",
+                "pos": "verb (V2)",
+                "vn": "đã lắng nghe (quá khứ của listen)"
+        },
+        "long": {
+                "ipa": "/lɒŋ/",
+                "pos": "adjective/adverb",
+                "vn": "dài, bao lâu"
+        },
+        "loved": {
+                "ipa": "/lʌvd/",
+                "pos": "verb (V2)",
+                "vn": "đã yêu, thích (quá khứ của love)"
+        },
+        "lucy": {
+                "ipa": "/ˈluː.si/",
+                "pos": "noun",
+                "vn": "tên riêng (Lucy)"
+        },
+        "lunch": {
+                "ipa": "/lʌntʃ/",
+                "pos": "noun",
+                "vn": "bữa trưa"
+        },
+        "made": {
+                "ipa": "/meɪd/",
+                "pos": "verb (V2/V3)",
+                "vn": "đã làm, tạo ra (quá khứ của make)"
+        },
+        "many": {
+                "ipa": "/ˈmen.i/",
+                "pos": "adjective",
+                "vn": "nhiều (đếm được)"
+        },
+        "maria": {
+                "ipa": "/məˈriː.ə/",
+                "pos": "noun",
+                "vn": "tên riêng (Maria)"
+        },
+        "math": {
+                "ipa": "/mæθ/",
+                "pos": "noun",
+                "vn": "môn Toán"
+        },
+        "minute": {
+                "ipa": "/ˈmɪn.ɪt/",
+                "pos": "noun",
+                "vn": "phút"
+        },
+        "monday": {
+                "ipa": "/ˈmʌn.deɪ/",
+                "pos": "noun",
+                "vn": "thứ Hai"
+        },
+        "month": {
+                "ipa": "/mʌnθ/",
+                "pos": "noun",
+                "vn": "tháng"
+        },
+        "morning": {
+                "ipa": "/ˈmɔː.nɪŋ/",
+                "pos": "noun",
+                "vn": "buổi sáng"
+        },
+        "mother": {
+                "ipa": "/ˈmʌð.ər/",
+                "pos": "noun",
+                "vn": "mẹ"
+        },
+        "much": {
+                "ipa": "/mʌtʃ/",
+                "pos": "adjective",
+                "vn": "nhiều (không đếm được)"
+        },
+        "my": {
+                "ipa": "/maɪ/",
+                "pos": "pronoun",
+                "vn": "của tôi"
+        },
+        "near": {
+                "ipa": "/nɪər/",
+                "pos": "preposition",
+                "vn": "gần"
+        },
+        "night": {
+                "ipa": "/naɪt/",
+                "pos": "noun",
+                "vn": "đêm, buổi tối"
+        },
+        "of": {
+                "ipa": "/ɒv/",
+                "pos": "preposition",
+                "vn": "của, về"
+        },
+        "often": {
+                "ipa": "/ˈɒf.ən/",
+                "pos": "adverb",
+                "vn": "thường xuyên"
+        },
+        "on": {
+                "ipa": "/ɒn/",
+                "pos": "preposition",
+                "vn": "trên, vào (ngày)"
+        },
+        "one": {
+                "ipa": "/wʌn/",
+                "pos": "pronoun/number",
+                "vn": "một, cái/người (thay thế danh từ)"
+        },
+        "open": {
+                "ipa": "/ˈoʊpən/",
+                "pos": "v.",
+                "vn": "mở"
+        },
+        "opening": {
+                "ipa": "/ˈəʊ.pən.ɪŋ/",
+                "pos": "verb (V-ing)",
+                "vn": "đang mở"
+        },
+        "or": {
+                "ipa": "/ɔːr/",
+                "pos": "conjunction",
+                "vn": "hoặc"
+        },
+        "our": {
+                "ipa": "/aʊər/",
+                "pos": "pronoun",
+                "vn": "của chúng tôi/chúng ta"
+        },
+        "outside": {
+                "ipa": "/ˌaʊtˈsaɪd/",
+                "pos": "preposition/adverb",
+                "vn": "bên ngoài"
+        },
+        "painted": {
+                "ipa": "/ˈpeɪntɪd/",
+                "pos": "v. (paint)",
+                "vn": "đã sơn/vẽ"
+        },
+        "parents": {
+                "ipa": "/ˈpeə.rənts/",
+                "pos": "noun (plural)",
+                "vn": "bố mẹ"
+        },
+        "parked": {
+                "ipa": "/pɑːkt/",
+                "pos": "verb (V2/V3)",
+                "vn": "được đỗ, đỗ xe"
+        },
+        "planted": {
+                "ipa": "/ˈplɑːn.tɪd/",
+                "pos": "verb (V2)",
+                "vn": "đã trồng cây (quá khứ của plant)"
+        },
+        "play": {
+                "ipa": "/pleɪ/",
+                "pos": "v.",
+                "vn": "chơi"
+        },
+        "played": {
+                "ipa": "/pleɪd/",
+                "pos": "v. (play)",
+                "vn": "đã chơi"
+        },
+        "prefer": {
+                "ipa": "/prɪˈfɜːr/",
+                "pos": "verb",
+                "vn": "thích hơn"
+        },
+        "pronunciation": {
+                "ipa": "/prəˌnʌn.siˈeɪ.ʃən/",
+                "pos": "noun",
+                "vn": "cách phát âm"
+        },
+        "rained": {
+                "ipa": "/reɪnd/",
+                "pos": "verb (V2)",
+                "vn": "đã mưa (quá khứ của rain)"
+        },
+        "ran": {
+                "ipa": "/ræn/",
+                "pos": "v. (run)",
+                "vn": "đã chạy"
+        },
+        "read": {
+                "ipa": "/red/ (past), /riːd/ (pres)",
+                "pos": "v. (read)",
+                "vn": "đã đọc / đọc"
+        },
+        "reads": {
+                "ipa": "/riːdz/",
+                "pos": "verb",
+                "vn": "đọc (ngôi 3 số ít)"
+        },
+        "rode": {
+                "ipa": "/rəʊd/",
+                "pos": "verb (V2)",
+                "vn": "đã cưỡi, đạp xe (quá khứ của ride)"
+        },
+        "school": {
+                "ipa": "/skuːl/",
+                "pos": "noun",
+                "vn": "trường học"
+        },
+        "science": {
+                "ipa": "/ˈsaɪ.əns/",
+                "pos": "noun",
+                "vn": "môn Khoa học"
+        },
+        "she": {
+                "ipa": "/ʃiː/",
+                "pos": "pronoun",
+                "vn": "cô ấy, bà ấy"
+        },
+        "shoes": {
+                "ipa": "/ʃuːz/",
+                "pos": "noun (plural)",
+                "vn": "đôi giày"
+        },
+        "shopping": {
+                "ipa": "/ˈʃɒp.ɪŋ/",
+                "pos": "noun / verb (V-ing)",
+                "vn": "mua sắm"
+        },
+        "singapore": {
+                "ipa": "/ˌsɪŋ.əˈpɔːr/",
+                "pos": "noun",
+                "vn": "Singapore"
+        },
+        "sister": {
+                "ipa": "/ˈsɪs.tər/",
+                "pos": "noun",
+                "vn": "chị/em gái"
+        },
+        "smile": {
+                "ipa": "/smaɪl/",
+                "pos": "verb/noun",
+                "vn": "mỉm cười, nụ cười"
+        },
+        "smiled": {
+                "ipa": "/smaɪld/",
+                "pos": "verb (V2)",
+                "vn": "đã mỉm cười (quá khứ của smile)"
+        },
+        "smiling": {
+                "ipa": "/ˈsmaɪ.lɪŋ/",
+                "pos": "verb (V-ing)",
+                "vn": "đang mỉm cười"
+        },
+        "soccer": {
+                "ipa": "/ˈsɒk.ər/",
+                "pos": "noun",
+                "vn": "bóng đá"
+        },
+        "speak": {
+                "ipa": "/spiːk/",
+                "pos": "verb",
+                "vn": "nói"
+        },
+        "speaks": {
+                "ipa": "/spiːks/",
+                "pos": "verb",
+                "vn": "nói (ngôi 3 số ít)"
+        },
+        "spring": {
+                "ipa": "/sprɪŋ/",
+                "pos": "noun",
+                "vn": "mùa xuân"
+        },
+        "stay": {
+                "ipa": "/steɪ/",
+                "pos": "verb",
+                "vn": "ở lại"
+        },
+        "student": {
+                "ipa": "/ˈstjuː.dənt/",
+                "pos": "noun",
+                "vn": "học sinh, sinh viên"
+        },
+        "studied": {
+                "ipa": "/ˈstʌdid/",
+                "pos": "v. (study)",
+                "vn": "đã học"
+        },
+        "studies": {
+                "ipa": "/ˈstʌd.iz/",
+                "pos": "verb",
+                "vn": "học (ngôi 3 số ít)"
+        },
+        "study": {
+                "ipa": "/ˈstʌdi/",
+                "pos": "v.",
+                "vn": "học"
+        },
+        "studying": {
+                "ipa": "/ˈstʌd.i.ɪŋ/",
+                "pos": "verb (V-ing)",
+                "vn": "đang học"
+        },
+        "subject": {
+                "ipa": "/ˈsʌb.dʒekt/",
+                "pos": "noun",
+                "vn": "môn học"
+        },
+        "summer": {
+                "ipa": "/ˈsʌm.ər/",
+                "pos": "noun",
+                "vn": "mùa hè"
+        },
+        "sunday": {
+                "ipa": "/ˈsʌn.deɪ/",
+                "pos": "noun",
+                "vn": "Chủ nhật"
+        },
+        "supermarket": {
+                "ipa": "/ˈsuː.pəˌmɑː.kɪt/",
+                "pos": "noun",
+                "vn": "siêu thị"
+        },
+        "taking": {
+                "ipa": "/ˈteɪ.kɪŋ/",
+                "pos": "verb (V-ing)",
+                "vn": "đang đi (xe), đang lấy"
+        },
+        "talked": {
+                "ipa": "/tɔːkt/",
+                "pos": "verb (V2)",
+                "vn": "đã nói chuyện (quá khứ của talk)"
+        },
+        "talking": {
+                "ipa": "/ˈtɔː.kɪŋ/",
+                "pos": "verb (V-ing)",
+                "vn": "đang nói chuyện"
+        },
+        "taught": {
+                "ipa": "/tɔːt/",
+                "pos": "verb (V2/V3)",
+                "vn": "đã dạy (quá khứ của teach)"
+        },
+        "tea": {
+                "ipa": "/tiː/",
+                "pos": "noun",
+                "vn": "trà"
+        },
+        "teaches": {
+                "ipa": "/ˈtiː.tʃɪz/",
+                "pos": "verb",
+                "vn": "dạy học (ngôi 3 số ít)"
+        },
+        "teacher": {
+                "ipa": "/ˈtiː.tʃər/",
+                "pos": "noun",
+                "vn": "giáo viên"
+        },
+        "the": {
+                "ipa": "/ðə/",
+                "pos": "article",
+                "vn": "cái, con, người (mạo từ xác định)"
+        },
+        "they": {
+                "ipa": "/ðeɪ/",
+                "pos": "pronoun",
+                "vn": "họ, chúng"
+        },
+        "this": {
+                "ipa": "/ðɪs/",
+                "pos": "pronoun",
+                "vn": "cái này, người này"
+        },
+        "three": {
+                "ipa": "/θriː/",
+                "pos": "number",
+                "vn": "số ba (3)"
+        },
+        "thursday": {
+                "ipa": "/ˈθɜːz.deɪ/",
+                "pos": "noun",
+                "vn": "thứ Năm"
+        },
+        "to": {
+                "ipa": "/tuː/",
+                "pos": "preposition",
+                "vn": "đến, để"
+        },
+        "tom": {
+                "ipa": "/tɒm/",
+                "pos": "noun",
+                "vn": "tên riêng (Tom)"
+        },
+        "took": {
+                "ipa": "/tʊk/",
+                "pos": "v. (take)",
+                "vn": "đã lấy/đưa"
+        },
+        "train": {
+                "ipa": "/treɪn/",
+                "pos": "noun",
+                "vn": "chuyến tàu, xe lửa"
+        },
+        "travel": {
+                "ipa": "/ˈtrævl/",
+                "pos": "v.",
+                "vn": "đi lại/du lịch"
+        },
+        "tuesday": {
+                "ipa": "/ˈtjuːz.deɪ/",
+                "pos": "noun",
+                "vn": "thứ Ba"
+        },
+        "twice": {
+                "ipa": "/twaɪs/",
+                "pos": "adverb",
+                "vn": "hai lần"
+        },
+        "two": {
+                "ipa": "/tuː/",
+                "pos": "number",
+                "vn": "số hai (2)"
+        },
+        "typed": {
+                "ipa": "/taɪpt/",
+                "pos": "verb (V2)",
+                "vn": "đã gõ bàn phím (quá khứ của type)"
+        },
+        "umbrellas": {
+                "ipa": "/ʌmˈbrel.əz/",
+                "pos": "noun (plural)",
+                "vn": "những chiếc ô (dù)"
+        },
+        "usually": {
+                "ipa": "/ˈjuː.ʒu.ə.li/",
+                "pos": "adverb",
+                "vn": "thường xuyên"
+        },
+        "very": {
+                "ipa": "/ˈver.i/",
+                "pos": "adverb",
+                "vn": "rất"
+        },
+        "visit": {
+                "ipa": "/ˈvɪzɪt/",
+                "pos": "v.",
+                "vn": "thăm"
+        },
+        "waited": {
+                "ipa": "/ˈweɪ.tɪd/",
+                "pos": "verb (V2)",
+                "vn": "đã đợi chờ (quá khứ của wait)"
+        },
+        "walked": {
+                "ipa": "/wɔːkt/",
+                "pos": "v. (walk)",
+                "vn": "đã đi bộ"
+        },
+        "want": {
+                "ipa": "/wɒnt/",
+                "pos": "verb",
+                "vn": "muốn"
+        },
+        "wants": {
+                "ipa": "/wɒnts/",
+                "pos": "verb",
+                "vn": "muốn (ngôi 3 số ít)"
+        },
+        "was": {
+                "ipa": "/wɒz/",
+                "pos": "v. (be)",
+                "vn": "đã là, đã ở (số ít)"
+        },
+        "watched": {
+                "ipa": "/wɒtʃt/",
+                "pos": "v. (watch)",
+                "vn": "đã xem"
+        },
+        "we": {
+                "ipa": "/wiː/",
+                "pos": "pronoun",
+                "vn": "chúng tôi, chúng ta"
+        },
+        "wednesday": {
+                "ipa": "/ˈwenz.deɪ/",
+                "pos": "noun",
+                "vn": "thứ Tư"
+        },
+        "week": {
+                "ipa": "/wiːk/",
+                "pos": "noun",
+                "vn": "tuần"
+        },
+        "weekend": {
+                "ipa": "/ˌwiːkˈend/",
+                "pos": "noun",
+                "vn": "ngày cuối tuần"
+        },
+        "weeks": {
+                "ipa": "/wiːks/",
+                "pos": "noun (plural)",
+                "vn": "những tuần"
+        },
+        "went": {
+                "ipa": "/went/",
+                "pos": "v. (go)",
+                "vn": "đã đi"
+        },
+        "were": {
+                "ipa": "/wɜː(r)/",
+                "pos": "v. (be)",
+                "vn": "đã là, đã ở (số nhiều)"
+        },
+        "what": {
+                "ipa": "/wɒt/",
+                "pos": "pron.",
+                "vn": "cái gì"
+        },
+        "when": {
+                "ipa": "/wen/",
+                "pos": "adv.",
+                "vn": "khi nào"
+        },
+        "where": {
+                "ipa": "/weər/",
+                "pos": "adv.",
+                "vn": "ở đâu"
+        },
+        "which": {
+                "ipa": "/wɪtʃ/",
+                "pos": "pronoun",
+                "vn": "cái nào, người nào (lựa chọn)"
+        },
+        "who": {
+                "ipa": "/huː/",
+                "pos": "pron.",
+                "vn": "ai"
+        },
+        "whose": {
+                "ipa": "/huːz/",
+                "pos": "pronoun",
+                "vn": "của ai"
+        },
+        "why": {
+                "ipa": "/waɪ/",
+                "pos": "adv.",
+                "vn": "tại sao"
+        },
+        "window": {
+                "ipa": "/ˈwɪn.dəʊ/",
+                "pos": "noun",
+                "vn": "cửa sổ"
+        },
+        "winter": {
+                "ipa": "/ˈwɪn.tər/",
+                "pos": "noun",
+                "vn": "mùa đông"
+        },
+        "wore": {
+                "ipa": "/wɔːr/",
+                "pos": "verb (V2)",
+                "vn": "đã mặc, mang, đội (quá khứ của wear)"
+        },
+        "work": {
+                "ipa": "/wɜːk/",
+                "pos": "verb/noun",
+                "vn": "làm việc, công việc"
+        },
+        "works": {
+                "ipa": "/wɜːks/",
+                "pos": "verb",
+                "vn": "làm việc (ngôi 3 số ít)"
+        },
+        "wrote": {
+                "ipa": "/roʊt/",
+                "pos": "v. (write)",
+                "vn": "đã viết"
+        },
+        "yesterday": {
+                "ipa": "/ˈjestədeɪ/",
+                "pos": "adv.",
+                "vn": "hôm qua"
+        },
+        "you": {
+                "ipa": "/juː/",
+                "pos": "pronoun",
+                "vn": "bạn, các bạn"
+        },
+        "your": {
+                "ipa": "/jɔːr/",
+                "pos": "pronoun",
+                "vn": "của bạn, của các bạn"
+        },
+        "visited": {
+                "ipa": "/ˈvɪzɪtɪd/",
+                "pos": "v. (visit)",
+                "vn": "đã thăm"
+        },
+        "eat": {
+                "ipa": "/iːt/",
+                "pos": "v.",
+                "vn": "ăn"
+        },
+        "drank": {
+                "ipa": "/dræŋk/",
+                "pos": "v. (drink)",
+                "vn": "đã uống"
+        },
+        "drink": {
+                "ipa": "/drɪŋk/",
+                "pos": "v.",
+                "vn": "uống"
+        },
+        "saw": {
+                "ipa": "/sɔː/",
+                "pos": "v. (see)",
+                "vn": "đã thấy"
+        },
+        "see": {
+                "ipa": "/siː/",
+                "pos": "v.",
+                "vn": "thấy"
+        },
+        "watch": {
+                "ipa": "/wɒtʃ/",
+                "pos": "v.",
+                "vn": "xem"
+        },
+        "met": {
+                "ipa": "/met/",
+                "pos": "v. (meet)",
+                "vn": "đã gặp"
+        },
+        "meet": {
+                "ipa": "/miːt/",
+                "pos": "v.",
+                "vn": "gặp"
+        },
+        "helped": {
+                "ipa": "/helpt/",
+                "pos": "v. (help)",
+                "vn": "đã giúp"
+        },
+        "help": {
+                "ipa": "/help/",
+                "pos": "v.",
+                "vn": "giúp"
+        },
+        "cook": {
+                "ipa": "/kʊk/",
+                "pos": "v.",
+                "vn": "nấu"
+        },
+        "clean": {
+                "ipa": "/kliːn/",
+                "pos": "v.",
+                "vn": "dọn dẹp"
+        },
+        "traveled": {
+                "ipa": "/ˈtrævld/",
+                "pos": "v. (travel)",
+                "vn": "đã đi lại/du lịch"
+        },
+        "write": {
+                "ipa": "/raɪt/",
+                "pos": "v.",
+                "vn": "viết"
+        },
+        "walk": {
+                "ipa": "/wɔːk/",
+                "pos": "v.",
+                "vn": "đi bộ"
+        },
+        "run": {
+                "ipa": "/rʌn/",
+                "pos": "v.",
+                "vn": "chạy"
+        },
+        "opened": {
+                "ipa": "/ˈoʊpənd/",
+                "pos": "v. (open)",
+                "vn": "đã mở"
+        },
+        "closed": {
+                "ipa": "/kloʊzd/",
+                "pos": "v. (close)",
+                "vn": "đã đóng"
+        },
+        "close": {
+                "ipa": "/kloʊz/",
+                "pos": "v.",
+                "vn": "đóng"
+        },
+        "take": {
+                "ipa": "/teɪk/",
+                "pos": "v.",
+                "vn": "lấy/đưa"
+        },
+        "gave": {
+                "ipa": "/ɡeɪv/",
+                "pos": "v. (give)",
+                "vn": "đã cho/tặng"
+        },
+        "give": {
+                "ipa": "/ɡɪv/",
+                "pos": "v.",
+                "vn": "cho/tặng"
+        },
+        "found": {
+                "ipa": "/faʊnd/",
+                "pos": "v. (find)",
+                "vn": "đã tìm thấy"
+        },
+        "find": {
+                "ipa": "/faɪnd/",
+                "pos": "v.",
+                "vn": "tìm thấy"
+        },
+        "lost": {
+                "ipa": "/lɒst/",
+                "pos": "v. (lose)",
+                "vn": "đã làm mất"
+        },
+        "lose": {
+                "ipa": "/luːz/",
+                "pos": "v.",
+                "vn": "làm mất"
+        },
+        "call": {
+                "ipa": "/kɔːl/",
+                "pos": "v.",
+                "vn": "gọi"
+        },
+        "washed": {
+                "ipa": "/wɒʃt/",
+                "pos": "v. (wash)",
+                "vn": "đã giặt/rửa"
+        },
+        "wash": {
+                "ipa": "/wɒʃ/",
+                "pos": "v.",
+                "vn": "giặt/rửa"
+        },
+        "paint": {
+                "ipa": "/peɪnt/",
+                "pos": "v.",
+                "vn": "sơn/vẽ"
+        },
+        "built": {
+                "ipa": "/bɪlt/",
+                "pos": "v. (build)",
+                "vn": "đã xây"
+        },
+        "build": {
+                "ipa": "/bɪld/",
+                "pos": "v.",
+                "vn": "xây"
+        },
+        "learned": {
+                "ipa": "/lɜːnd/",
+                "pos": "v. (learn)",
+                "vn": "đã học"
+        },
+        "learn": {
+                "ipa": "/lɜːn/",
+                "pos": "v.",
+                "vn": "học"
+        },
+        "her": {
+                "ipa": "/hɜːr/",
+                "pos": "pronoun",
+                "vn": "của cô ấy, cô ấy"
+        },
+        "his": {
+                "ipa": "/hɪz/",
+                "pos": "pronoun",
+                "vn": "của anh ấy"
+        },
+        "mom": {
+                "ipa": "/mɒm/",
+                "pos": "noun",
+                "vn": "mẹ"
+        },
+        "family": {
+                "ipa": "/ˈfæm.əl.i/",
+                "pos": "noun",
+                "vn": "gia đình"
+        },
+        "manager": {
+                "ipa": "/ˈmæn.ɪ.dʒər/",
+                "pos": "noun",
+                "vn": "người quản lý"
+        },
+        "alone": {
+                "ipa": "/əˈloʊn/",
+                "pos": "adj/adv",
+                "vn": "một mình"
+        },
+        "somewhere": {
+                "ipa": "/ˈsʌm.wer/",
+                "pos": "adv",
+                "vn": "nơi nào đó"
+        },
+        "something": {
+                "ipa": "/ˈsʌm.θɪŋ/",
+                "pos": "pron.",
+                "vn": "điều gì đó/cái gì đó"
+        },
+        "someone": {
+                "ipa": "/ˈsʌm.wʌn/",
+                "pos": "pron.",
+                "vn": "ai đó"
+        },
+        "way": {
+                "ipa": "/weɪ/",
+                "pos": "noun",
+                "vn": "đường, cách thức"
+        },
+        "time": {
+                "ipa": "/taɪm/",
+                "pos": "noun",
+                "vn": "thời gian"
+        },
+        "park": {
+                "ipa": "/pɑːrk/",
+                "pos": "noun",
+                "vn": "công viên"
+        },
+        "year": {
+                "ipa": "/jɪər/",
+                "pos": "noun",
+                "vn": "năm"
+        },
+        "saturday": {
+                "ipa": "/ˈsæt.ə.deɪ/",
+                "pos": "noun",
+                "vn": "thứ Bảy"
+        },
+        "baby": {
+                "ipa": "/ˈbeɪ.bi/",
+                "pos": "noun",
+                "vn": "em bé"
+        },
+        "company": {
+                "ipa": "/ˈkʌm.pə.ni/",
+                "pos": "noun",
+                "vn": "công ty"
+        },
+        "building": {
+                "ipa": "/ˈbɪl.dɪŋ/",
+                "pos": "noun",
+                "vn": "tòa nhà"
+        },
+        "box": {
+                "ipa": "/bɒks/",
+                "pos": "noun",
+                "vn": "cái hộp"
+        },
+        "key": {
+                "ipa": "/kiː/",
+                "pos": "noun",
+                "vn": "chìa khóa"
+        },
+        "video": {
+                "ipa": "/ˈvɪd.i.oʊ/",
+                "pos": "noun",
+                "vn": "đoạn video"
+        },
+        "wine": {
+                "ipa": "/waɪn/",
+                "pos": "noun",
+                "vn": "rượu"
+        },
+        "classroom": {
+                "ipa": "/ˈklæs.ruːm/",
+                "pos": "noun",
+                "vn": "lớp học"
+        },
+        "piano": {
+                "ipa": "/piˈæn.oʊ/",
+                "pos": "noun",
+                "vn": "đàn piano"
+        },
+        "taxi": {
+                "ipa": "/ˈtæk.si/",
+                "pos": "noun",
+                "vn": "xe taxi"
+        },
+        "bike": {
+                "ipa": "/baɪk/",
+                "pos": "noun",
+                "vn": "xe đạp"
+        },
+        "zoo": {
+                "ipa": "/zuː/",
+                "pos": "noun",
+                "vn": "sở thú"
+        },
+        "picture": {
+                "ipa": "/ˈpɪk.tʃər/",
+                "pos": "noun",
+                "vn": "bức tranh, bức ảnh"
+        },
+        "party": {
+                "ipa": "/ˈpɑːr.ti/",
+                "pos": "noun",
+                "vn": "bữa tiệc"
+        },
+        "students": {
+                "ipa": "/ˈstuː.dənts/",
+                "pos": "noun (plural)",
+                "vn": "học sinh, sinh viên"
+        },
+        "old": {
+                "ipa": "/oʊld/",
+                "pos": "adj",
+                "vn": "già, cũ"
+        },
+        "man": {
+                "ipa": "/mæn/",
+                "pos": "noun",
+                "vn": "đàn ông"
+        },
+        "late": {
+                "ipa": "/leɪt/",
+                "pos": "adv/adj",
+                "vn": "muộn, trễ"
+        },
+        "phone": {
+                "ipa": "/foʊn/",
+                "pos": "noun",
+                "vn": "điện thoại"
+        }
+};
+
+        /* ===================================================
+           SOUND ENGINE (Web Audio API + Audio Elements)
+        =================================================== */
+        let isMuted = false;
+        const AudioCtxClass = window.AudioContext || window.webkitAudioContext;
+        let audioCtx = null;
+
+        function getAudioContext() {
+            if (!audioCtx && AudioCtxClass) {
+                audioCtx = new AudioCtxClass();
+            }
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            return audioCtx;
+        }
+
+        function playSound(type) {
+            if (isMuted) return;
+            const ctx = getAudioContext();
+            if (!ctx) return;
+
+            try {
+                const now = ctx.currentTime;
+                if (type === 'tap') {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(450, now);
+                    osc.frequency.exponentialRampToValueAtTime(800, now + 0.06);
+                    gain.gain.setValueAtTime(0.15, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.06);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.06);
+                } else if (type === 'pop') {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(320, now);
+                    osc.frequency.exponentialRampToValueAtTime(150, now + 0.07);
+                    gain.gain.setValueAtTime(0.12, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.07);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.07);
+                } else if (type === 'correct') {
+                    // Chime hai nốt tươi vui
+                    [523.25, 659.25, 783.99].forEach((freq, i) => {
+                        const osc = ctx.createOscillator();
+                        const gain = ctx.createGain();
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(freq, now + i * 0.09);
+                        gain.gain.setValueAtTime(0, now + i * 0.09);
+                        gain.gain.linearRampToValueAtTime(0.25, now + i * 0.09 + 0.02);
+                        gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.09 + 0.35);
+                        osc.connect(gain);
+                        gain.connect(ctx.destination);
+                        osc.start(now + i * 0.09);
+                        osc.stop(now + i * 0.09 + 0.35);
+                    });
+                } else if (type === 'wrong') {
+                    // Nốt trầm nhắc nhở
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(180, now);
+                    osc.frequency.exponentialRampToValueAtTime(110, now + 0.25);
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.25);
+                } else if (type === 'fanfare') {
+                    // Fanfare chiến thắng
+                    const notes = [440, 554.37, 659.25, 880];
+                    notes.forEach((freq, idx) => {
+                        const osc = ctx.createOscillator();
+                        const gain = ctx.createGain();
+                        osc.type = 'triangle';
+                        osc.frequency.setValueAtTime(freq, now + idx * 0.12);
+                        gain.gain.setValueAtTime(0.25, now + idx * 0.12);
+                        gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.12 + 0.45);
+                        osc.connect(gain);
+                        gain.connect(ctx.destination);
+                        osc.start(now + idx * 0.12);
+                        osc.stop(now + idx * 0.12 + 0.45);
+                    });
+                }
+            } catch(e) {
+                console.warn("Audio Context sound error:", e);
+            }
+        }
+
+        function toggleMute() {
+            isMuted = !isMuted;
+            const btn = document.getElementById('btnToggleSound');
+            if (isMuted) {
+                btn.innerHTML = '🔇 Đã Tắt Âm';
+                btn.style.color = 'var(--danger)';
+                window.speechSynthesis && window.speechSynthesis.cancel();
+            } else {
+                btn.innerHTML = '🔊 Âm thanh';
+                btn.style.color = '';
+                playSound('tap');
+            }
+        }
+
+        /* Phát âm câu tiếng Anh: Ưu tiên S{id}.mp3, fallback sang TTS */
+        let currentAudioObj = null;
+        /* ==========================================
+       QUESTION TIMESTAMPS (sounds/Quiz_Quakhu_TongHop.mp3)
+       109 câu hỏi chia 4 Level trong file mp3
+    ========================================== */
+    const quizTimestamps = {
+  "1": [
+    {
+      "index": 0,
+      "audioId": 1,
+      "start": 0.0,
+      "end": 1.3
+    },
+    {
+      "index": 1,
+      "audioId": 2,
+      "start": 1.62,
+      "end": 3.18
+    },
+    {
+      "index": 2,
+      "audioId": 3,
+      "start": 3.22,
+      "end": 5.28
+    },
+    {
+      "index": 3,
+      "audioId": 4,
+      "start": 5.64,
+      "end": 7.32
+    },
+    {
+      "index": 4,
+      "audioId": 5,
+      "start": 7.58,
+      "end": 9.34
+    },
+    {
+      "index": 5,
+      "audioId": 6,
+      "start": 9.4,
+      "end": 11.1
+    },
+    {
+      "index": 6,
+      "audioId": 7,
+      "start": 11.28,
+      "end": 13.18
+    },
+    {
+      "index": 7,
+      "audioId": 8,
+      "start": 13.44,
+      "end": 15.14
+    },
+    {
+      "index": 8,
+      "audioId": 9,
+      "start": 15.5,
+      "end": 17.46
+    },
+    {
+      "index": 9,
+      "audioId": 10,
+      "start": 17.66,
+      "end": 19.08
+    },
+    {
+      "index": 10,
+      "audioId": 11,
+      "start": 19.2,
+      "end": 20.78
+    },
+    {
+      "index": 11,
+      "audioId": 12,
+      "start": 20.94,
+      "end": 23.22
+    },
+    {
+      "index": 12,
+      "audioId": 13,
+      "start": 23.44,
+      "end": 25.54
+    },
+    {
+      "index": 13,
+      "audioId": 14,
+      "start": 25.5,
+      "end": 27.14
+    },
+    {
+      "index": 14,
+      "audioId": 15,
+      "start": 27.12,
+      "end": 28.88
+    },
+    {
+      "index": 15,
+      "audioId": 16,
+      "start": 29.14,
+      "end": 31.04
+    },
+    {
+      "index": 16,
+      "audioId": 17,
+      "start": 31.28,
+      "end": 32.8
+    },
+    {
+      "index": 17,
+      "audioId": 18,
+      "start": 32.86,
+      "end": 34.38
+    },
+    {
+      "index": 18,
+      "audioId": 19,
+      "start": 34.6,
+      "end": 36.18
+    },
+    {
+      "index": 19,
+      "audioId": 20,
+      "start": 36.26,
+      "end": 38.22
+    },
+    {
+      "index": 20,
+      "audioId": 21,
+      "start": 38.64,
+      "end": 40.4
+    },
+    {
+      "index": 21,
+      "audioId": 22,
+      "start": 40.4,
+      "end": 42.0
+    },
+    {
+      "index": 22,
+      "audioId": 23,
+      "start": 42.34,
+      "end": 44.06
+    },
+    {
+      "index": 23,
+      "audioId": 24,
+      "start": 44.14,
+      "end": 45.72
+    },
+    {
+      "index": 24,
+      "audioId": 25,
+      "start": 45.96,
+      "end": 47.6
+    },
+    {
+      "index": 25,
+      "audioId": 26,
+      "start": 47.82,
+      "end": 49.32
+    },
+    {
+      "index": 26,
+      "audioId": 27,
+      "start": 49.54,
+      "end": 51.44
+    }
+  ],
+  "2": [
+    {
+      "index": 0,
+      "audioId": 28,
+      "start": 56.4,
+      "end": 57.92
+    },
+    {
+      "index": 1,
+      "audioId": 29,
+      "start": 57.72,
+      "end": 60.16
+    },
+    {
+      "index": 2,
+      "audioId": 30,
+      "start": 60.44,
+      "end": 61.96
+    },
+    {
+      "index": 3,
+      "audioId": 31,
+      "start": 62.0,
+      "end": 63.62
+    },
+    {
+      "index": 4,
+      "audioId": 32,
+      "start": 63.86,
+      "end": 65.68
+    },
+    {
+      "index": 5,
+      "audioId": 33,
+      "start": 65.98,
+      "end": 67.62
+    },
+    {
+      "index": 6,
+      "audioId": 34,
+      "start": 67.9,
+      "end": 69.58
+    },
+    {
+      "index": 7,
+      "audioId": 35,
+      "start": 69.72,
+      "end": 71.6
+    },
+    {
+      "index": 8,
+      "audioId": 36,
+      "start": 71.7,
+      "end": 74.0
+    },
+    {
+      "index": 9,
+      "audioId": 37,
+      "start": 74.42,
+      "end": 75.94
+    },
+    {
+      "index": 10,
+      "audioId": 38,
+      "start": 76.22,
+      "end": 77.94
+    },
+    {
+      "index": 11,
+      "audioId": 39,
+      "start": 78.06,
+      "end": 80.22
+    },
+    {
+      "index": 12,
+      "audioId": 40,
+      "start": 80.5,
+      "end": 82.48
+    },
+    {
+      "index": 13,
+      "audioId": 41,
+      "start": 82.74,
+      "end": 84.18
+    },
+    {
+      "index": 14,
+      "audioId": 42,
+      "start": 84.4,
+      "end": 86.02
+    },
+    {
+      "index": 15,
+      "audioId": 43,
+      "start": 85.82,
+      "end": 88.18
+    },
+    {
+      "index": 16,
+      "audioId": 44,
+      "start": 88.26,
+      "end": 90.2
+    },
+    {
+      "index": 17,
+      "audioId": 45,
+      "start": 90.38,
+      "end": 92.72
+    },
+    {
+      "index": 18,
+      "audioId": 46,
+      "start": 93.08,
+      "end": 95.38
+    },
+    {
+      "index": 19,
+      "audioId": 47,
+      "start": 95.52,
+      "end": 97.14
+    },
+    {
+      "index": 20,
+      "audioId": 48,
+      "start": 97.5,
+      "end": 98.98
+    },
+    {
+      "index": 21,
+      "audioId": 49,
+      "start": 98.96,
+      "end": 100.76
+    },
+    {
+      "index": 22,
+      "audioId": 50,
+      "start": 100.84,
+      "end": 102.64
+    },
+    {
+      "index": 23,
+      "audioId": 51,
+      "start": 103.36,
+      "end": 104.64
+    },
+    {
+      "index": 24,
+      "audioId": 52,
+      "start": 104.9,
+      "end": 106.52
+    },
+    {
+      "index": 25,
+      "audioId": 53,
+      "start": 106.6,
+      "end": 108.42
+    },
+    {
+      "index": 26,
+      "audioId": 54,
+      "start": 108.58,
+      "end": 110.08
+    }
+  ],
+  "3": [
+    {
+      "index": 0,
+      "audioId": 55,
+      "start": 110.28,
+      "end": 112.2
+    },
+    {
+      "index": 1,
+      "audioId": 56,
+      "start": 112.2,
+      "end": 114.04
+    },
+    {
+      "index": 2,
+      "audioId": 57,
+      "start": 113.84,
+      "end": 115.9
+    },
+    {
+      "index": 3,
+      "audioId": 58,
+      "start": 116.12,
+      "end": 118.26
+    },
+    {
+      "index": 4,
+      "audioId": 59,
+      "start": 118.64,
+      "end": 120.4
+    },
+    {
+      "index": 5,
+      "audioId": 60,
+      "start": 120.5,
+      "end": 122.22
+    },
+    {
+      "index": 6,
+      "audioId": 61,
+      "start": 122.52,
+      "end": 124.22
+    },
+    {
+      "index": 7,
+      "audioId": 62,
+      "start": 124.5,
+      "end": 126.6
+    },
+    {
+      "index": 8,
+      "audioId": 63,
+      "start": 126.66,
+      "end": 128.3
+    },
+    {
+      "index": 9,
+      "audioId": 64,
+      "start": 128.46,
+      "end": 130.6
+    },
+    {
+      "index": 10,
+      "audioId": 65,
+      "start": 131.0,
+      "end": 132.6
+    },
+    {
+      "index": 11,
+      "audioId": 66,
+      "start": 132.76,
+      "end": 134.58
+    },
+    {
+      "index": 12,
+      "audioId": 67,
+      "start": 134.58,
+      "end": 136.46
+    },
+    {
+      "index": 13,
+      "audioId": 68,
+      "start": 137.18,
+      "end": 138.74
+    },
+    {
+      "index": 14,
+      "audioId": 69,
+      "start": 138.88,
+      "end": 140.54
+    },
+    {
+      "index": 15,
+      "audioId": 70,
+      "start": 140.84,
+      "end": 142.38
+    },
+    {
+      "index": 16,
+      "audioId": 71,
+      "start": 142.18,
+      "end": 144.08
+    },
+    {
+      "index": 17,
+      "audioId": 72,
+      "start": 144.16,
+      "end": 145.72
+    },
+    {
+      "index": 18,
+      "audioId": 73,
+      "start": 145.72,
+      "end": 147.44
+    },
+    {
+      "index": 19,
+      "audioId": 74,
+      "start": 147.64,
+      "end": 149.3
+    },
+    {
+      "index": 20,
+      "audioId": 75,
+      "start": 149.36,
+      "end": 151.34
+    },
+    {
+      "index": 21,
+      "audioId": 76,
+      "start": 151.66,
+      "end": 153.4
+    },
+    {
+      "index": 22,
+      "audioId": 77,
+      "start": 153.4,
+      "end": 155.66
+    },
+    {
+      "index": 23,
+      "audioId": 78,
+      "start": 155.98,
+      "end": 157.66
+    },
+    {
+      "index": 24,
+      "audioId": 79,
+      "start": 157.98,
+      "end": 159.26
+    },
+    {
+      "index": 25,
+      "audioId": 80,
+      "start": 159.56,
+      "end": 161.26
+    },
+    {
+      "index": 26,
+      "audioId": 81,
+      "start": 161.98,
+      "end": 163.54
+    }
+  ],
+  "4": [
+    {
+      "index": 0,
+      "audioId": 82,
+      "start": 163.66,
+      "end": 165.98
+    },
+    {
+      "index": 1,
+      "audioId": 83,
+      "start": 166.28,
+      "end": 168.74
+    },
+    {
+      "index": 2,
+      "audioId": 84,
+      "start": 169.18,
+      "end": 171.22
+    },
+    {
+      "index": 3,
+      "audioId": 85,
+      "start": 171.02,
+      "end": 173.7
+    },
+    {
+      "index": 4,
+      "audioId": 86,
+      "start": 173.76,
+      "end": 175.96
+    },
+    {
+      "index": 5,
+      "audioId": 87,
+      "start": 176.26,
+      "end": 178.36
+    },
+    {
+      "index": 6,
+      "audioId": 88,
+      "start": 178.72,
+      "end": 180.86
+    },
+    {
+      "index": 7,
+      "audioId": 89,
+      "start": 181.22,
+      "end": 183.36
+    },
+    {
+      "index": 8,
+      "audioId": 90,
+      "start": 183.42,
+      "end": 185.5
+    },
+    {
+      "index": 9,
+      "audioId": 91,
+      "start": 185.86,
+      "end": 188.38
+    },
+    {
+      "index": 10,
+      "audioId": 92,
+      "start": 188.46,
+      "end": 190.1
+    },
+    {
+      "index": 11,
+      "audioId": 93,
+      "start": 190.2,
+      "end": 192.18
+    },
+    {
+      "index": 12,
+      "audioId": 94,
+      "start": 192.72,
+      "end": 194.9
+    },
+    {
+      "index": 13,
+      "audioId": 95,
+      "start": 194.98,
+      "end": 196.78
+    },
+    {
+      "index": 14,
+      "audioId": 96,
+      "start": 197.04,
+      "end": 199.9
+    },
+    {
+      "index": 15,
+      "audioId": 97,
+      "start": 199.7,
+      "end": 203.02
+    },
+    {
+      "index": 16,
+      "audioId": 98,
+      "start": 203.38,
+      "end": 204.92
+    },
+    {
+      "index": 17,
+      "audioId": 99,
+      "start": 204.96,
+      "end": 207.42
+    },
+    {
+      "index": 18,
+      "audioId": 100,
+      "start": 207.6,
+      "end": 209.94
+    },
+    {
+      "index": 19,
+      "audioId": 101,
+      "start": 210.36,
+      "end": 212.54
+    },
+    {
+      "index": 20,
+      "audioId": 102,
+      "start": 212.6,
+      "end": 214.74
+    },
+    {
+      "index": 21,
+      "audioId": 103,
+      "start": 215.0,
+      "end": 216.74
+    },
+    {
+      "index": 22,
+      "audioId": 104,
+      "start": 217.08,
+      "end": 219.32
+    },
+    {
+      "index": 23,
+      "audioId": 105,
+      "start": 219.7,
+      "end": 221.98
+    },
+    {
+      "index": 24,
+      "audioId": 106,
+      "start": 222.22,
+      "end": 224.62
+    },
+    {
+      "index": 25,
+      "audioId": 107,
+      "start": 224.68,
+      "end": 226.72
+    },
+    {
+      "index": 26,
+      "audioId": 108,
+      "start": 226.52,
+      "end": 229.2
+    },
+    {
+      "index": 27,
+      "audioId": 109,
+      "start": 230.0,
+      "end": 232.32
+    }
+  ]
+};
+
+    const quizTimestampsByAudioId = {};
+    for (let lvl in quizTimestamps) {
+        quizTimestamps[lvl].forEach(item => {
+            if (item.audioId) {
+                quizTimestampsByAudioId[item.audioId] = item;
+            }
+        });
+    }
+
+    const quizMasterAudio = new Audio('sounds/Quiz_Quakhu_TongHop.mp3');
+    quizMasterAudio.preload = 'auto';
+    let isQuizMasterPlaying = false;
+    let activeQuizSegment = null;
+    let isQuizSeeking = false;
+    let quizSegmentTimer = null;
+
+    quizMasterAudio.addEventListener('loadedmetadata', () => {
+        const dur = quizMasterAudio.duration || 232.4;
+        const slider = document.getElementById('quizSlider');
+        const durEl = document.getElementById('quizDuration');
+        if (slider) slider.max = dur.toFixed(1);
+        if (durEl) durEl.innerText = formatTime(dur);
+    });
+
+    quizMasterAudio.addEventListener('timeupdate', () => {
+        if (isQuizSeeking) return;
+        const cur = quizMasterAudio.currentTime;
+        const dur = quizMasterAudio.duration || 232.4;
+
+        const slider = document.getElementById('quizSlider');
+        const curTimeEl = document.getElementById('quizCurTime');
+        const durTimeEl = document.getElementById('quizDuration');
+        if (slider) slider.value = cur;
+        if (curTimeEl) curTimeEl.innerText = formatTime(cur);
+        if (durTimeEl && isFinite(dur)) durTimeEl.innerText = formatTime(dur);
+
+        // If playing single question slice
+        if (activeQuizSegment && cur >= activeQuizSegment.end) {
+            quizMasterAudio.pause();
+            activeQuizSegment = null;
+            if (quizSegmentTimer) {
+                clearTimeout(quizSegmentTimer);
+                quizSegmentTimer = null;
+            }
+            setQuizMasterPlayingUI(false);
+            setQuizSpeakerActiveUI(false);
+            return;
+        }
+
+        // Follow-along detection
+        const info = findQuizQuestionByTime(cur);
+        if (info) {
+            const sentenceEl = document.getElementById('quizMasterSentence');
+            if (sentenceEl) {
+                const qObj = rawData.find(d => d[5] === info.audioId) || (rawData.filter(d => d[0] === info.level)[info.index]);
+                const sentenceText = qObj ? qObj[3] : (currentTarget || '');
+                sentenceEl.innerText = `[Level ${info.level} • Câu ${info.index + 1}] "${sentenceText}"`;
+            }
+
+            const followCheckbox = document.getElementById('quizFollowCheckbox');
+            if (followCheckbox && followCheckbox.checked && isQuizMasterPlaying && !activeQuizSegment) {
+                syncQuizQuestion(info.level, info.index, info.audioId);
+            }
+        }
+    });
+
+    quizMasterAudio.addEventListener('ended', () => {
+        setQuizMasterPlayingUI(false);
+        setQuizSpeakerActiveUI(false);
+        activeQuizSegment = null;
+        if (quizSegmentTimer) {
+            clearTimeout(quizSegmentTimer);
+            quizSegmentTimer = null;
+        }
+        const slider = document.getElementById('quizSlider');
+        if (slider) slider.value = 0;
+        const curTimeEl = document.getElementById('quizCurTime');
+        if (curTimeEl) curTimeEl.innerText = "00:00";
+    });
+
+    quizMasterAudio.addEventListener('pause', () => {
+        if (!activeQuizSegment) setQuizMasterPlayingUI(false);
+        setQuizSpeakerActiveUI(false);
+    });
+
+    function formatTime(sec) {
+        if (isNaN(sec) || !isFinite(sec)) return "00:00";
+        const m = Math.floor(sec / 60);
+        const s = Math.floor(sec % 60);
+        return `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+    }
+
+    function findQuizQuestionByTime(time) {
+        for (let lvl in quizTimestamps) {
+            const list = quizTimestamps[lvl];
+            for (let i = 0; i < list.length; i++) {
+                const item = list[i];
+                if (time >= item.start - 0.1 && time <= item.end + 0.15) {
+                    return { level: parseInt(lvl), index: item.index, audioId: item.audioId };
+                }
+            }
+        }
+        return null;
+    }
+
+    function syncQuizQuestion(targetLvl, targetIdx, targetAudioId) {
+        const screenGame = document.getElementById('screen-game');
+        if (!screenGame.classList.contains('active')) {
+            switchScreen('screen-game');
+            document.getElementById('btnSelectLevel').style.display = 'inline-flex';
+            document.getElementById('headerStatsGroup').style.display = 'flex';
+            currentLevel = targetLvl;
+            questions = rawData.filter(d => d[0] === currentLevel);
+            qIndex = targetIdx;
+            loadQuestion();
+            return;
+        }
+
+        if (currentLevel !== targetLvl) {
+            currentLevel = targetLvl;
+            questions = rawData.filter(d => d[0] === currentLevel);
+            qIndex = targetIdx;
+            loadQuestion();
+        } else {
+            let foundIdx = -1;
+            if (targetAudioId) {
+                foundIdx = questions.findIndex(q => q[5] === targetAudioId);
+            }
+            if (foundIdx === -1) {
+                foundIdx = targetIdx;
+            }
+            if (foundIdx !== -1 && foundIdx !== qIndex && foundIdx < questions.length) {
+                qIndex = foundIdx;
+                loadQuestion();
+            }
+        }
+    }
+
+    function toggleQuizMasterAudio() {
+        if (isMuted) toggleMute();
+        if (isQuizMasterPlaying && !activeQuizSegment) {
+            quizMasterAudio.pause();
+            setQuizMasterPlayingUI(false);
+        } else {
+            activeQuizSegment = null;
+            if (quizSegmentTimer) {
+                clearTimeout(quizSegmentTimer);
+                quizSegmentTimer = null;
+            }
+            quizMasterAudio.play().then(() => {
+                setQuizMasterPlayingUI(true);
+            }).catch(err => {
+                console.warn("Cannot play Quiz_Quakhu_TongHop.mp3:", err);
+                quizMasterAudio.currentTime = 0;
+                quizMasterAudio.play().then(() => setQuizMasterPlayingUI(true));
+            });
+        }
+    }
+
+    function onSeekQuizMasterAudio(val) {
+        isQuizSeeking = true;
+        const num = parseFloat(val);
+        quizMasterAudio.currentTime = num;
+        const curTimeEl = document.getElementById('quizCurTime');
+        if (curTimeEl) curTimeEl.innerText = formatTime(num);
+        isQuizSeeking = false;
+    }
+
+    let currentGlobalSpeed = 1.0;
+
+    function setGlobalSpeed(rate, btn) {
+        currentGlobalSpeed = parseFloat(rate) || 1.0;
+        if (quizMasterAudio) {
+            quizMasterAudio.playbackRate = currentGlobalSpeed;
+        }
+        document.querySelectorAll('.speed-pill-btn').forEach(b => {
+            if (parseFloat(b.getAttribute('data-speed')) === currentGlobalSpeed) {
+                b.classList.add('active');
+            } else {
+                b.classList.remove('active');
+            }
+        });
+    }
+
+    function setQuizMasterSpeed(rate, btn) {
+        setGlobalSpeed(rate, btn);
+    }
+
+    function setQuizMasterPlayingUI(playing) {
+        isQuizMasterPlaying = playing;
+        const playIcon = document.getElementById('quizPlayIcon');
+        const bar = document.getElementById('quizMasterBar');
+        if (playIcon) playIcon.innerText = playing ? '⏸' : '▶';
+        if (bar) {
+            if (playing) bar.classList.add('amb-playing');
+            else bar.classList.remove('amb-playing');
+        }
+    }
+
+    function setQuizSpeakerActiveUI(active) {
+        const speakerBtn = document.getElementById('btnAudioPrompt');
+        if (speakerBtn) {
+            if (active) speakerBtn.classList.add('playing-audio');
+            else speakerBtn.classList.remove('playing-audio');
+        }
+    }
+
+    function playSentenceAudio(audioId, targetSentence) {
+        if (isMuted) return;
+        if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+
+        if (quizSegmentTimer) {
+            clearTimeout(quizSegmentTimer);
+            quizSegmentTimer = null;
+        }
+
+        // Tìm timestamp theo audioId chính xác của câu hiện tại (không phụ thuộc vào xáo trộn câu)
+        let ts = null;
+        if (audioId && quizTimestampsByAudioId[audioId]) {
+            ts = quizTimestampsByAudioId[audioId];
+        } else {
+            const tsList = quizTimestamps[currentLevel];
+            ts = tsList ? (tsList.find(item => item.audioId === audioId) || tsList[qIndex]) : null;
+        }
+
+        if (ts) {
+            activeQuizSegment = ts;
+            try {
+                quizMasterAudio.currentTime = ts.start;
+                quizMasterAudio.playbackRate = currentGlobalSpeed;
+            } catch (e) {}
+
+            setQuizSpeakerActiveUI(true);
+            setQuizMasterPlayingUI(true);
+
+            const sentenceEl = document.getElementById('quizMasterSentence');
+            if (sentenceEl) sentenceEl.innerText = `[Level ${currentLevel} • Câu ${qIndex + 1}] "${targetSentence}"`;
+
+            const durationMs = Math.max(300, ((ts.end - ts.start) / currentGlobalSpeed) * 1000);
+
+            quizMasterAudio.play().then(() => {
+                quizSegmentTimer = setTimeout(() => {
+                    if (activeQuizSegment && activeQuizSegment.audioId === ts.audioId) {
+                        quizMasterAudio.pause();
+                        activeQuizSegment = null;
+                        setQuizMasterPlayingUI(false);
+                        setQuizSpeakerActiveUI(false);
+                    }
+                }, durationMs + 220);
+            }).catch(err => {
+                console.warn("quizMasterAudio play failed, falling back to TTS:", err);
+                speakTTS(targetSentence);
+                setQuizSpeakerActiveUI(false);
+                setQuizMasterPlayingUI(false);
+            });
+        } else {
+            speakTTS(targetSentence);
+        }
+    }
+
+        function speakTTS(text) {
+            if (isMuted || !('speechSynthesis' in window)) return;
+            if (activeQuizSegment && quizMasterAudio) {
+                quizMasterAudio.pause();
+                activeQuizSegment = null;
+                setQuizSpeakerActiveUI(false);
+            }
+            window.speechSynthesis.cancel();
+            const cleanText = text.replace(/[\?\!\.,;:]/g, '').trim();
+            if (!cleanText) return;
+            const utterance = new SpeechSynthesisUtterance(cleanText);
+            utterance.lang = 'en-US';
+            utterance.rate = Math.max(0.6, Math.min(1.5, 0.9 * currentGlobalSpeed));
+
+            const voices = window.speechSynthesis.getVoices();
+            const usVoice = voices.find(v => v.lang.includes('en') && (v.name.includes('Google') || v.name.includes('Natural') || v.name.includes('US') || v.name.includes('Jenny') || v.name.includes('Guy')));
+            if (usVoice) utterance.voice = usVoice;
+
+            window.speechSynthesis.speak(utterance);
+        }
+
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.onvoiceschanged = () => {
+                window.speechSynthesis.getVoices();
+            };
+        }
+
+        /* ===================================================
+           GAME STATE
+        =================================================== */
+        let currentLevel = 1;
+        let questions = [];
+        let qIndex = 0;
+        let currentTarget = "";
+        let currentVN = "";
+        let currentAudioId = null;
+        let currentPromptText = "";
+        let autoNextTimeout = null;
+
+        let stats = {
+            correct: 0,
+            wrong: 0,
+            time: 0
+        };
+        let timerInterval = null;
+
+        /* Chuyển màn hình */
+        function switchScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function goMenu() {
+            stopTimer();
+            clearTimeout(autoNextTimeout);
+            document.getElementById('headerStatsGroup').style.display = 'none';
+            document.getElementById('btnSelectLevel').style.display = 'none';
+            switchScreen('screen-menu');
+        }
+
+        /* ===================================================
+           BẮT ĐẦU GAME
+        =================================================== */
+        function startGame(level) {
+            getAudioContext();
+            playSound('tap');
+            currentLevel = level;
+            questions = rawData.filter(q => q[0] === level);
+
+            // Xáo trộn thứ tự câu hỏi
+            questions.sort(() => Math.random() - 0.5);
+
+            qIndex = 0;
+            stats.correct = 0;
+            stats.wrong = 0;
+            stats.time = 0;
+
+            document.getElementById('statCorrect').innerText = '0';
+            document.getElementById('statWrong').innerText = '0';
+            document.getElementById('statTimer').innerText = '00:00';
+            document.getElementById('headerStatsGroup').style.display = 'flex';
+            document.getElementById('btnSelectLevel').style.display = 'inline-flex';
+
+            switchScreen('screen-game');
+            startTimer();
+            loadQuestion();
+        }
+
+        function replayLevel() {
+            startGame(currentLevel);
+        }
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                stats.time++;
+                const m = Math.floor(stats.time / 60).toString().padStart(2, '0');
+                const s = (stats.time % 60).toString().padStart(2, '0');
+                document.getElementById('statTimer').innerText = `${m}:${s}`;
+            }, 1000);
+        }
+
+        function stopTimer() {
+            clearInterval(timerInterval);
+        }
+
+        /* ===================================================
+           TẢI CÂU HỎI
+        =================================================== */
+        function loadQuestion() {
+            clearTimeout(autoNextTimeout);
+            const q = questions[qIndex];
+            const qEmoji = q[1];
+            currentPromptText = (currentLevel === 3) ? q[4] : q[2];
+            currentTarget = q[3];
+            currentVN = q[4];
+            currentAudioId = q[5];
+
+            // Cập nhật thông tin tiến độ
+            const totalQ = questions.length;
+            const currentQNum = qIndex + 1;
+            const percent = Math.round((qIndex / totalQ) * 100);
+
+            document.getElementById('levelIndicator').innerText = `LEVEL ${currentLevel} • CÂU ${currentQNum} / ${totalQ}`;
+            document.getElementById('progressPercent').innerText = `${percent}%`;
+            document.getElementById('progressFill').style.width = `${percent}%`;
+
+            // Cập nhật badge & emoji
+            document.getElementById('promptEmoji').innerText = qEmoji;
+            document.getElementById('promptTypeBadge').innerText = (currentLevel === 3) ? 'DỊCH CÂU HỎI TIẾNG ANH' : 'CÂU GỢI Ý GỐC';
+
+            // Cập nhật Prompt text (bọc từng từ để tra từ điển nếu là tiếng Anh)
+            const promptEl = document.getElementById('promptText');
+            if (currentLevel !== 3) {
+                const wrappedWords = currentPromptText.split(/\s+/).map(w => {
+                    return `<span class="clickable-word" onclick="handleWordLookup('${w}', event)">${w}</span>`;
+                }).join(' ');
+                promptEl.innerHTML = wrappedWords;
+            } else {
+                promptEl.innerText = currentPromptText;
+            }
+
+            // Cập nhật dịch nghĩa
+            const transEl = document.getElementById('promptTranslation');
+            transEl.innerText = `🇻🇳 Dịch: ${currentVN}`;
+            transEl.classList.remove('show');
+            const expBox = document.getElementById('expectedAnswerBox'); if (expBox) expBox.style.display = 'none';
+            document.getElementById('btnTranslateToggle').classList.remove('active');
+
+            // Reset Build Area
+            const buildArea = document.getElementById('buildArea');
+            buildArea.innerHTML = '<div class="build-area-placeholder" id="buildPlaceholder">Nhấn hoặc kéo từ ở bên dưới vào đây để ghép thành câu hỏi đúng...</div>';
+            buildArea.className = 'build-area';
+
+            // Reset nút điều khiển
+            document.getElementById('btnCheck').style.display = 'inline-flex';
+            document.getElementById('btnNext').style.display = 'none';
+
+            // Chuẩn bị Ngân hàng từ (Word Bank)
+            // Tách các từ trong currentTarget (bỏ qua khoảng trắng thừa)
+            let words = currentTarget.trim().split(/\s+/);
+            // Xáo trộn từ
+            let shuffledWords = [...words];
+            shuffledWords.sort(() => Math.random() - 0.5);
+
+            const wordBank = document.getElementById('wordBank');
+            wordBank.innerHTML = '';
+
+            shuffledWords.forEach((wordText, i) => {
+                const btn = document.createElement('div');
+                btn.className = 'word-btn';
+                if (['?', '.', '!'].includes(wordText)) {
+                    btn.classList.add('punctuation');
+                }
+                btn.innerText = wordText;
+                btn.id = `wb-item-${i}`;
+                btn.setAttribute('data-word', wordText);
+                btn.setAttribute('draggable', 'true');
+
+                // Click để di chuyển
+                btn.onclick = () => handleWordClick(btn);
+
+                // Drag & Drop
+                btn.ondragstart = (e) => handleDragStart(e, btn);
+                btn.ondragend = () => handleDragEnd(btn);
+
+                // Chuột phải tra từ điển
+                btn.oncontextmenu = (e) => {
+                    e.preventDefault();
+                    lookupWordDirect(wordText, e.pageX, e.pageY);
+                };
+
+                wordBank.appendChild(btn);
+            });
+        }
+
+        /* ===================================================
+           TƯƠNG TÁC TỪ VỰNG (CLICK & DRAG DROP)
+        =================================================== */
+        function updatePlaceholder() {
+            const buildArea = document.getElementById('buildArea');
+            const placeholder = document.getElementById('buildPlaceholder');
+            const wordsInBuild = buildArea.querySelectorAll('.word-btn');
+            if (wordsInBuild.length > 0) {
+                if (placeholder) placeholder.style.display = 'none';
+            } else {
+                if (placeholder) placeholder.style.display = 'block';
+            }
+        }
+
+        function handleWordClick(btn) {
+            const buildArea = document.getElementById('buildArea');
+            const wordBank = document.getElementById('wordBank');
+
+            const wordToSpeak = btn.getAttribute('data-word') || btn.innerText;
+            if (wordToSpeak && !['?', '.', '!', ',', ';', ':'].includes(wordToSpeak.trim())) {
+                speakTTS(wordToSpeak);
+            }
+
+            if (btn.parentElement === wordBank) {
+                // Đưa lên build area
+                playSound('tap');
+                btn.classList.add('in-build');
+                buildArea.appendChild(btn);
+            } else {
+                // Gỡ về word bank
+                playSound('pop');
+                btn.classList.remove('in-build');
+                wordBank.appendChild(btn);
+            }
+            updatePlaceholder();
+        }
+
+        /* Drag & Drop */
+        let draggedBtn = null;
+
+        function handleDragStart(e, btn) {
+            draggedBtn = btn;
+            btn.classList.add('dragging');
+            e.dataTransfer.setData('text/plain', btn.innerText);
+            e.dataTransfer.effectAllowed = 'move';
+        }
+
+        function handleDragEnd(btn) {
+            btn.classList.remove('dragging');
+            draggedBtn = null;
+            document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+            updatePlaceholder();
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            const buildArea = document.getElementById('buildArea');
+            buildArea.classList.add('drag-over');
+        }
+
+        function handleDragLeave(e) {
+            const buildArea = document.getElementById('buildArea');
+            buildArea.classList.remove('drag-over');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            const buildArea = document.getElementById('buildArea');
+            buildArea.classList.remove('drag-over');
+
+            if (draggedBtn) {
+                playSound('tap');
+                
+                const wordToSpeak = draggedBtn.getAttribute('data-word') || draggedBtn.innerText;
+                if (wordToSpeak && !['?', '.', '!', ',', ';', ':'].includes(wordToSpeak.trim())) {
+                    speakTTS(wordToSpeak);
+                }
+
+                draggedBtn.classList.add('in-build');
+                
+                // Xác định vị trí drop nếu thả vào giữa các từ
+                const afterElement = getDragAfterElement(buildArea, e.clientX, e.clientY);
+                if (afterElement == null) {
+                    buildArea.appendChild(draggedBtn);
+                } else {
+                    buildArea.insertBefore(draggedBtn, afterElement);
+                }
+            }
+            updatePlaceholder();
+        }
+
+        function getDragAfterElement(container, x, y) {
+            const draggableElements = [...container.querySelectorAll('.word-btn:not(.dragging)')];
+
+            return draggableElements.reduce((closest, child) => {
+                const box = child.getBoundingClientRect();
+                const offset = x - box.left - box.width / 2;
+                if (offset < 0 && offset > closest.offset) {
+                    return { offset: offset, element: child };
+                } else {
+                    return closest;
+                }
+            }, { offset: Number.NEGATIVE_INFINITY }).element;
+        }
+
+        /* Hoàn tác từ cuối cùng */
+        function undoWord() {
+            const buildArea = document.getElementById('buildArea');
+            const wordsInBuild = buildArea.querySelectorAll('.word-btn');
+            if (wordsInBuild.length > 0) {
+                const lastWord = wordsInBuild[wordsInBuild.length - 1];
+                handleWordClick(lastWord);
+            }
+        }
+
+        /* Xóa toàn bộ từ */
+        function clearArea() {
+            const buildArea = document.getElementById('buildArea');
+            const wordsInBuild = [...buildArea.querySelectorAll('.word-btn')];
+            if (wordsInBuild.length > 0) {
+                playSound('pop');
+                const wordBank = document.getElementById('wordBank');
+                wordsInBuild.forEach(w => {
+                    w.classList.remove('in-build');
+                    wordBank.appendChild(w);
+                });
+                updatePlaceholder();
+            }
+        }
+
+        /* Gợi ý từ tiếp theo */
+        function giveHint() {
+            const buildArea = document.getElementById('buildArea');
+            const wordBank = document.getElementById('wordBank');
+            const cleanTarget = currentTarget.replace(/[?.!]/g, '').trim();
+            const targetWords = cleanTarget.split(/\s+/);
+
+            const currentBuiltBtns = [...buildArea.querySelectorAll('.word-btn')].filter(b => b.innerText !== '?');
+            let matchedCount = 0;
+            for (let i = 0; i < currentBuiltBtns.length; i++) {
+                if (i < targetWords.length && currentBuiltBtns[i].innerText.toLowerCase() === targetWords[i].toLowerCase()) {
+                    matchedCount++;
+                } else {
+                    break;
+                }
+            }
+
+            // Hoàn trả các từ xếp sai về wordBank
+            while (currentBuiltBtns.length > matchedCount) {
+                const wrongBtn = currentBuiltBtns.pop();
+                wrongBtn.classList.remove('in-build');
+                wordBank.appendChild(wrongBtn);
+            }
+
+            // Đưa từ đúng tiếp theo vào buildArea
+            if (matchedCount < targetWords.length) {
+                const nextWord = targetWords[matchedCount];
+                const candidateBtn = [...wordBank.querySelectorAll('.word-btn')].find(b => 
+                    !b.classList.contains('in-build') && b.innerText.toLowerCase() === nextWord.toLowerCase()
+                );
+                if (candidateBtn) {
+                    playSound('tap');
+                    speakTTS(nextWord);
+                    candidateBtn.classList.add('in-build');
+                    buildArea.appendChild(candidateBtn);
+                    updatePlaceholder();
+                }
+            } else {
+                const qBtn = [...wordBank.querySelectorAll('.word-btn')].find(b => b.innerText === '?');
+                if (qBtn && !qBtn.classList.contains('in-build')) {
+                    playSound('tap');
+                    qBtn.classList.add('in-build');
+                    buildArea.appendChild(qBtn);
+                    updatePlaceholder();
+                }
+            }
+        }
+
+        function showExpectedAnswer() {
+            const box = document.getElementById('expectedAnswerBox');
+            if (!box) return;
+            if (box.style.display === 'block') {
+                box.style.display = 'none';
+                return;
+            }
+            box.innerHTML = `💡 <b>Đáp án chuẩn:</b> "${currentTarget}"`;
+            box.style.display = 'block';
+            playSound('tap');
+            autoAssembleTargetWords();
+        }
+
+        function autoAssembleTargetWords() {
+            clearArea();
+            const buildArea = document.getElementById('buildArea');
+            const wordBank = document.getElementById('wordBank');
+            const cleanTarget = currentTarget.replace(/[?.!]/g, '').trim();
+            const targetWords = cleanTarget.split(/\s+/);
+
+            targetWords.forEach(w => {
+                const candidate = [...wordBank.querySelectorAll('.word-btn')].find(b => 
+                    !b.classList.contains('in-build') && b.innerText.toLowerCase() === w.toLowerCase()
+                );
+                if (candidate) {
+                    candidate.classList.add('in-build');
+                    buildArea.appendChild(candidate);
+                }
+            });
+
+            const qBtn = [...wordBank.querySelectorAll('.word-btn')].find(b => b.innerText === '?');
+            if (qBtn) {
+                qBtn.classList.add('in-build');
+                buildArea.appendChild(qBtn);
+            }
+            updatePlaceholder();
+        }
+
+        /* ===================================================
+           KIỂM TRA ĐÁP ÁN (SMART VALIDATION)
+        =================================================== */
+        function normalizeSentence(str) {
+            return str
+                .toLowerCase()
+                .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?’'"]/g, "")
+                .replace(/\s+/g, " ")
+                .trim();
+        }
+
+        function checkAnswer() {
+            const buildArea = document.getElementById('buildArea');
+            const builtBtns = [...buildArea.querySelectorAll('.word-btn')];
+
+            if (builtBtns.length === 0) {
+                playSound('wrong');
+                buildArea.classList.add('wrong');
+                setTimeout(() => buildArea.classList.remove('wrong'), 400);
+                return;
+            }
+
+            const userSentence = builtBtns.map(b => b.innerText).join(' ');
+            const normalizedUser = normalizeSentence(userSentence);
+            const normalizedTarget = normalizeSentence(currentTarget);
+
+            if (normalizedUser === normalizedTarget) {
+                // ĐÚNG!
+                playSound('correct');
+                stats.correct++;
+                document.getElementById('statCorrect').innerText = stats.correct;
+
+                buildArea.classList.remove('wrong');
+                buildArea.classList.add('correct');
+
+                // Nếu học sinh chưa bấm dấu hỏi, tự động đính nút ? vào cuối câu
+                const hasQuestionMark = builtBtns.some(b => b.innerText === '?');
+                if (!hasQuestionMark) {
+                    const qBtnInBank = document.getElementById('wordBank').querySelector('.punctuation');
+                    if (qBtnInBank) {
+                        qBtnInBank.classList.add('in-build');
+                        buildArea.appendChild(qBtnInBank);
+                    }
+                }
+
+                document.getElementById('btnCheck').style.display = 'none';
+                document.getElementById('btnNext').style.display = 'inline-flex';
+
+                // Bắn pháo hoa Confetti rực rỡ
+                triggerConfetti(60);
+
+                // Phát âm câu đáp án đúng
+                playSentenceAudio(currentAudioId, currentTarget);
+
+                // Tự động chuyển câu sau 1.8s
+                autoNextTimeout = setTimeout(() => {
+                    nextQuestion();
+                }, 1800);
+
+            } else {
+                // SAI!
+                playSound('wrong');
+                stats.wrong++;
+                document.getElementById('statWrong').innerText = stats.wrong;
+
+                buildArea.classList.add('wrong');
+                setTimeout(() => buildArea.classList.remove('wrong'), 400);
+            }
+        }
+
+        function nextQuestion() {
+            clearTimeout(autoNextTimeout);
+            qIndex++;
+            if (qIndex < questions.length) {
+                loadQuestion();
+            } else {
+                endGame();
+            }
+        }
+
+        /* ===================================================
+           KẾT THÚC CẤP ĐỘ
+        =================================================== */
+        function endGame() {
+            stopTimer();
+            playSound('fanfare');
+            triggerConfetti(120);
+
+            const total = questions.length;
+            const accuracy = Math.round((stats.correct / (stats.correct + stats.wrong)) * 100) || 0;
+            const m = Math.floor(stats.time / 60).toString().padStart(2, '0');
+            const s = (stats.time % 60).toString().padStart(2, '0');
+
+            document.getElementById('endAccuracy').innerText = `${accuracy}%`;
+            document.getElementById('endTime').innerText = `${m}:${s}`;
+            document.getElementById('endCorrect').innerText = `${stats.correct} / ${total}`;
+            document.getElementById('endWrong').innerText = stats.wrong;
+
+            // Xếp hạng sao & cúp
+            const trophyEl = document.getElementById('endTrophy');
+            const starsEl = document.getElementById('endStars');
+            const titleEl = document.getElementById('endTitle');
+            const subEl = document.getElementById('endSubtitle');
+
+            if (accuracy >= 90) {
+                trophyEl.innerText = '🏆';
+                starsEl.innerText = '⭐⭐⭐';
+                titleEl.innerText = 'Đỉnh Cao Tuyệt Đối!';
+                subEl.innerText = 'Bạn nắm vững thì Quá Khứ Đơn và các cấu trúc câu hỏi WH- một cách hoàn hảo!';
+            } else if (accuracy >= 70) {
+                trophyEl.innerText = '🥈';
+                starsEl.innerText = '⭐⭐';
+                titleEl.innerText = 'Làm Tốt Lắm!';
+                subEl.innerText = 'Bạn đã hoàn thành rất tốt, chỉ cần chú ý thêm một vài chi tiết nhỏ là xuất sắc!';
+            } else {
+                trophyEl.innerText = '🥉';
+                starsEl.innerText = '⭐';
+                titleEl.innerText = 'Hoàn Thành Thử Thách!';
+                subEl.innerText = 'Hãy luyện tập lại để tăng tốc độ và sự chính xác hơn nữa nhé!';
+            }
+
+            switchScreen('screen-end');
+        }
+
+        /* ===================================================
+           TỪ ĐIỂN OFFLINE & DỊCH NGHĨA
+        =================================================== */
+        function handleWordLookup(rawWord, e) {
+            e.stopPropagation();
+            const cleanWord = rawWord.toLowerCase().replace(/[^a-z0-9]/g, '');
+            if (!cleanWord) return;
+            lookupWordDirect(cleanWord, e.pageX, e.pageY);
+        }
+
+        function lookupWordDirect(word, x, y) {
+            const clean = word.toLowerCase().replace(/[^a-z0-9]/g, '');
+            if (!clean) return;
+
+            const popover = document.getElementById('dictPopover');
+            const data = dictionary[clean] || {
+                ipa: "/.../",
+                pos: "Từ vựng",
+                vn: "Chưa có định nghĩa offline cho từ này."
+            };
+
+            document.getElementById('dictWord').innerText = clean;
+            document.getElementById('dictPhonetic').innerText = data.ipa || '/.../';
+            document.getElementById('dictPos').innerText = data.pos || 'từ vựng';
+            document.getElementById('dictMeaning').innerText = data.vn || data.meaning || 'Nghĩa tiếng Việt';
+
+            popover.style.display = 'block';
+
+            // Căn chỉnh tọa độ không bị tràn màn hình
+            let posX = x || (window.innerWidth / 2 - 160);
+            let posY = y || (window.innerHeight / 2 - 100);
+
+            if (posX + 330 > window.innerWidth) posX = window.innerWidth - 340;
+            if (posY + 220 > window.innerHeight) posY = window.innerHeight - 230;
+            if (posX < 10) posX = 10;
+            if (posY < 10) posY = 10;
+
+            popover.style.left = posX + 'px';
+            popover.style.top = posY + 'px';
+
+            playDictVoice();
+        }
+
+        function closeDictPopover() {
+            document.getElementById('dictPopover').style.display = 'none';
+        }
+
+        function playDictVoice() {
+            const word = document.getElementById('dictWord').innerText;
+            if (word) speakTTS(word);
+        }
+
+        function toggleTranslation() {
+            const transEl = document.getElementById('promptTranslation');
+            const btn = document.getElementById('btnTranslateToggle');
+            transEl.classList.toggle('show');
+            btn.classList.toggle('active');
+        }
+
+        function playCurrentAudio() {
+            playSentenceAudio(currentAudioId, currentTarget);
+        }
+
+        function closeTransModal() {
+            document.getElementById('transModalOverlay').classList.remove('active');
+        }
+
+        // Đóng từ điển khi click ra ngoài
+        document.addEventListener('click', (e) => {
+            const popover = document.getElementById('dictPopover');
+            if (popover.style.display === 'block' && !popover.contains(e.target) && !e.target.classList.contains('clickable-word')) {
+                closeDictPopover();
+            }
+        });
+
+        // Chuột phải vào màn hình game để xem bản dịch
+        document.addEventListener('contextmenu', (e) => {
+            if (document.getElementById('screen-game').classList.contains('active')) {
+                if (e.target.classList.contains('word-btn') || e.target.classList.contains('clickable-word')) return;
+                e.preventDefault();
+                document.getElementById('transModalText').innerText = currentVN;
+                document.getElementById('transModalOverlay').classList.add('active');
+            }
+        });
+
+        // Phím tắt bàn phím tiện ích
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeDictPopover();
+                closeTransModal();
+            } else if (e.key === 'Enter') {
+                const btnNext = document.getElementById('btnNext');
+                if (btnNext.style.display !== 'none') {
+                    nextQuestion();
+                } else {
+                    checkAnswer();
+                }
+            } else if (e.key === 'Backspace' && (e.ctrlKey || e.metaKey)) {
+                clearArea();
+            } else if (e.key === 'Backspace') {
+                undoWord();
+            }
+        });
+
+        /* ===================================================
+           CONFETTI PARTICLES ANIMATION
+        =================================================== */
+        const canvas = document.getElementById('confettiCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let confettiRunning = false;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function triggerConfetti(count = 70) {
+            canvas.style.display = 'block';
+            confettiRunning = true;
+            const colors = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899'];
+
+            for (let i = 0; i < count; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: -20,
+                    size: Math.random() * 8 + 5,
+                    vx: (Math.random() - 0.5) * 6,
+                    vy: Math.random() * 5 + 3,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    rot: Math.random() * 360,
+                    dRot: (Math.random() - 0.5) * 10
+                });
+            }
+            animateConfetti();
+        }
+
+        function animateConfetti() {
+            if (!confettiRunning) return;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            let hasActive = false;
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const p = particles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+                p.rot += p.dRot;
+
+                if (p.y < canvas.height + 20) {
+                    hasActive = true;
+                    ctx.save();
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate((p.rot * Math.PI) / 180);
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+                    ctx.restore();
+                } else {
+                    particles.splice(i, 1);
+                }
+            }
+
+            if (hasActive) {
+                requestAnimationFrame(animateConfetti);
+            } else {
+                canvas.style.display = 'none';
+                confettiRunning = false;
+                particles = [];
+            }
+        }
+
+        function openVerbDictModal() {
+            const modal = document.getElementById('verb-dict-modal');
+            const iframe = document.getElementById('vdict-iframe');
+            if (iframe && !iframe.src && iframe.dataset.src) {
+                iframe.src = iframe.dataset.src;
+            }
+            if (modal) modal.style.display = 'flex';
+        }
+        function closeVerbDictModal() {
+            const modal = document.getElementById('verb-dict-modal');
+            if (modal) modal.style.display = 'none';
+        }
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeVerbDictModal();
+        });
+    </script>
+
+<!-- VERB DICTIONARY MODAL -->
+<style>
+.vdict-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(4px);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
+  animation: vdictFadeIn 0.2s ease-out;
+}
+.vdict-modal-box {
+  width: min(1200px, 96vw);
+  height: min(88vh, 850px);
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.vdict-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #0B3C5D;
+  color: #ffffff;
+  padding: 12px 20px;
+  flex-shrink: 0;
+}
+.vdict-title {
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.vdict-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.vdict-btn-ext {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.18);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.vdict-btn-ext:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+.vdict-btn-close {
+  background: rgba(239, 68, 68, 0.85);
+  color: #ffffff;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.vdict-btn-close:hover {
+  background: #dc2626;
+}
+.vdict-modal-body {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: #F4F8FB;
+}
+.vdict-modal-body iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+@keyframes vdictFadeIn {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+</style>
+
+<div id="verb-dict-modal" class="vdict-modal-overlay" style="display:none;" onclick="if(event.target===this) closeVerbDictModal()">
+  <div class="vdict-modal-box">
+    <div class="vdict-modal-header">
+      <div class="vdict-title">
+        <span>📖</span> English Verb Dictionary (V1 - V2 - V3)
+      </div>
+      <div class="vdict-actions">
+        <a id="vdict-open-newtab" href="ENGLISH VERB DICTIONARY.html" target="_blank" class="vdict-btn-ext" title="Mở trong tab mới">
+          ↗ Mở tab mới
+        </a>
+        <button type="button" class="vdict-btn-close" onclick="closeVerbDictModal()" title="Đóng">✕</button>
+      </div>
+    </div>
+    <div class="vdict-modal-body">
+      <iframe id="vdict-iframe" data-src="ENGLISH VERB DICTIONARY.html" title="English Verb Dictionary"></iframe>
+    </div>
+  </div>
+</div>
+</body>
+</html>

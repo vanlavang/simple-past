@@ -1,0 +1,3242 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Question Builder (WH- Questions) | Luyện Ghép Câu Hỏi Quá Khứ Đơn</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0284c7;
+            --primary-dark: #0369a1;
+            --primary-light: #f0f9ff;
+            --secondary: #6366f1;
+            --success: #10b981;
+            --success-dark: #059669;
+            --success-light: #ecfdf5;
+            --danger: #ef4444;
+            --danger-dark: #dc2626;
+            --danger-light: #fef2f2;
+            --warning: #f59e0b;
+            --warning-dark: #d97706;
+            --warning-light: #fffbeb;
+            --dark: #0f172a;
+            --gray: #64748b;
+            --gray-light: #f8fafc;
+            --border: #e2e8f0;
+            --white: #ffffff;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+            --shadow-md: 0 6px 16px rgba(0,0,0,0.08);
+            --shadow-lg: 0 12px 28px rgba(0,0,0,0.12);
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --radius-full: 9999px;
+            --font-main: 'Nunito', 'Segoe UI', Arial, sans-serif;
+            --font-display: 'Quicksand', 'Nunito', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #bae6fd 100%);
+            color: var(--dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 2px solid var(--border);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .logo-icon {
+            font-size: 26px;
+            background: linear-gradient(135deg, #0284c7, #6366f1);
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(2, 132, 199, 0.3);
+            color: white;
+        }
+
+        .app-title h1 {
+            font-family: var(--font-display);
+            font-size: 20px;
+            font-weight: 800;
+            background: linear-gradient(120deg, var(--primary-dark), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0;
+        }
+
+        .app-title p {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--gray);
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-family: var(--font-main);
+            font-size: 13px;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            border: 1.5px solid var(--border);
+            background: white;
+            color: var(--dark);
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+        }
+
+        .nav-btn:hover {
+            background: var(--gray-light);
+            border-color: #cbd5e1;
+            transform: translateY(-1px);
+        }
+
+        .stats-badge-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--gray-light);
+            padding: 4px 10px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .stat-badge {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 13px;
+            font-weight: 800;
+            padding: 4px 8px;
+            border-radius: 8px;
+        }
+
+        .stat-badge.correct { color: var(--success); background: rgba(16, 185, 129, 0.12); }
+        .stat-badge.wrong { color: var(--danger); background: rgba(239, 68, 68, 0.12); }
+        .stat-badge.timer { color: var(--primary); background: rgba(2, 132, 199, 0.12); font-family: monospace; font-size: 14px; }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            max-width: 960px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .screen { display: none; width: 100%; animation: fadeIn 0.3s ease; }
+        .screen.active { display: flex; flex-direction: column; align-items: center; }
+
+        /* Menu */
+        .menu-hero { text-align: center; margin-bottom: 28px; }
+        .menu-hero h2 { font-family: var(--font-display); font-size: 32px; font-weight: 800; color: var(--dark); margin-bottom: 8px; }
+        .menu-hero p { font-size: 16px; color: var(--gray); max-width: 600px; margin: 0 auto; }
+
+        .level-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 18px;
+            width: 100%;
+            max-width: 860px;
+        }
+
+        .level-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            border: 2px solid var(--border);
+            padding: 22px 20px;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .level-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+            border-color: currentColor;
+        }
+
+        .card-top { display: flex; justify-content: space-between; align-items: center; }
+        .level-icon { width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+        .level-badge { font-size: 11px; font-weight: 800; text-transform: uppercase; padding: 4px 10px; border-radius: var(--radius-full); }
+        .level-card h3 { font-family: var(--font-display); font-size: 19px; font-weight: 800; margin: 0; color: var(--dark); }
+        .level-card p { font-size: 14px; color: var(--gray); margin: 0; line-height: 1.4; flex-grow: 1; }
+        .card-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 10px; border-top: 1px dashed var(--border); font-size: 13px; font-weight: 700; }
+        .card-start-btn { display: inline-flex; align-items: center; gap: 4px; padding: 6px 14px; border-radius: 8px; font-weight: 800; font-size: 13px; color: white; }
+
+        .card-l1 { color: #0284c7; }
+        .card-l1 .level-icon { background: #f0f9ff; color: #0284c7; }
+        .card-l1 .level-badge { background: #e0f2fe; color: #0369a1; }
+        .card-l1 .card-start-btn { background: #0284c7; }
+
+        .card-l2 { color: #059669; }
+        .card-l2 .level-icon { background: #ecfdf5; color: #059669; }
+        .card-l2 .level-badge { background: #d1fae5; color: #065f46; }
+        .card-l2 .card-start-btn { background: #059669; }
+
+        .card-l3 { color: #d97706; }
+        .card-l3 .level-icon { background: #fffbeb; color: #d97706; }
+        .card-l3 .level-badge { background: #fef3c7; color: #92400e; }
+        .card-l3 .card-start-btn { background: #d97706; }
+
+        .card-l4 { color: #7c3aed; }
+        .card-l4 .level-icon { background: #f5f3ff; color: #7c3aed; }
+        .card-l4 .level-badge { background: #ede9fe; color: #5b21b6; }
+        .card-l4 .card-start-btn { background: #7c3aed; }
+
+        /* Game Screen */
+        .game-wrapper {
+            width: 100%;
+            max-width: 840px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .progress-section { width: 100%; display: flex; flex-direction: column; gap: 6px; }
+        .progress-info { display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: 800; color: var(--gray); }
+        .progress-track { width: 100%; height: 12px; background: white; border: 1.5px solid var(--border); border-radius: var(--radius-full); overflow: hidden; }
+        .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #10b981, #0284c7); border-radius: var(--radius-full); transition: width 0.4s ease; }
+
+        .prompt-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            border: 2px solid var(--border);
+            padding: 22px 26px;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .prompt-header { display: flex; align-items: center; justify-content: space-between; }
+        .prompt-type-badge { font-size: 12px; font-weight: 800; text-transform: uppercase; padding: 4px 10px; border-radius: 8px; background: var(--primary-light); color: var(--primary); }
+        .prompt-actions { display: flex; align-items: center; gap: 8px; }
+        
+        .action-icon-btn {
+            width: 38px; height: 38px; border-radius: 10px; border: 1.5px solid var(--border);
+            background: white; cursor: pointer; display: flex; align-items: center; justify-content: center;
+            font-size: 17px; color: var(--dark); transition: all 0.2s;
+        }
+        .action-icon-btn:hover { background: var(--gray-light); transform: scale(1.05); }
+        .action-icon-btn.active { background: var(--primary-light); border-color: var(--primary); color: var(--primary); }
+
+        .prompt-body { display: flex; align-items: center; gap: 16px; }
+        .prompt-emoji { font-size: 50px; width: 72px; height: 72px; min-width: 72px; background: #f8fafc; border: 2px solid var(--border); border-radius: 16px; display: flex; align-items: center; justify-content: center; }
+        .prompt-content { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+        .prompt-text { font-size: 24px; font-weight: 800; color: var(--dark); line-height: 1.4; }
+        .prompt-text .clickable-word { cursor: pointer; padding: 2px 4px; border-radius: 6px; transition: all 0.15s; display: inline-block; }
+        .prompt-text .clickable-word:hover { color: var(--primary); background: var(--primary-light); }
+        .prompt-translation { font-size: 16px; font-weight: 600; color: var(--gray); line-height: 1.4; display: none; padding-top: 6px; border-top: 1px dashed var(--border); }
+        .prompt-translation.show { display: block; }
+
+        .zone-label { font-size: 12px; font-weight: 800; text-transform: uppercase; color: var(--gray); letter-spacing: 0.6px; display: flex; justify-content: space-between; }
+
+        .build-area {
+            width: 100%; min-height: 100px; background: white; border: 3px dashed #cbd5e1;
+            border-radius: var(--radius-lg); padding: 16px; display: flex; flex-wrap: wrap;
+            gap: 10px; align-items: center; justify-content: flex-start; position: relative;
+            transition: all 0.3s ease;
+        }
+        .build-area.drag-over { border-color: var(--primary); background: #f0f7ff; }
+        .build-area.correct { border-color: var(--success); border-style: solid; background: var(--success-light); }
+        .build-area.wrong { border-color: var(--danger); border-style: solid; background: var(--danger-light); animation: shake 0.4s ease; }
+        .build-area-placeholder { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); color: #94a3b8; font-size: 15px; font-weight: 600; pointer-events: none; text-align: center; width: 90%; }
+
+        .word-bank {
+            width: 100%; min-height: 90px; background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(8px); border: 2px solid var(--border); border-radius: var(--radius-lg);
+            padding: 16px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center;
+        }
+
+        .word-btn {
+            font-family: var(--font-main); font-size: 19px; font-weight: 700;
+            padding: 10px 18px; border-radius: 12px; border: 2px solid #cbd5e1;
+            background: white; color: var(--dark); cursor: pointer; box-shadow: 0 4px 0 #94a3b8;
+            transition: all 0.12s ease; display: inline-flex; align-items: center; justify-content: center;
+            width: fit-content; touch-action: manipulation;
+        }
+        .word-btn:hover { background: #f8fafc; border-color: #94a3b8; transform: translateY(-2px); box-shadow: 0 6px 0 #94a3b8; }
+        .word-btn:active { transform: translateY(4px); box-shadow: none; }
+        .word-btn.in-build { background: var(--primary-light); border-color: var(--primary); color: var(--primary-dark); box-shadow: 0 4px 0 #7dd3fc; }
+        .word-btn.punctuation { background: #faf5ff; border-color: #c084fc; color: #7e22ce; box-shadow: 0 4px 0 #d8b4fe; font-size: 22px; padding: 8px 16px; }
+        .word-btn.dragging { opacity: 0.4; }
+
+        .controls-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 6px; flex-wrap: wrap; }
+        .controls-left, .controls-right { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+        .ctrl-btn {
+            font-family: var(--font-main); font-size: 15px; font-weight: 800; padding: 12px 20px;
+            border-radius: 12px; border: none; cursor: pointer; display: inline-flex; align-items: center;
+            gap: 8px; transition: all 0.15s ease; box-shadow: 0 4px 0 rgba(0,0,0,0.15);
+        }
+        .ctrl-btn:active { transform: translateY(4px); box-shadow: none !important; }
+        .ctrl-btn.secondary { background: white; color: var(--dark); border: 2px solid var(--border); box-shadow: 0 4px 0 #cbd5e1; }
+        .ctrl-btn.hint { background: var(--warning-light); color: var(--warning-dark); border: 2px solid #fde68a; box-shadow: 0 4px 0 #fcd34d; }
+        .ctrl-btn.check { background: var(--success); color: white; box-shadow: 0 4px 0 var(--success-dark); font-size: 16px; padding: 12px 28px; }
+        .ctrl-btn.next { background: var(--primary); color: white; box-shadow: 0 4px 0 var(--primary-dark); font-size: 16px; padding: 12px 28px; display: none; }
+
+        /* End Screen */
+        .end-card {
+            background: white; border-radius: 24px; border: 2px solid var(--border);
+            padding: 40px 30px; max-width: 520px; width: 100%; text-align: center;
+            box-shadow: var(--shadow-lg); display: flex; flex-direction: column; align-items: center; gap: 20px;
+        }
+        .trophy-badge { font-size: 80px; line-height: 1; }
+        .stars-row { display: flex; gap: 8px; font-size: 32px; color: #fbbf24; }
+        .end-title { font-family: var(--font-display); font-size: 28px; font-weight: 800; color: var(--dark); margin: 0; }
+        .end-subtitle { font-size: 15px; color: var(--gray); margin: 0; }
+        .score-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; margin: 10px 0; }
+        .score-item { background: var(--gray-light); border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 4px; }
+        .score-item .label { font-size: 12px; font-weight: 700; color: var(--gray); text-transform: uppercase; }
+        .score-item .value { font-size: 24px; font-weight: 900; color: var(--dark); }
+        .score-item.highlight { background: var(--primary-light); }
+        .score-item.highlight .value { color: var(--primary); }
+        .end-actions { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+
+        /* Dictionary */
+        .dict-popover {
+            position: fixed; display: none; background: white; border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25); border: 2.5px solid var(--primary);
+            padding: 18px 20px; z-index: 10000; width: 320px; max-width: 90vw;
+        }
+        .dict-head { display: flex; justify-content: space-between; align-items: center; border-bottom: 1.5px solid var(--border); padding-bottom: 10px; margin-bottom: 10px; }
+        .dict-word-title { font-size: 22px; font-weight: 800; color: var(--primary-dark); text-transform: capitalize; display: flex; align-items: center; gap: 8px; }
+        .dict-speaker-btn { background: var(--primary-light); border: none; color: var(--primary); width: 34px; height: 34px; border-radius: 50%; cursor: pointer; font-size: 16px; }
+        .dict-close-btn { background: #e2e8f0; border: none; color: var(--dark); width: 28px; height: 28px; border-radius: 50%; cursor: pointer; font-size: 14px; font-weight: bold; }
+        .dict-phonetic { font-family: Arial, sans-serif; font-size: 15px; font-weight: 700; color: var(--secondary); margin-bottom: 4px; }
+        .dict-pos { font-size: 13px; font-style: italic; font-weight: 700; color: var(--success-dark); margin-bottom: 8px; }
+        .dict-meaning { font-size: 17px; font-weight: 700; color: var(--dark); line-height: 1.4; background: #f8fafc; padding: 8px 12px; border-radius: 8px; border-left: 3px solid var(--primary); }
+
+        #confettiCanvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 99999; display: none; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 20%, 60% { transform: translateX(-8px); } 40%, 80% { transform: translateX(8px); } }
+
+        @media (max-width: 768px) {
+            header { padding: 8px 12px; flex-wrap: wrap; }
+            .prompt-body { flex-direction: column; align-items: flex-start; }
+            .prompt-emoji { width: 52px; height: 52px; min-width: 52px; font-size: 36px; }
+            .prompt-text { font-size: 20px; }
+            .word-btn { font-size: 16px; padding: 8px 14px; }
+            .ctrl-btn { padding: 10px 16px; font-size: 14px; }
+            .controls-toolbar { justify-content: center; }
+            .controls-left, .controls-right { width: 100%; justify-content: center; }
+            .ctrl-btn.check, .ctrl-btn.next { width: 100%; justify-content: center; }
+        }
+
+        /* Expected Answer Box */
+        .expected-answer-box {
+            background: #eff6ff;
+            border: 2px solid #93c5fd;
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #1d4ed8;
+            text-align: center;
+            margin-top: 8px;
+            animation: fadeIn 0.25s ease;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="confettiCanvas"></canvas>
+
+    <div id="dictPopover" class="dict-popover">
+        <div class="dict-head">
+            <div class="dict-word-title">
+                <span id="dictWord">word</span>
+                <button class="dict-speaker-btn" onclick="playDictVoice()" title="Nghe phát âm">🔊</button>
+            </div>
+            <button class="dict-close-btn" onclick="closeDictPopover()">✕</button>
+        </div>
+        <div class="dict-phonetic" id="dictPhonetic">/wɜːd/</div>
+        <div class="dict-pos" id="dictPos">v.</div>
+        <div class="dict-meaning" id="dictMeaning">Nghĩa tiếng Việt</div>
+    </div>
+
+    <header>
+        <div class="nav-left">
+            <a href="../SIMPLE PAST.html" class="logo-badge" title="Về danh mục bài học Simple Past">
+                <div class="logo-icon">❓</div>
+                <div class="app-title">
+                    <h1>Question Builder</h1>
+                    <p>WH- Question Master</p>
+                </div>
+            </a>
+        </div>
+        
+        <div class="nav-actions">
+            <a href="../SIMPLE PAST.html" class="nav-btn" title="Quay về menu toàn bộ khoá học">
+                🏠 Menu Bài Học
+            </a>
+            <button class="nav-btn" onclick="openVerbDictModal()" title="Tra cứu động từ V1 - V2 - V3">
+                📖 Từ Điển Động Từ
+            </button>
+            <button class="nav-btn" id="btnSelectLevel" onclick="goMenu()" style="display: none;">
+                📑 Chọn Cấp Độ
+            </button>
+            <button class="nav-btn" id="btnToggleSound" onclick="toggleMute()">
+                🔊 Âm thanh
+            </button>
+            <div class="stats-badge-group" id="headerStatsGroup" style="display: none;">
+                <div class="stat-badge correct">✔ <span id="statCorrect">0</span></div>
+                <div class="stat-badge wrong">✖ <span id="statWrong">0</span></div>
+                <div class="stat-badge timer">⏱ <span id="statTimer">00:00</span></div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- SCREEN 1: MENU SCREEN -->
+        <div id="screen-menu" class="screen active">
+            <div class="menu-hero">
+                <h2>Chọn Cấp Độ Ghép Câu Hỏi</h2>
+                <p>Khám phá các thử thách đặt câu hỏi WH- thì Quá Khứ Đơn với phát âm chuẩn, kéo thả từ mượt mà và từ điển tích hợp.</p>
+            </div>
+
+            <div class="level-grid">
+                <div class="level-card card-l1" onclick="startGame(1)">
+                    <div class="card-top">
+                        <div class="level-icon">🎯</div>
+                        <span class="level-badge">Cơ Bản</span>
+                    </div>
+                    <h3>Level 1: Basic WH- Questions</h3>
+                    <p>Đọc câu trần thuật và ghép câu hỏi WH- với Where, What, Who, Why.</p>
+                    <div class="card-footer">
+                        <span>10 câu hỏi</span>
+                        <span class="card-start-btn">Bắt đầu ➔</span>
+                    </div>
+                </div>
+
+                <div class="level-card card-l2" onclick="startGame(2)">
+                    <div class="card-top">
+                        <div class="level-icon">🧩</div>
+                        <span class="level-badge">Thực Hành</span>
+                    </div>
+                    <h3>Level 2: Make Questions</h3>
+                    <p>Luyện tập trật tự từ: từ để hỏi, trợ động từ DID, chủ ngữ, động từ nguyên mẫu.</p>
+                    <div class="card-footer">
+                        <span>10 câu hỏi</span>
+                        <span class="card-start-btn">Bắt đầu ➔</span>
+                    </div>
+                </div>
+
+                <div class="level-card card-l3" onclick="startGame(3)">
+                    <div class="card-top">
+                        <div class="level-icon">🔄</div>
+                        <span class="level-badge">Dịch Nghĩa</span>
+                    </div>
+                    <h3>Level 3: Dịch Từ Tiếng Việt</h3>
+                    <p>Dịch câu hỏi Tiếng Việt sang câu hỏi Tiếng Anh chuẩn thì Quá khứ đơn.</p>
+                    <div class="card-footer">
+                        <span>10 câu hỏi</span>
+                        <span class="card-start-btn">Bắt đầu ➔</span>
+                    </div>
+                </div>
+
+                <div class="level-card card-l4" onclick="startGame(4)">
+                    <div class="card-top">
+                        <div class="level-icon">🏆</div>
+                        <span class="level-badge">Nâng Cao</span>
+                    </div>
+                    <h3>Level 4: Advanced Questions</h3>
+                    <p>Thử thách câu hỏi phức hợp, Yes/No questions và đoạn hội thoại ngắn trong quá khứ.</p>
+                    <div class="card-footer">
+                        <span>7 câu hỏi</span>
+                        <span class="card-start-btn">Bắt đầu ➔</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCREEN 2: GAME SCREEN -->
+        <div id="screen-game" class="screen">
+            <div class="game-wrapper">
+                <div class="progress-section">
+                    <div class="progress-info">
+                        <span id="levelIndicator">LEVEL 1 • CÂU 1 / 10</span>
+                        <span id="progressPercent">0%</span>
+                    </div>
+                    <div class="progress-track">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                </div>
+
+                <div class="prompt-card">
+                    <div class="prompt-header">
+                        <span class="prompt-type-badge" id="promptTypeBadge">CÂU GỐC</span>
+                        <div class="prompt-actions">
+                            <button class="action-icon-btn" id="btnPlayAudio" onclick="playCurrentAudio()" title="Nghe câu hỏi">🔊</button>
+                            <button class="action-icon-btn" id="btnTranslateToggle" onclick="toggleTranslation()" title="Xem bản dịch">👁️</button>
+                        </div>
+                    </div>
+
+                    <div class="prompt-body">
+                        <div class="prompt-emoji" id="promptEmoji">📚</div>
+                        <div class="prompt-content">
+                            <div class="prompt-text" id="promptText"></div>
+                            <div class="prompt-translation" id="promptTranslation"></div>
+                            <div class="expected-answer-box" id="expectedAnswerBox" style="display:none;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="build-section">
+                    <div class="zone-label">
+                        <span>Khu vực ghép câu:</span>
+                        <span style="color: var(--primary); cursor: pointer;" onclick="giveHint()">💡 Gợi ý từ</span>
+                    </div>
+                    <div class="build-area" id="buildArea" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
+                        <div class="build-area-placeholder" id="buildPlaceholder">Nhấn hoặc kéo từ vào đây...</div>
+                    </div>
+                </div>
+
+                <div class="bank-section">
+                    <div class="zone-label">
+                        <span>Ngân hàng từ vựng:</span>
+                        <span>(Click hoặc Kéo thả)</span>
+                    </div>
+                    <div class="word-bank" id="wordBank"></div>
+                </div>
+
+                <div class="controls-toolbar">
+                    <div class="controls-left">
+                        <button class="ctrl-btn secondary" onclick="undoWord()">↺ Hoàn tác</button>
+                        <button class="ctrl-btn secondary" onclick="clearArea()">🗑 Làm lại</button>
+                        <button class="ctrl-btn hint" onclick="giveHint()">💡 Gợi ý 1 từ</button>
+                        <button class="ctrl-btn hint" style="background:#e0f2fe;color:#0369a1;border-color:#bae6fd;" onclick="showExpectedAnswer()">👁️ Xem Đáp Án</button>
+                    </div>
+                    <div class="controls-right">
+                        <button class="ctrl-btn check" id="btnCheck" onclick="checkAnswer()">✔ Kiểm Tra</button>
+                        <button class="ctrl-btn next" id="btnNext" onclick="nextQuestion()">➔ Câu Tiếp Theo</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCREEN 3: END SCREEN -->
+        <div id="screen-end" class="screen">
+            <div class="end-card">
+                <div class="trophy-badge" id="endTrophy">🏆</div>
+                <div class="stars-row" id="endStars">⭐⭐⭐</div>
+                <h2 class="end-title" id="endTitle">Hoàn Thành!</h2>
+                <p class="end-subtitle" id="endSubtitle">Bạn đã vượt qua cấp độ này!</p>
+
+                <div class="score-grid">
+                    <div class="score-item highlight">
+                        <span class="label">Độ Chính Xác</span>
+                        <span class="value" id="endAccuracy">100%</span>
+                    </div>
+                    <div class="score-item">
+                        <span class="label">Thời Gian</span>
+                        <span class="value" id="endTime">00:00</span>
+                    </div>
+                    <div class="score-item">
+                        <span class="label">Trả Lời Đúng</span>
+                        <span class="value" id="endCorrect">10/10</span>
+                    </div>
+                    <div class="score-item">
+                        <span class="label">Thử Lại</span>
+                        <span class="value" id="endWrong">0</span>
+                    </div>
+                </div>
+
+                <div class="end-actions">
+                    <button class="ctrl-btn check" onclick="replayLevel()" style="width: 100%; justify-content: center;">🔄 Chơi Lại</button>
+                    <button class="ctrl-btn secondary" onclick="goMenu()" style="width: 100%; justify-content: center;">📑 Chọn Cấp Độ Khác</button>
+                    <a href="../SIMPLE PAST.html" class="ctrl-btn secondary" style="width: 100%; justify-content: center; text-decoration: none;">🏠 Về Danh Mục Bài Học</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        var gameData = {
+    1: [
+        {
+            emoji: "📚",
+            audio: "sounds/L1S1.mp3",
+            answer: "I studied English in my room yesterday.",
+            question: "Where did you study yesterday?",
+            translation: "Bạn đã học tiếng Anh ở đâu hôm qua?"
+        },
+        {
+            emoji: "🍳",
+            audio: "sounds/L1S2.mp3",
+            answer: "My mom made breakfast this morning.",
+            question: "Who made breakfast this morning?",
+            translation: "Ai đã làm bữa sáng nay?"
+        },
+        {
+            emoji: "🎨",
+            audio: "sounds/L1S3.mp3",
+            answer: "She drew a beautiful picture last night.",
+            question: "What did she draw last night?",
+            translation: "Cô ấy đã vẽ gì tối qua?"
+        },
+        {
+            emoji: "🏃",
+            audio: "sounds/L1S4.mp3",
+            answer: "They ran in the park two days ago.",
+            question: "Where did they run two days ago?",
+            translation: "Họ đã chạy ở đâu hai ngày trước?"
+        },
+        {
+            emoji: "📱",
+            audio: "sounds/L1S5.mp3",
+            answer: "He talked to his friend on the phone a few hours ago.",
+            question: "Who did he talk to a few hours ago?",
+            translation: "Cậu ấy đã nói chuyện với ai vài giờ trước?"
+        },
+        {
+            emoji: "🛍️",
+            audio: "sounds/L1S6.mp3",
+            answer: "We bought some vegetables last weekend.",
+            question: "What did you buy last weekend?",
+            translation: "Các bạn đã mua gì cuối tuần trước?"
+        },
+        {
+            emoji: "🧹",
+            audio: "sounds/L1S7.mp3",
+            answer: "The children cleaned the classroom last week.",
+            question: "Why did the children clean the classroom last week?",
+            translation: "Tại sao các bạn nhỏ đã dọn lớp học tuần trước?"
+        },
+        {
+            emoji: "🎬",
+            audio: "sounds/L1S8.mp3",
+            answer: "My sister watched a funny movie yesterday evening.",
+            question: "What did your sister watch yesterday evening?",
+            translation: "Chị/em gái bạn đã xem gì tối qua?"
+        },
+        {
+            emoji: "🚗",
+            audio: "sounds/L1S9.mp3",
+            answer: "My father drove to work last Tuesday.",
+            question: "Where did your father drive last Tuesday?",
+            translation: "Bố bạn đã lái xe đi đâu thứ Ba tuần trước?"
+        },
+        {
+            emoji: "👕",
+            audio: "sounds/L1S10.mp3",
+            answer: "She wore a red dress last Sunday.",
+            question: "What did she wear last Sunday?",
+            translation: "Cô ấy đã mặc gì Chủ nhật tuần trước?"
+        }
+    ],
+    2: [
+        {
+            emoji: "🚌",
+            audio: "sounds/L2S1.mp3",
+            answer: "I waited for the bus last Monday.",
+            question: "What did you do last Monday?",
+            translation: "Bạn đã làm gì thứ Hai tuần trước?"
+        },
+        {
+            emoji: "🏫",
+            audio: "sounds/L2S2.mp3",
+            answer: "The students walked to school yesterday morning.",
+            question: "Where did the students walk yesterday morning?",
+            translation: "Các học sinh đã đi đâu sáng hôm qua?"
+        },
+        {
+            emoji: "📖",
+            audio: "sounds/L2S3.mp3",
+            answer: "She read a science book last summer.",
+            question: "What did she read last summer?",
+            translation: "Cô ấy đã đọc gì mùa hè năm ngoái?"
+        },
+        {
+            emoji: "💻",
+            audio: "sounds/L2S4.mp3",
+            answer: "He did his homework on the computer last winter.",
+            question: "What did he do on the computer last winter?",
+            translation: "Cậu ấy đã làm gì trên máy tính mùa đông năm ngoái?"
+        },
+        {
+            emoji: "⚽",
+            audio: "sounds/L2S5.mp3",
+            answer: "The boys played soccer last month.",
+            question: "What did the boys play last month?",
+            translation: "Các cậu bé đã chơi môn gì tháng trước?"
+        },
+        {
+            emoji: "🌧️",
+            audio: "sounds/L2S6.mp3",
+            answer: "We carried umbrellas because it rained yesterday afternoon.",
+            question: "Why did you carry umbrellas yesterday afternoon?",
+            translation: "Tại sao các bạn đã mang ô chiều hôm qua?"
+        },
+        {
+            emoji: "🍎",
+            audio: "sounds/L2S7.mp3",
+            answer: "She ate an apple a moment ago.",
+            question: "What did she eat a moment ago?",
+            translation: "Cô ấy đã ăn gì lúc nãy?"
+        },
+        {
+            emoji: "🎵",
+            audio: "sounds/L2S8.mp3",
+            answer: "They listened to their English teacher last Friday.",
+            question: "Who did they listen to last Friday?",
+            translation: "Họ đã nghe ai thứ Sáu tuần trước?"
+        },
+        {
+            emoji: "✍️",
+            audio: "sounds/L2S9.mp3",
+            answer: "I wrote a letter to my cousin last Christmas.",
+            question: "Who did you write a letter to last Christmas?",
+            translation: "Bạn đã viết thư cho ai Giáng sinh năm ngoái?"
+        },
+        {
+            emoji: "🧑‍🍳",
+            audio: "sounds/L2S10.mp3",
+            answer: "My dad cooked dinner in the kitchen last Wednesday.",
+            question: "Where did your dad cook dinner last Wednesday?",
+            translation: "Bố bạn đã nấu bữa tối ở đâu thứ Tư tuần trước?"
+        }
+    ],
+    3: [
+        {
+            emoji: "✈️",
+            audio: "sounds/L3S1.mp3",
+            fallback: "sounds/L3S1.mp3",
+            answer: "Tại sao họ đã vội vã đến sân bay hôm qua?",
+            question: "Why did they hurry to the airport yesterday?",
+            translation: "(Dịch câu hỏi sang tiếng Anh)"
+        },
+        {
+            emoji: "💻",
+            audio: "sounds/cont.mp3",
+            start: 0.00,
+            end: 3.21,
+            fallback: "sounds/L3S2.mp3",
+            answer: "Anh trai bạn đã gõ gì trên máy tính xách tay tối qua?",
+            question: "What did your brother type on his laptop last night?",
+            translation: "(Dịch câu hỏi sang tiếng Anh)"
+        },
+        {
+            emoji: "📦",
+            audio: "sounds/L3S3.mp3",
+            fallback: "sounds/L3S3.mp3",
+            answer: "Ai đã mang những chiếc hộp nặng đó sáng nay?",
+            question: "Who carried those heavy boxes this morning?",
+            translation: "(Dịch câu hỏi sang tiếng Anh)"
+        },
+        {
+            emoji: "🌳",
+            audio: "sounds/L3S4.mp3",
+            fallback: "sounds/L3S4.mp3",
+            answer: "Tại sao các em nhỏ đã trồng cây trong công viên mùa xuân năm ngoái?",
+            question: "Why did the children plant trees in the park last spring?",
+            translation: "(Dịch câu hỏi sang tiếng Anh)"
+        },
+        {
+            emoji: "📸",
+            audio: "sounds/L3S5.mp3",
+            fallback: "sounds/L3S5.mp3",
+            answer: "Cô ấy đã chụp ảnh ai hai ngày trước?",
+            question: "Who did she take pictures of two days ago?",
+            translation: "(Dịch câu hỏi sang tiếng Anh)"
+        },
+        {
+            emoji: "🚴",
+            audio: "sounds/L3S6.mp3",
+            fallback: "sounds/L3S6.mp3",
+            answer: "Các bạn đã đạp xe đi đâu vào sáng sớm hôm qua?",
+            question: "Where did you ride your bikes early yesterday morning?",
+            translation: "(Dịch câu hỏi sang tiếng Anh)"
+        },
+        {
+            emoji: "🍲",
+            audio: "sounds/L3S7.mp3",
+            fallback: "sounds/L3S7.mp3",
+            answer: "Mẹ bạn đã nấu món gì cho bữa tối Chủ nhật tuần trước?",
+            question: "What did your mother cook for dinner last Sunday?",
+            translation: "(Dịch câu hỏi sang tiếng Anh)"
+        },
+        {
+            emoji: "📚",
+            audio: "sounds/L3S8.mp3",
+            fallback: "sounds/L3S8.mp3",
+            answer: "Tại sao các sinh viên đã học trong thư viện muộn như vậy tối qua?",
+            question: "Why did the students study in the library so late last night?",
+            translation: "(Dịch câu hỏi sang tiếng Anh)"
+        },
+        {
+            emoji: "🎁",
+            audio: "sounds/L3S9.mp3",
+            fallback: "sounds/L3S9.mp3",
+            answer: "Bạn đã mua món quà đó cho ai tuần trước?",
+            question: "Who did you buy that gift for last week?",
+            translation: "(Dịch câu hỏi sang tiếng Anh)"
+        },
+        {
+            emoji: "🏠",
+            audio: "sounds/L3S10.mp3",
+            fallback: "sounds/L3S10.mp3",
+            answer: "Tại sao họ đã sơn lại ngôi nhà tháng trước?",
+            question: "Why did they paint the house again last month?",
+            translation: "(Dịch câu hỏi sang tiếng Anh)"
+        }
+    ],
+    4: [
+        {
+            emoji: "🍳",
+            audio: "sounds/cont.mp3",
+            start: 3.38,
+            end: 5.67,
+            fallback: "sounds/questiona1.mp3",
+            answer: "I cooked pasta last Thursday.",
+            question: "What did you cook for dinner last Thursday?",
+            translation: "Bạn đã nấu món gì cho bữa tối thứ Năm tuần trước?"
+        },
+        {
+            emoji: "🚶",
+            audio: "sounds/cont.mp3",
+            start: 6.04,
+            end: 7.97,
+            fallback: "sounds/questiona2.mp3",
+            answer: "I went to the park two weeks ago.",
+            question: "Where did you go two weeks ago?",
+            translation: "Bạn đã đi đâu hai tuần trước?"
+        },
+        {
+            emoji: "🎬",
+            audio: "sounds/cont.mp3",
+            start: 8.22,
+            end: 10.81,
+            fallback: "sounds/questiona3.mp3",
+            answer: "Yes, she loved it yesterday.",
+            question: "Did Maria enjoy the film yesterday?",
+            translation: "Maria có thích bộ phim hôm qua không?"
+        },
+        {
+            emoji: "🪟",
+            audio: "sounds/cont.mp3",
+            start: 11.44,
+            end: 14.43,
+            fallback: "sounds/questiona4.mp3",
+            answer: "Because it was hot an hour ago.",
+            question: "Why did Jon open the window an hour ago?",
+            translation: "Tại sao Jon đã mở cửa sổ một giờ trước?"
+        },
+        {
+            emoji: "😊",
+            audio: "sounds/cont.mp3",
+            start: 14.76,
+            end: 17.07,
+            fallback: "sounds/questiona5.mp3",
+            answer: "Yes, he did a minute ago.",
+            question: "Did Dan smile at me a minute ago?",
+            translation: "Dan có mỉm cười với tôi một phút trước không?"
+        },
+        {
+            emoji: "📧",
+            audio: "sounds/cont.mp3",
+            start: 17.32,
+            end: 19.91,
+            fallback: "sounds/questiona6.mp3",
+            answer: "She emailed her boss yesterday morning.",
+            question: "Who did Jo email yesterday morning?",
+            translation: "Jo đã gửi email cho ai sáng hôm qua?"
+        },
+        {
+            emoji: "🍽️",
+            audio: "sounds/cont.mp3",
+            start: 20.22,
+            end: 22.54,
+            fallback: "sounds/questiona7.mp3",
+            answer: "Yes, they did last night.",
+            question: "Did your parents have dinner last night?",
+            translation: "Bố mẹ bạn có ăn tối hôm qua không?"
+        }
+    ]
+        };
+
+        const dictionary = {
+        "12": {
+                "ipa": "/twelv/",
+                "pos": "number",
+                "vn": "số 12"
+        },
+        "800": {
+                "ipa": "/eɪt əˈklɒk/",
+                "pos": "number",
+                "vn": "8 giờ"
+        },
+        "900": {
+                "ipa": "/naɪn əˈklɒk/",
+                "pos": "number",
+                "vn": "9 giờ"
+        },
+        "a": {
+                "ipa": "/ə/",
+                "pos": "article",
+                "vn": "một"
+        },
+        "about": {
+                "ipa": "/əˈbaʊt/",
+                "pos": "preposition",
+                "vn": "khoảng, về"
+        },
+        "abroad": {
+                "ipa": "/əˈbrɔːd/",
+                "pos": "adverb",
+                "vn": "ở nước ngoài"
+        },
+        "absent": {
+                "ipa": "/ˈæb.sənt/",
+                "pos": "adjective",
+                "vn": "vắng mặt"
+        },
+        "accidentally": {
+                "ipa": "/ˌæk.sɪˈden.təl.i/",
+                "pos": "adverb",
+                "vn": "tình cờ, vô tình"
+        },
+        "after": {
+                "ipa": "/ˈɑːf.tər/",
+                "pos": "preposition",
+                "vn": "sau khi"
+        },
+        "afternoon": {
+                "ipa": "/ˌɑːf.təˈnuːn/",
+                "pos": "noun",
+                "vn": "buổi chiều"
+        },
+        "ago": {
+                "ipa": "/əˈɡəʊ/",
+                "pos": "adverb",
+                "vn": "trước đây, về trước"
+        },
+        "all": {
+                "ipa": "/ɔːl/",
+                "pos": "pronoun/adjective",
+                "vn": "tất cả"
+        },
+        "almost": {
+                "ipa": "/ˈɔːl.məʊst/",
+                "pos": "adverb",
+                "vn": "hầu như, gần như"
+        },
+        "an": {
+                "ipa": "/ən/",
+                "pos": "article",
+                "vn": "một (trước nguyên âm)"
+        },
+        "and": {
+                "ipa": "/ænd/",
+                "pos": "conjunction",
+                "vn": "và"
+        },
+        "are": {
+                "ipa": "/ɑːr/",
+                "pos": "verb (to be)",
+                "vn": "thì, là, ở (số nhiều)"
+        },
+        "assignment": {
+                "ipa": "/əˈsaɪn.mənt/",
+                "pos": "noun",
+                "vn": "bài tập, nhiệm vụ được giao"
+        },
+        "at": {
+                "ipa": "/æt/",
+                "pos": "preposition",
+                "vn": "lúc, tại, ở"
+        },
+        "ate": {
+                "ipa": "/eɪt/",
+                "pos": "v. (eat)",
+                "vn": "đã ăn"
+        },
+        "backpack": {
+                "ipa": "/ˈbæk.pæk/",
+                "pos": "noun",
+                "vn": "ba lô"
+        },
+        "bag": {
+                "ipa": "/bæɡ/",
+                "pos": "noun",
+                "vn": "cái túi, cặp xách"
+        },
+        "beautiful": {
+                "ipa": "/ˈbjuː.tɪ.fəl/",
+                "pos": "adjective",
+                "vn": "đẹp, xinh đẹp"
+        },
+        "because": {
+                "ipa": "/bɪˈkɒz/",
+                "pos": "conjunction",
+                "vn": "bởi vì"
+        },
+        "become": {
+                "ipa": "/bɪˈkʌm/",
+                "pos": "verb",
+                "vn": "trở thành, trở nên"
+        },
+        "bedtime": {
+                "ipa": "/ˈbed.taɪm/",
+                "pos": "noun",
+                "vn": "giờ đi ngủ"
+        },
+        "belong": {
+                "ipa": "/bɪˈlɒŋ/",
+                "pos": "verb",
+                "vn": "thuộc về"
+        },
+        "belongs": {
+                "ipa": "/bɪˈlɒŋz/",
+                "pos": "verb",
+                "vn": "thuộc về (ngôi thứ 3 số ít)"
+        },
+        "best": {
+                "ipa": "/best/",
+                "pos": "adjective/adverb",
+                "vn": "tốt nhất, giỏi nhất"
+        },
+        "better": {
+                "ipa": "/ˈbet.ər/",
+                "pos": "adjective/adverb",
+                "vn": "tốt hơn, đẹp hơn"
+        },
+        "bicycle": {
+                "ipa": "/ˈbaɪ.sɪ.kəl/",
+                "pos": "noun",
+                "vn": "xe đạp"
+        },
+        "black": {
+                "ipa": "/blæk/",
+                "pos": "adjective",
+                "vn": "màu đen"
+        },
+        "blue": {
+                "ipa": "/bluː/",
+                "pos": "adjective",
+                "vn": "màu xanh dương"
+        },
+        "books": {
+                "ipa": "/bʊks/",
+                "pos": "noun (plural)",
+                "vn": "những quyển sách"
+        },
+        "born": {
+                "ipa": "/bɔːn/",
+                "pos": "adjective/verb",
+                "vn": "được sinh ra"
+        },
+        "borrow": {
+                "ipa": "/ˈbɒr.əʊ/",
+                "pos": "verb",
+                "vn": "mượn"
+        },
+        "borrowed": {
+                "ipa": "/ˈbɒr.əʊd/",
+                "pos": "verb (V2/V3)",
+                "vn": "đã mượn"
+        },
+        "bought": {
+                "ipa": "/bɔːt/",
+                "pos": "v. (buy)",
+                "vn": "đã mua"
+        },
+        "brother": {
+                "ipa": "/ˈbrʌð.ər/",
+                "pos": "noun",
+                "vn": "anh/em trai"
+        },
+        "brother's": {
+                "ipa": "/ˈbrʌð.ərz/",
+                "pos": "noun",
+                "vn": "của anh/em trai"
+        },
+        "brown": {
+                "ipa": "/braʊn/",
+                "pos": "noun/adjective",
+                "vn": "tên riêng (Brown) / màu nâu"
+        },
+        "bus": {
+                "ipa": "/bʌs/",
+                "pos": "noun",
+                "vn": "xe buýt"
+        },
+        "buy": {
+                "ipa": "/baɪ/",
+                "pos": "v.",
+                "vn": "mua"
+        },
+        "by": {
+                "ipa": "/baɪ/",
+                "pos": "preposition",
+                "vn": "bằng cách, bởi, bên cạnh"
+        },
+        "called": {
+                "ipa": "/kɔːld/",
+                "pos": "v. (call)",
+                "vn": "đã gọi"
+        },
+        "can": {
+                "ipa": "/kæn/",
+                "pos": "modal verb",
+                "vn": "có thể"
+        },
+        "car": {
+                "ipa": "/kɑːr/",
+                "pos": "noun",
+                "vn": "xe hơi, ô tô"
+        },
+        "carried": {
+                "ipa": "/ˈkær.id/",
+                "pos": "verb (V2)",
+                "vn": "đã mang, vác (quá khứ của carry)"
+        },
+        "choose": {
+                "ipa": "/tʃuːz/",
+                "pos": "verb",
+                "vn": "chọn, lựa chọn"
+        },
+        "christmas": {
+                "ipa": "/ˈkrɪs.məs/",
+                "pos": "noun",
+                "vn": "Lễ Giáng sinh"
+        },
+        "class": {
+                "ipa": "/klɑːs/",
+                "pos": "noun",
+                "vn": "lớp học"
+        },
+        "cleaned": {
+                "ipa": "/kliːnd/",
+                "pos": "v. (clean)",
+                "vn": "đã dọn dẹp"
+        },
+        "coffee": {
+                "ipa": "/ˈkɒf.i/",
+                "pos": "noun",
+                "vn": "cà phê"
+        },
+        "cooked": {
+                "ipa": "/kʊkt/",
+                "pos": "v. (cook)",
+                "vn": "đã nấu"
+        },
+        "cooking": {
+                "ipa": "/ˈkʊk.ɪŋ/",
+                "pos": "verb (V-ing)",
+                "vn": "đang nấu ăn"
+        },
+        "cooks": {
+                "ipa": "/kʊks/",
+                "pos": "verb",
+                "vn": "nấu ăn (ngôi 3 số ít)"
+        },
+        "country": {
+                "ipa": "/ˈkʌn.tri/",
+                "pos": "noun",
+                "vn": "quốc gia, đất nước"
+        },
+        "cousin": {
+                "ipa": "/ˈkʌz.ən/",
+                "pos": "noun",
+                "vn": "anh/chị/em họ"
+        },
+        "cups": {
+                "ipa": "/kʌps/",
+                "pos": "noun (plural)",
+                "vn": "những chiếc cốc/tách"
+        },
+        "dan": {
+                "ipa": "/dæn/",
+                "pos": "noun",
+                "vn": "tên riêng (Dan)"
+        },
+        "days": {
+                "ipa": "/deɪz/",
+                "pos": "noun (plural)",
+                "vn": "những ngày"
+        },
+        "decide": {
+                "ipa": "/dɪˈsaɪd/",
+                "pos": "verb",
+                "vn": "quyết định"
+        },
+        "did": {
+                "ipa": "/dɪd/",
+                "pos": "v. (auxiliary)",
+                "vn": "đã (trợ động từ thì quá khứ)"
+        },
+        "dinner": {
+                "ipa": "/ˈdɪn.ər/",
+                "pos": "noun",
+                "vn": "bữa tối"
+        },
+        "do": {
+                "ipa": "/duː/",
+                "pos": "verb / auxiliary",
+                "vn": "làm, trợ động từ hiện tại"
+        },
+        "does": {
+                "ipa": "/dʌz/",
+                "pos": "verb / auxiliary",
+                "vn": "làm, trợ động từ (ngôi thứ 3 số ít)"
+        },
+        "dress": {
+                "ipa": "/dres/",
+                "pos": "noun",
+                "vn": "cái váy"
+        },
+        "dresses": {
+                "ipa": "/ˈdres.ɪz/",
+                "pos": "noun (plural)",
+                "vn": "những cái váy"
+        },
+        "drew": {
+                "ipa": "/druː/",
+                "pos": "verb (V2)",
+                "vn": "đã vẽ (quá khứ của draw)"
+        },
+        "drinks": {
+                "ipa": "/drɪŋks/",
+                "pos": "verb",
+                "vn": "uống (ngôi 3 số ít)"
+        },
+        "drove": {
+                "ipa": "/drəʊv/",
+                "pos": "verb (V2)",
+                "vn": "đã lái xe (quá khứ của drive)"
+        },
+        "drives": {
+                "ipa": "/draɪvz/",
+                "pos": "verb",
+                "vn": "lái xe (ngôi 3 số ít)"
+        },
+        "early": {
+                "ipa": "/ˈɜːr.li/",
+                "pos": "adv/adj",
+                "vn": "sớm"
+        },
+        "email": {
+                "ipa": "/ˈiː.meɪl/",
+                "pos": "verb/noun",
+                "vn": "gửi email, thư điện tử"
+        },
+        "emailed": {
+                "ipa": "/ˈiː.meɪld/",
+                "pos": "verb (V2)",
+                "vn": "đã gửi email (quá khứ của email)"
+        },
+        "english": {
+                "ipa": "/ˈɪŋ.ɡlɪʃ/",
+                "pos": "noun",
+                "vn": "tiếng Anh"
+        },
+        "enjoy": {
+                "ipa": "/ɪnˈdʒɔɪ/",
+                "pos": "verb",
+                "vn": "thưởng thức, thích"
+        },
+        "enjoying": {
+                "ipa": "/ɪnˈdʒɔɪ.ɪŋ/",
+                "pos": "verb (V-ing)",
+                "vn": "đang thưởng thức, thích thú"
+        },
+        "evening": {
+                "ipa": "/ˈiːv.nɪŋ/",
+                "pos": "noun",
+                "vn": "buổi tối"
+        },
+        "every": {
+                "ipa": "/ˈev.ri/",
+                "pos": "adjective",
+                "vn": "mỗi, mọi"
+        },
+        "famous": {
+                "ipa": "/ˈfeɪ.məs/",
+                "pos": "adjective",
+                "vn": "nổi tiếng"
+        },
+        "father": {
+                "ipa": "/ˈfɑː.ðər/",
+                "pos": "noun",
+                "vn": "bố, cha"
+        },
+        "favorite": {
+                "ipa": "/ˈfeɪ.vər.ɪt/",
+                "pos": "adjective",
+                "vn": "yêu thích"
+        },
+        "few": {
+                "ipa": "/fjuː/",
+                "pos": "adjective/pronoun",
+                "vn": "một vài, ít"
+        },
+        "film": {
+                "ipa": "/fɪlm/",
+                "pos": "noun",
+                "vn": "bộ phim"
+        },
+        "finish": {
+                "ipa": "/ˈfɪnɪʃ/",
+                "pos": "v.",
+                "vn": "hoàn thành"
+        },
+        "finished": {
+                "ipa": "/ˈfɪnɪʃt/",
+                "pos": "v. (finish)",
+                "vn": "đã hoàn thành"
+        },
+        "for": {
+                "ipa": "/fɔːr/",
+                "pos": "preposition",
+                "vn": "cho, đối với, trong khoảng"
+        },
+        "friday": {
+                "ipa": "/ˈfraɪ.deɪ/",
+                "pos": "noun",
+                "vn": "thứ Sáu"
+        },
+        "fridays": {
+                "ipa": "/ˈfraɪ.deɪz/",
+                "pos": "noun (plural)",
+                "vn": "những ngày thứ Sáu"
+        },
+        "gate": {
+                "ipa": "/ɡeɪt/",
+                "pos": "noun",
+                "vn": "cổng"
+        },
+        "go": {
+                "ipa": "/ɡəʊ/",
+                "pos": "v.",
+                "vn": "đi"
+        },
+        "grandparents": {
+                "ipa": "/ˈɡræn.peə.rənts/",
+                "pos": "noun (plural)",
+                "vn": "ông bà"
+        },
+        "had": {
+                "ipa": "/hæd/",
+                "pos": "verb (V2/V3)",
+                "vn": "đã có, đã dùng bữa (quá khứ của have)"
+        },
+        "hard": {
+                "ipa": "/hɑːd/",
+                "pos": "adverb/adjective",
+                "vn": "chăm chỉ, khó khăn"
+        },
+        "have": {
+                "ipa": "/hæv/",
+                "pos": "verb",
+                "vn": "có"
+        },
+        "he": {
+                "ipa": "/hiː/",
+                "pos": "pronoun",
+                "vn": "anh ấy, ông ấy"
+        },
+        "hometown": {
+                "ipa": "/ˈhəʊm.taʊn/",
+                "pos": "noun",
+                "vn": "quê hương"
+        },
+        "homework": {
+                "ipa": "/ˈhəʊm.wɜːk/",
+                "pos": "noun",
+                "vn": "bài tập về nhà"
+        },
+        "hospital": {
+                "ipa": "/ˈhɒs.pɪ.təl/",
+                "pos": "noun",
+                "vn": "bệnh viện"
+        },
+        "hour": {
+                "ipa": "/aʊər/",
+                "pos": "noun",
+                "vn": "giờ đồng hồ"
+        },
+        "hours": {
+                "ipa": "/ˈaʊ.ərz/",
+                "pos": "noun (plural)",
+                "vn": "những giờ đồng hồ"
+        },
+        "how": {
+                "ipa": "/haʊ/",
+                "pos": "adv.",
+                "vn": "như thế nào"
+        },
+        "hurried": {
+                "ipa": "/ˈhʌr.id/",
+                "pos": "verb (V2)",
+                "vn": "đã vội vã, nhanh chóng (quá khứ của hurry)"
+        },
+        "i": {
+                "ipa": "/aɪ/",
+                "pos": "pronoun",
+                "vn": "tôi, mình"
+        },
+        "improve": {
+                "ipa": "/ɪmˈpruːv/",
+                "pos": "verb",
+                "vn": "cải thiện, nâng cao"
+        },
+        "in": {
+                "ipa": "/ɪn/",
+                "pos": "preposition",
+                "vn": "ở trong, vào (thời gian)"
+        },
+        "instead": {
+                "ipa": "/ɪnˈsted/",
+                "pos": "adverb",
+                "vn": "thay vì, thay vào đó"
+        },
+        "is": {
+                "ipa": "/ɪz/",
+                "pos": "verb (to be)",
+                "vn": "thì, là, ở (số ít)"
+        },
+        "it": {
+                "ipa": "/ɪt/",
+                "pos": "pronoun",
+                "vn": "nó"
+        },
+        "jo": {
+                "ipa": "/dʒəʊ/",
+                "pos": "noun",
+                "vn": "tên riêng (Jo)"
+        },
+        "jon": {
+                "ipa": "/dʒɒn/",
+                "pos": "noun",
+                "vn": "tên riêng (Jon)"
+        },
+        "last": {
+                "ipa": "/lɑːst/",
+                "pos": "adj.",
+                "vn": "trước / vừa qua"
+        },
+        "listened": {
+                "ipa": "/ˈlɪs.ənd/",
+                "pos": "verb (V2)",
+                "vn": "đã lắng nghe (quá khứ của listen)"
+        },
+        "long": {
+                "ipa": "/lɒŋ/",
+                "pos": "adjective/adverb",
+                "vn": "dài, bao lâu"
+        },
+        "loved": {
+                "ipa": "/lʌvd/",
+                "pos": "verb (V2)",
+                "vn": "đã yêu, thích (quá khứ của love)"
+        },
+        "lucy": {
+                "ipa": "/ˈluː.si/",
+                "pos": "noun",
+                "vn": "tên riêng (Lucy)"
+        },
+        "lunch": {
+                "ipa": "/lʌntʃ/",
+                "pos": "noun",
+                "vn": "bữa trưa"
+        },
+        "made": {
+                "ipa": "/meɪd/",
+                "pos": "verb (V2/V3)",
+                "vn": "đã làm, tạo ra (quá khứ của make)"
+        },
+        "many": {
+                "ipa": "/ˈmen.i/",
+                "pos": "adjective",
+                "vn": "nhiều (đếm được)"
+        },
+        "maria": {
+                "ipa": "/məˈriː.ə/",
+                "pos": "noun",
+                "vn": "tên riêng (Maria)"
+        },
+        "math": {
+                "ipa": "/mæθ/",
+                "pos": "noun",
+                "vn": "môn Toán"
+        },
+        "minute": {
+                "ipa": "/ˈmɪn.ɪt/",
+                "pos": "noun",
+                "vn": "phút"
+        },
+        "monday": {
+                "ipa": "/ˈmʌn.deɪ/",
+                "pos": "noun",
+                "vn": "thứ Hai"
+        },
+        "month": {
+                "ipa": "/mʌnθ/",
+                "pos": "noun",
+                "vn": "tháng"
+        },
+        "morning": {
+                "ipa": "/ˈmɔː.nɪŋ/",
+                "pos": "noun",
+                "vn": "buổi sáng"
+        },
+        "mother": {
+                "ipa": "/ˈmʌð.ər/",
+                "pos": "noun",
+                "vn": "mẹ"
+        },
+        "much": {
+                "ipa": "/mʌtʃ/",
+                "pos": "adjective",
+                "vn": "nhiều (không đếm được)"
+        },
+        "my": {
+                "ipa": "/maɪ/",
+                "pos": "pronoun",
+                "vn": "của tôi"
+        },
+        "near": {
+                "ipa": "/nɪər/",
+                "pos": "preposition",
+                "vn": "gần"
+        },
+        "night": {
+                "ipa": "/naɪt/",
+                "pos": "noun",
+                "vn": "đêm, buổi tối"
+        },
+        "of": {
+                "ipa": "/ɒv/",
+                "pos": "preposition",
+                "vn": "của, về"
+        },
+        "often": {
+                "ipa": "/ˈɒf.ən/",
+                "pos": "adverb",
+                "vn": "thường xuyên"
+        },
+        "on": {
+                "ipa": "/ɒn/",
+                "pos": "preposition",
+                "vn": "trên, vào (ngày)"
+        },
+        "one": {
+                "ipa": "/wʌn/",
+                "pos": "pronoun/number",
+                "vn": "một, cái/người (thay thế danh từ)"
+        },
+        "open": {
+                "ipa": "/ˈoʊpən/",
+                "pos": "v.",
+                "vn": "mở"
+        },
+        "opening": {
+                "ipa": "/ˈəʊ.pən.ɪŋ/",
+                "pos": "verb (V-ing)",
+                "vn": "đang mở"
+        },
+        "or": {
+                "ipa": "/ɔːr/",
+                "pos": "conjunction",
+                "vn": "hoặc"
+        },
+        "our": {
+                "ipa": "/aʊər/",
+                "pos": "pronoun",
+                "vn": "của chúng tôi/chúng ta"
+        },
+        "outside": {
+                "ipa": "/ˌaʊtˈsaɪd/",
+                "pos": "preposition/adverb",
+                "vn": "bên ngoài"
+        },
+        "painted": {
+                "ipa": "/ˈpeɪntɪd/",
+                "pos": "v. (paint)",
+                "vn": "đã sơn/vẽ"
+        },
+        "parents": {
+                "ipa": "/ˈpeə.rənts/",
+                "pos": "noun (plural)",
+                "vn": "bố mẹ"
+        },
+        "parked": {
+                "ipa": "/pɑːkt/",
+                "pos": "verb (V2/V3)",
+                "vn": "được đỗ, đỗ xe"
+        },
+        "planted": {
+                "ipa": "/ˈplɑːn.tɪd/",
+                "pos": "verb (V2)",
+                "vn": "đã trồng cây (quá khứ của plant)"
+        },
+        "play": {
+                "ipa": "/pleɪ/",
+                "pos": "v.",
+                "vn": "chơi"
+        },
+        "played": {
+                "ipa": "/pleɪd/",
+                "pos": "v. (play)",
+                "vn": "đã chơi"
+        },
+        "prefer": {
+                "ipa": "/prɪˈfɜːr/",
+                "pos": "verb",
+                "vn": "thích hơn"
+        },
+        "pronunciation": {
+                "ipa": "/prəˌnʌn.siˈeɪ.ʃən/",
+                "pos": "noun",
+                "vn": "cách phát âm"
+        },
+        "rained": {
+                "ipa": "/reɪnd/",
+                "pos": "verb (V2)",
+                "vn": "đã mưa (quá khứ của rain)"
+        },
+        "ran": {
+                "ipa": "/ræn/",
+                "pos": "v. (run)",
+                "vn": "đã chạy"
+        },
+        "read": {
+                "ipa": "/red/ (past), /riːd/ (pres)",
+                "pos": "v. (read)",
+                "vn": "đã đọc / đọc"
+        },
+        "reads": {
+                "ipa": "/riːdz/",
+                "pos": "verb",
+                "vn": "đọc (ngôi 3 số ít)"
+        },
+        "rode": {
+                "ipa": "/rəʊd/",
+                "pos": "verb (V2)",
+                "vn": "đã cưỡi, đạp xe (quá khứ của ride)"
+        },
+        "school": {
+                "ipa": "/skuːl/",
+                "pos": "noun",
+                "vn": "trường học"
+        },
+        "science": {
+                "ipa": "/ˈsaɪ.əns/",
+                "pos": "noun",
+                "vn": "môn Khoa học"
+        },
+        "she": {
+                "ipa": "/ʃiː/",
+                "pos": "pronoun",
+                "vn": "cô ấy, bà ấy"
+        },
+        "shoes": {
+                "ipa": "/ʃuːz/",
+                "pos": "noun (plural)",
+                "vn": "đôi giày"
+        },
+        "shopping": {
+                "ipa": "/ˈʃɒp.ɪŋ/",
+                "pos": "noun / verb (V-ing)",
+                "vn": "mua sắm"
+        },
+        "singapore": {
+                "ipa": "/ˌsɪŋ.əˈpɔːr/",
+                "pos": "noun",
+                "vn": "Singapore"
+        },
+        "sister": {
+                "ipa": "/ˈsɪs.tər/",
+                "pos": "noun",
+                "vn": "chị/em gái"
+        },
+        "smile": {
+                "ipa": "/smaɪl/",
+                "pos": "verb/noun",
+                "vn": "mỉm cười, nụ cười"
+        },
+        "smiled": {
+                "ipa": "/smaɪld/",
+                "pos": "verb (V2)",
+                "vn": "đã mỉm cười (quá khứ của smile)"
+        },
+        "smiling": {
+                "ipa": "/ˈsmaɪ.lɪŋ/",
+                "pos": "verb (V-ing)",
+                "vn": "đang mỉm cười"
+        },
+        "soccer": {
+                "ipa": "/ˈsɒk.ər/",
+                "pos": "noun",
+                "vn": "bóng đá"
+        },
+        "speak": {
+                "ipa": "/spiːk/",
+                "pos": "verb",
+                "vn": "nói"
+        },
+        "speaks": {
+                "ipa": "/spiːks/",
+                "pos": "verb",
+                "vn": "nói (ngôi 3 số ít)"
+        },
+        "spring": {
+                "ipa": "/sprɪŋ/",
+                "pos": "noun",
+                "vn": "mùa xuân"
+        },
+        "stay": {
+                "ipa": "/steɪ/",
+                "pos": "verb",
+                "vn": "ở lại"
+        },
+        "student": {
+                "ipa": "/ˈstjuː.dənt/",
+                "pos": "noun",
+                "vn": "học sinh, sinh viên"
+        },
+        "studied": {
+                "ipa": "/ˈstʌdid/",
+                "pos": "v. (study)",
+                "vn": "đã học"
+        },
+        "studies": {
+                "ipa": "/ˈstʌd.iz/",
+                "pos": "verb",
+                "vn": "học (ngôi 3 số ít)"
+        },
+        "study": {
+                "ipa": "/ˈstʌdi/",
+                "pos": "v.",
+                "vn": "học"
+        },
+        "studying": {
+                "ipa": "/ˈstʌd.i.ɪŋ/",
+                "pos": "verb (V-ing)",
+                "vn": "đang học"
+        },
+        "subject": {
+                "ipa": "/ˈsʌb.dʒekt/",
+                "pos": "noun",
+                "vn": "môn học"
+        },
+        "summer": {
+                "ipa": "/ˈsʌm.ər/",
+                "pos": "noun",
+                "vn": "mùa hè"
+        },
+        "sunday": {
+                "ipa": "/ˈsʌn.deɪ/",
+                "pos": "noun",
+                "vn": "Chủ nhật"
+        },
+        "supermarket": {
+                "ipa": "/ˈsuː.pəˌmɑː.kɪt/",
+                "pos": "noun",
+                "vn": "siêu thị"
+        },
+        "taking": {
+                "ipa": "/ˈteɪ.kɪŋ/",
+                "pos": "verb (V-ing)",
+                "vn": "đang đi (xe), đang lấy"
+        },
+        "talked": {
+                "ipa": "/tɔːkt/",
+                "pos": "verb (V2)",
+                "vn": "đã nói chuyện (quá khứ của talk)"
+        },
+        "talking": {
+                "ipa": "/ˈtɔː.kɪŋ/",
+                "pos": "verb (V-ing)",
+                "vn": "đang nói chuyện"
+        },
+        "taught": {
+                "ipa": "/tɔːt/",
+                "pos": "verb (V2/V3)",
+                "vn": "đã dạy (quá khứ của teach)"
+        },
+        "tea": {
+                "ipa": "/tiː/",
+                "pos": "noun",
+                "vn": "trà"
+        },
+        "teaches": {
+                "ipa": "/ˈtiː.tʃɪz/",
+                "pos": "verb",
+                "vn": "dạy học (ngôi 3 số ít)"
+        },
+        "teacher": {
+                "ipa": "/ˈtiː.tʃər/",
+                "pos": "noun",
+                "vn": "giáo viên"
+        },
+        "the": {
+                "ipa": "/ðə/",
+                "pos": "article",
+                "vn": "cái, con, người (mạo từ xác định)"
+        },
+        "they": {
+                "ipa": "/ðeɪ/",
+                "pos": "pronoun",
+                "vn": "họ, chúng"
+        },
+        "this": {
+                "ipa": "/ðɪs/",
+                "pos": "pronoun",
+                "vn": "cái này, người này"
+        },
+        "three": {
+                "ipa": "/θriː/",
+                "pos": "number",
+                "vn": "số ba (3)"
+        },
+        "thursday": {
+                "ipa": "/ˈθɜːz.deɪ/",
+                "pos": "noun",
+                "vn": "thứ Năm"
+        },
+        "to": {
+                "ipa": "/tuː/",
+                "pos": "preposition",
+                "vn": "đến, để"
+        },
+        "tom": {
+                "ipa": "/tɒm/",
+                "pos": "noun",
+                "vn": "tên riêng (Tom)"
+        },
+        "took": {
+                "ipa": "/tʊk/",
+                "pos": "v. (take)",
+                "vn": "đã lấy/đưa"
+        },
+        "train": {
+                "ipa": "/treɪn/",
+                "pos": "noun",
+                "vn": "chuyến tàu, xe lửa"
+        },
+        "travel": {
+                "ipa": "/ˈtrævl/",
+                "pos": "v.",
+                "vn": "đi lại/du lịch"
+        },
+        "tuesday": {
+                "ipa": "/ˈtjuːz.deɪ/",
+                "pos": "noun",
+                "vn": "thứ Ba"
+        },
+        "twice": {
+                "ipa": "/twaɪs/",
+                "pos": "adverb",
+                "vn": "hai lần"
+        },
+        "two": {
+                "ipa": "/tuː/",
+                "pos": "number",
+                "vn": "số hai (2)"
+        },
+        "typed": {
+                "ipa": "/taɪpt/",
+                "pos": "verb (V2)",
+                "vn": "đã gõ bàn phím (quá khứ của type)"
+        },
+        "umbrellas": {
+                "ipa": "/ʌmˈbrel.əz/",
+                "pos": "noun (plural)",
+                "vn": "những chiếc ô (dù)"
+        },
+        "usually": {
+                "ipa": "/ˈjuː.ʒu.ə.li/",
+                "pos": "adverb",
+                "vn": "thường xuyên"
+        },
+        "very": {
+                "ipa": "/ˈver.i/",
+                "pos": "adverb",
+                "vn": "rất"
+        },
+        "visit": {
+                "ipa": "/ˈvɪzɪt/",
+                "pos": "v.",
+                "vn": "thăm"
+        },
+        "waited": {
+                "ipa": "/ˈweɪ.tɪd/",
+                "pos": "verb (V2)",
+                "vn": "đã đợi chờ (quá khứ của wait)"
+        },
+        "walked": {
+                "ipa": "/wɔːkt/",
+                "pos": "v. (walk)",
+                "vn": "đã đi bộ"
+        },
+        "want": {
+                "ipa": "/wɒnt/",
+                "pos": "verb",
+                "vn": "muốn"
+        },
+        "wants": {
+                "ipa": "/wɒnts/",
+                "pos": "verb",
+                "vn": "muốn (ngôi 3 số ít)"
+        },
+        "was": {
+                "ipa": "/wɒz/",
+                "pos": "v. (be)",
+                "vn": "đã là, đã ở (số ít)"
+        },
+        "watched": {
+                "ipa": "/wɒtʃt/",
+                "pos": "v. (watch)",
+                "vn": "đã xem"
+        },
+        "we": {
+                "ipa": "/wiː/",
+                "pos": "pronoun",
+                "vn": "chúng tôi, chúng ta"
+        },
+        "wednesday": {
+                "ipa": "/ˈwenz.deɪ/",
+                "pos": "noun",
+                "vn": "thứ Tư"
+        },
+        "week": {
+                "ipa": "/wiːk/",
+                "pos": "noun",
+                "vn": "tuần"
+        },
+        "weekend": {
+                "ipa": "/ˌwiːkˈend/",
+                "pos": "noun",
+                "vn": "ngày cuối tuần"
+        },
+        "weeks": {
+                "ipa": "/wiːks/",
+                "pos": "noun (plural)",
+                "vn": "những tuần"
+        },
+        "went": {
+                "ipa": "/went/",
+                "pos": "v. (go)",
+                "vn": "đã đi"
+        },
+        "were": {
+                "ipa": "/wɜː(r)/",
+                "pos": "v. (be)",
+                "vn": "đã là, đã ở (số nhiều)"
+        },
+        "what": {
+                "ipa": "/wɒt/",
+                "pos": "pron.",
+                "vn": "cái gì"
+        },
+        "when": {
+                "ipa": "/wen/",
+                "pos": "adv.",
+                "vn": "khi nào"
+        },
+        "where": {
+                "ipa": "/weər/",
+                "pos": "adv.",
+                "vn": "ở đâu"
+        },
+        "which": {
+                "ipa": "/wɪtʃ/",
+                "pos": "pronoun",
+                "vn": "cái nào, người nào (lựa chọn)"
+        },
+        "who": {
+                "ipa": "/huː/",
+                "pos": "pron.",
+                "vn": "ai"
+        },
+        "whose": {
+                "ipa": "/huːz/",
+                "pos": "pronoun",
+                "vn": "của ai"
+        },
+        "why": {
+                "ipa": "/waɪ/",
+                "pos": "adv.",
+                "vn": "tại sao"
+        },
+        "window": {
+                "ipa": "/ˈwɪn.dəʊ/",
+                "pos": "noun",
+                "vn": "cửa sổ"
+        },
+        "winter": {
+                "ipa": "/ˈwɪn.tər/",
+                "pos": "noun",
+                "vn": "mùa đông"
+        },
+        "wore": {
+                "ipa": "/wɔːr/",
+                "pos": "verb (V2)",
+                "vn": "đã mặc, mang, đội (quá khứ của wear)"
+        },
+        "work": {
+                "ipa": "/wɜːk/",
+                "pos": "verb/noun",
+                "vn": "làm việc, công việc"
+        },
+        "works": {
+                "ipa": "/wɜːks/",
+                "pos": "verb",
+                "vn": "làm việc (ngôi 3 số ít)"
+        },
+        "wrote": {
+                "ipa": "/roʊt/",
+                "pos": "v. (write)",
+                "vn": "đã viết"
+        },
+        "yesterday": {
+                "ipa": "/ˈjestədeɪ/",
+                "pos": "adv.",
+                "vn": "hôm qua"
+        },
+        "you": {
+                "ipa": "/juː/",
+                "pos": "pronoun",
+                "vn": "bạn, các bạn"
+        },
+        "your": {
+                "ipa": "/jɔːr/",
+                "pos": "pronoun",
+                "vn": "của bạn, của các bạn"
+        },
+        "visited": {
+                "ipa": "/ˈvɪzɪtɪd/",
+                "pos": "v. (visit)",
+                "vn": "đã thăm"
+        },
+        "eat": {
+                "ipa": "/iːt/",
+                "pos": "v.",
+                "vn": "ăn"
+        },
+        "drank": {
+                "ipa": "/dræŋk/",
+                "pos": "v. (drink)",
+                "vn": "đã uống"
+        },
+        "drink": {
+                "ipa": "/drɪŋk/",
+                "pos": "v.",
+                "vn": "uống"
+        },
+        "saw": {
+                "ipa": "/sɔː/",
+                "pos": "v. (see)",
+                "vn": "đã thấy"
+        },
+        "see": {
+                "ipa": "/siː/",
+                "pos": "v.",
+                "vn": "thấy"
+        },
+        "watch": {
+                "ipa": "/wɒtʃ/",
+                "pos": "v.",
+                "vn": "xem"
+        },
+        "met": {
+                "ipa": "/met/",
+                "pos": "v. (meet)",
+                "vn": "đã gặp"
+        },
+        "meet": {
+                "ipa": "/miːt/",
+                "pos": "v.",
+                "vn": "gặp"
+        },
+        "helped": {
+                "ipa": "/helpt/",
+                "pos": "v. (help)",
+                "vn": "đã giúp"
+        },
+        "help": {
+                "ipa": "/help/",
+                "pos": "v.",
+                "vn": "giúp"
+        },
+        "cook": {
+                "ipa": "/kʊk/",
+                "pos": "v.",
+                "vn": "nấu"
+        },
+        "clean": {
+                "ipa": "/kliːn/",
+                "pos": "v.",
+                "vn": "dọn dẹp"
+        },
+        "traveled": {
+                "ipa": "/ˈtrævld/",
+                "pos": "v. (travel)",
+                "vn": "đã đi lại/du lịch"
+        },
+        "write": {
+                "ipa": "/raɪt/",
+                "pos": "v.",
+                "vn": "viết"
+        },
+        "walk": {
+                "ipa": "/wɔːk/",
+                "pos": "v.",
+                "vn": "đi bộ"
+        },
+        "run": {
+                "ipa": "/rʌn/",
+                "pos": "v.",
+                "vn": "chạy"
+        },
+        "opened": {
+                "ipa": "/ˈoʊpənd/",
+                "pos": "v. (open)",
+                "vn": "đã mở"
+        },
+        "closed": {
+                "ipa": "/kloʊzd/",
+                "pos": "v. (close)",
+                "vn": "đã đóng"
+        },
+        "close": {
+                "ipa": "/kloʊz/",
+                "pos": "v.",
+                "vn": "đóng"
+        },
+        "take": {
+                "ipa": "/teɪk/",
+                "pos": "v.",
+                "vn": "lấy/đưa"
+        },
+        "gave": {
+                "ipa": "/ɡeɪv/",
+                "pos": "v. (give)",
+                "vn": "đã cho/tặng"
+        },
+        "give": {
+                "ipa": "/ɡɪv/",
+                "pos": "v.",
+                "vn": "cho/tặng"
+        },
+        "found": {
+                "ipa": "/faʊnd/",
+                "pos": "v. (find)",
+                "vn": "đã tìm thấy"
+        },
+        "find": {
+                "ipa": "/faɪnd/",
+                "pos": "v.",
+                "vn": "tìm thấy"
+        },
+        "lost": {
+                "ipa": "/lɒst/",
+                "pos": "v. (lose)",
+                "vn": "đã làm mất"
+        },
+        "lose": {
+                "ipa": "/luːz/",
+                "pos": "v.",
+                "vn": "làm mất"
+        },
+        "call": {
+                "ipa": "/kɔːl/",
+                "pos": "v.",
+                "vn": "gọi"
+        },
+        "washed": {
+                "ipa": "/wɒʃt/",
+                "pos": "v. (wash)",
+                "vn": "đã giặt/rửa"
+        },
+        "wash": {
+                "ipa": "/wɒʃ/",
+                "pos": "v.",
+                "vn": "giặt/rửa"
+        },
+        "paint": {
+                "ipa": "/peɪnt/",
+                "pos": "v.",
+                "vn": "sơn/vẽ"
+        },
+        "built": {
+                "ipa": "/bɪlt/",
+                "pos": "v. (build)",
+                "vn": "đã xây"
+        },
+        "build": {
+                "ipa": "/bɪld/",
+                "pos": "v.",
+                "vn": "xây"
+        },
+        "learned": {
+                "ipa": "/lɜːnd/",
+                "pos": "v. (learn)",
+                "vn": "đã học"
+        },
+        "learn": {
+                "ipa": "/lɜːn/",
+                "pos": "v.",
+                "vn": "học"
+        },
+        "her": {
+                "ipa": "/hɜːr/",
+                "pos": "pronoun",
+                "vn": "của cô ấy, cô ấy"
+        },
+        "his": {
+                "ipa": "/hɪz/",
+                "pos": "pronoun",
+                "vn": "của anh ấy"
+        },
+        "mom": {
+                "ipa": "/mɒm/",
+                "pos": "noun",
+                "vn": "mẹ"
+        },
+        "family": {
+                "ipa": "/ˈfæm.əl.i/",
+                "pos": "noun",
+                "vn": "gia đình"
+        },
+        "manager": {
+                "ipa": "/ˈmæn.ɪ.dʒər/",
+                "pos": "noun",
+                "vn": "người quản lý"
+        },
+        "alone": {
+                "ipa": "/əˈloʊn/",
+                "pos": "adj/adv",
+                "vn": "một mình"
+        },
+        "somewhere": {
+                "ipa": "/ˈsʌm.wer/",
+                "pos": "adv",
+                "vn": "nơi nào đó"
+        },
+        "something": {
+                "ipa": "/ˈsʌm.θɪŋ/",
+                "pos": "pron.",
+                "vn": "điều gì đó/cái gì đó"
+        },
+        "someone": {
+                "ipa": "/ˈsʌm.wʌn/",
+                "pos": "pron.",
+                "vn": "ai đó"
+        },
+        "way": {
+                "ipa": "/weɪ/",
+                "pos": "noun",
+                "vn": "đường, cách thức"
+        },
+        "time": {
+                "ipa": "/taɪm/",
+                "pos": "noun",
+                "vn": "thời gian"
+        },
+        "park": {
+                "ipa": "/pɑːrk/",
+                "pos": "noun",
+                "vn": "công viên"
+        },
+        "year": {
+                "ipa": "/jɪər/",
+                "pos": "noun",
+                "vn": "năm"
+        },
+        "saturday": {
+                "ipa": "/ˈsæt.ə.deɪ/",
+                "pos": "noun",
+                "vn": "thứ Bảy"
+        },
+        "baby": {
+                "ipa": "/ˈbeɪ.bi/",
+                "pos": "noun",
+                "vn": "em bé"
+        },
+        "company": {
+                "ipa": "/ˈkʌm.pə.ni/",
+                "pos": "noun",
+                "vn": "công ty"
+        },
+        "building": {
+                "ipa": "/ˈbɪl.dɪŋ/",
+                "pos": "noun",
+                "vn": "tòa nhà"
+        },
+        "box": {
+                "ipa": "/bɒks/",
+                "pos": "noun",
+                "vn": "cái hộp"
+        },
+        "key": {
+                "ipa": "/kiː/",
+                "pos": "noun",
+                "vn": "chìa khóa"
+        },
+        "video": {
+                "ipa": "/ˈvɪd.i.oʊ/",
+                "pos": "noun",
+                "vn": "đoạn video"
+        },
+        "wine": {
+                "ipa": "/waɪn/",
+                "pos": "noun",
+                "vn": "rượu"
+        },
+        "classroom": {
+                "ipa": "/ˈklæs.ruːm/",
+                "pos": "noun",
+                "vn": "lớp học"
+        },
+        "piano": {
+                "ipa": "/piˈæn.oʊ/",
+                "pos": "noun",
+                "vn": "đàn piano"
+        },
+        "taxi": {
+                "ipa": "/ˈtæk.si/",
+                "pos": "noun",
+                "vn": "xe taxi"
+        },
+        "bike": {
+                "ipa": "/baɪk/",
+                "pos": "noun",
+                "vn": "xe đạp"
+        },
+        "zoo": {
+                "ipa": "/zuː/",
+                "pos": "noun",
+                "vn": "sở thú"
+        },
+        "picture": {
+                "ipa": "/ˈpɪk.tʃər/",
+                "pos": "noun",
+                "vn": "bức tranh, bức ảnh"
+        },
+        "party": {
+                "ipa": "/ˈpɑːr.ti/",
+                "pos": "noun",
+                "vn": "bữa tiệc"
+        },
+        "students": {
+                "ipa": "/ˈstuː.dənts/",
+                "pos": "noun (plural)",
+                "vn": "học sinh, sinh viên"
+        },
+        "old": {
+                "ipa": "/oʊld/",
+                "pos": "adj",
+                "vn": "già, cũ"
+        },
+        "man": {
+                "ipa": "/mæn/",
+                "pos": "noun",
+                "vn": "đàn ông"
+        },
+        "late": {
+                "ipa": "/leɪt/",
+                "pos": "adv/adj",
+                "vn": "muộn, trễ"
+        },
+        "phone": {
+                "ipa": "/foʊn/",
+                "pos": "noun",
+                "vn": "điện thoại"
+        }
+};
+
+        let isMuted = false;
+        const AudioCtxClass = window.AudioContext || window.webkitAudioContext;
+        let audioCtx = null;
+
+        function getAudioContext() {
+            if (!audioCtx && AudioCtxClass) audioCtx = new AudioCtxClass();
+            if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+            return audioCtx;
+        }
+
+        function playSound(type) {
+            if (isMuted) return;
+            const ctx = getAudioContext();
+            if (!ctx) return;
+            try {
+                const now = ctx.currentTime;
+                if (type === 'tap') {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(450, now);
+                    osc.frequency.exponentialRampToValueAtTime(800, now + 0.06);
+                    gain.gain.setValueAtTime(0.15, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.06);
+                    osc.connect(gain); gain.connect(ctx.destination);
+                    osc.start(now); osc.stop(now + 0.06);
+                } else if (type === 'pop') {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(320, now);
+                    osc.frequency.exponentialRampToValueAtTime(150, now + 0.07);
+                    gain.gain.setValueAtTime(0.12, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.07);
+                    osc.connect(gain); gain.connect(ctx.destination);
+                    osc.start(now); osc.stop(now + 0.07);
+                } else if (type === 'correct') {
+                    [523.25, 659.25, 783.99].forEach((freq, i) => {
+                        const osc = ctx.createOscillator();
+                        const gain = ctx.createGain();
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(freq, now + i * 0.09);
+                        gain.gain.setValueAtTime(0.25, now + i * 0.09);
+                        gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.09 + 0.35);
+                        osc.connect(gain); gain.connect(ctx.destination);
+                        osc.start(now + i * 0.09); osc.stop(now + i * 0.09 + 0.35);
+                    });
+                } else if (type === 'wrong') {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(180, now);
+                    osc.frequency.exponentialRampToValueAtTime(110, now + 0.25);
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+                    osc.connect(gain); gain.connect(ctx.destination);
+                    osc.start(now); osc.stop(now + 0.25);
+                } else if (type === 'fanfare') {
+                    [440, 554.37, 659.25, 880].forEach((freq, idx) => {
+                        const osc = ctx.createOscillator();
+                        const gain = ctx.createGain();
+                        osc.type = 'triangle';
+                        osc.frequency.setValueAtTime(freq, now + idx * 0.12);
+                        gain.gain.setValueAtTime(0.25, now + idx * 0.12);
+                        gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.12 + 0.45);
+                        osc.connect(gain); gain.connect(ctx.destination);
+                        osc.start(now + idx * 0.12); osc.stop(now + idx * 0.12 + 0.45);
+                    });
+                }
+            } catch(e) {}
+        }
+
+        function toggleMute() {
+            isMuted = !isMuted;
+            const btn = document.getElementById('btnToggleSound');
+            if (isMuted) {
+                btn.innerHTML = '🔇 Đã Tắt Âm';
+                btn.style.color = 'var(--danger)';
+                window.speechSynthesis && window.speechSynthesis.cancel();
+            } else {
+                btn.innerHTML = '🔊 Âm thanh';
+                btn.style.color = '';
+                playSound('tap');
+            }
+        }
+
+        function speakTTS(text) {
+            if (isMuted) return;
+            // Stop any currently playing mp3 audio when reading a word
+            if (window.currentAudioObj) {
+                window.currentAudioObj.pause();
+                window.currentAudioObj.currentTime = 0;
+            }
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            const cleanText = text.replace(/[\?\!\.]/g, '').trim();
+            const utterance = new SpeechSynthesisUtterance(cleanText);
+            utterance.lang = 'en-US';
+            utterance.rate = 0.88;
+            const voices = window.speechSynthesis.getVoices();
+            const usVoice = voices.find(v => v.lang.includes('en') && (v.name.includes('Google') || v.name.includes('Natural') || v.name.includes('US')));
+            if (usVoice) utterance.voice = usVoice;
+            window.speechSynthesis.speak(utterance);
+        }
+
+        let currentLevel = 1;
+        let currentQuestions = [];
+        let qIndex = 0;
+        let currentQData = null;
+        let autoNextTimeout = null;
+
+        let stats = { correct: 0, wrong: 0, time: 0 };
+        let timerInterval = null;
+
+        function switchScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function goMenu() {
+            stopTimer();
+            clearTimeout(autoNextTimeout);
+            document.getElementById('headerStatsGroup').style.display = 'none';
+            document.getElementById('btnSelectLevel').style.display = 'none';
+            switchScreen('screen-menu');
+        }
+
+        function startGame(level) {
+            getAudioContext();
+            playSound('tap');
+            currentLevel = level;
+            currentQuestions = (gameData[level] || []).slice();
+            currentQuestions.sort(() => Math.random() - 0.5);
+
+            qIndex = 0;
+            stats.correct = 0;
+            stats.wrong = 0;
+            stats.time = 0;
+
+            document.getElementById('statCorrect').innerText = '0';
+            document.getElementById('statWrong').innerText = '0';
+            document.getElementById('statTimer').innerText = '00:00';
+            document.getElementById('headerStatsGroup').style.display = 'flex';
+            document.getElementById('btnSelectLevel').style.display = 'inline-flex';
+
+            switchScreen('screen-game');
+            startTimer();
+            loadQuestion();
+        }
+
+        function replayLevel() { startGame(currentLevel); }
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                stats.time++;
+                const m = Math.floor(stats.time / 60).toString().padStart(2, '0');
+                const s = (stats.time % 60).toString().padStart(2, '0');
+                document.getElementById('statTimer').innerText = `${m}:${s}`;
+            }, 1000);
+        }
+        function stopTimer() { clearInterval(timerInterval); }
+
+        function loadQuestion() {
+            clearTimeout(autoNextTimeout);
+            currentQData = currentQuestions[qIndex];
+            const totalQ = currentQuestions.length;
+            const currentQNum = qIndex + 1;
+            const percent = Math.round((qIndex / totalQ) * 100);
+
+            document.getElementById('levelIndicator').innerText = `LEVEL ${currentLevel} • CÂU ${currentQNum} / ${totalQ}`;
+            document.getElementById('progressPercent').innerText = `${percent}%`;
+            document.getElementById('progressFill').style.width = `${percent}%`;
+
+            document.getElementById('promptEmoji').innerText = currentQData.emoji || '📚';
+            document.getElementById('promptTypeBadge').innerText = (currentLevel === 3) ? 'CÂU HỎI TIẾNG VIỆT' : 'CÂU GỢI Ý GỐC';
+
+            const promptEl = document.getElementById('promptText');
+            if (currentLevel !== 3) {
+                const wrappedWords = currentQData.answer.split(/\s+/).map(w => {
+                    return `<span class="clickable-word" onclick="handleWordLookup('${w}', event)">${w}</span>`;
+                }).join(' ');
+                promptEl.innerHTML = wrappedWords;
+            } else {
+                promptEl.innerText = currentQData.answer;
+            }
+
+            const transEl = document.getElementById('promptTranslation');
+            transEl.innerText = `🇻🇳 Dịch: ${currentQData.translation}`;
+            transEl.classList.remove('show');
+            const expBox = document.getElementById('expectedAnswerBox'); if (expBox) expBox.style.display = 'none';
+            document.getElementById('btnTranslateToggle').classList.remove('active');
+
+            const buildArea = document.getElementById('buildArea');
+            buildArea.innerHTML = '<div class="build-area-placeholder" id="buildPlaceholder">Nhấn hoặc kéo từ vào đây...</div>';
+            buildArea.className = 'build-area';
+
+            document.getElementById('btnCheck').style.display = 'inline-flex';
+            document.getElementById('btnNext').style.display = 'none';
+
+            let cleanQuestion = currentQData.question.replace(/[?.!]/g, '').trim();
+            let words = cleanQuestion.split(/\s+/);
+            words.push('?');
+
+            let shuffledWords = [...words];
+            shuffledWords.sort(() => Math.random() - 0.5);
+
+            const wordBank = document.getElementById('wordBank');
+            wordBank.innerHTML = '';
+
+            shuffledWords.forEach((wordText, i) => {
+                const btn = document.createElement('div');
+                btn.className = 'word-btn';
+                if (wordText === '?') btn.classList.add('punctuation');
+                btn.innerText = wordText;
+                btn.id = `wb-item-${i}`;
+                btn.setAttribute('data-word', wordText);
+                btn.setAttribute('draggable', 'true');
+
+                btn.onclick = () => handleWordClick(btn);
+                btn.ondragstart = (e) => handleDragStart(e, btn);
+                btn.ondragend = () => handleDragEnd(btn);
+                btn.oncontextmenu = (e) => {
+                    e.preventDefault();
+                    lookupWordDirect(wordText, e.pageX, e.pageY);
+                };
+
+                wordBank.appendChild(btn);
+            });
+        }
+
+        function updatePlaceholder() {
+            const buildArea = document.getElementById('buildArea');
+            const placeholder = document.getElementById('buildPlaceholder');
+            const wordsInBuild = buildArea.querySelectorAll('.word-btn');
+            if (placeholder) placeholder.style.display = (wordsInBuild.length > 0) ? 'none' : 'block';
+        }
+
+        function handleWordClick(btn) {
+            const buildArea = document.getElementById('buildArea');
+            const wordBank = document.getElementById('wordBank');
+            if (btn.parentElement === wordBank) {
+                playSound('tap');
+                
+                const wordToSpeak = btn.getAttribute('data-word');
+                if (wordToSpeak && wordToSpeak !== '?') {
+                    speakTTS(wordToSpeak);
+                }
+                
+                btn.classList.add('in-build');
+                buildArea.appendChild(btn);
+            } else {
+                playSound('pop');
+                btn.classList.remove('in-build');
+                wordBank.appendChild(btn);
+            }
+            updatePlaceholder();
+        }
+
+        let draggedBtn = null;
+        function handleDragStart(e, btn) {
+            draggedBtn = btn;
+            btn.classList.add('dragging');
+            e.dataTransfer.setData('text/plain', btn.innerText);
+            e.dataTransfer.effectAllowed = 'move';
+        }
+        function handleDragEnd(btn) {
+            btn.classList.remove('dragging');
+            draggedBtn = null;
+            document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+            updatePlaceholder();
+        }
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            document.getElementById('buildArea').classList.add('drag-over');
+        }
+        function handleDragLeave(e) {
+            document.getElementById('buildArea').classList.remove('drag-over');
+        }
+        function handleDrop(e) {
+            e.preventDefault();
+            const buildArea = document.getElementById('buildArea');
+            buildArea.classList.remove('drag-over');
+            if (draggedBtn) {
+                playSound('tap');
+                
+                const wordToSpeak = draggedBtn.getAttribute('data-word');
+                if (wordToSpeak && wordToSpeak !== '?') {
+                    speakTTS(wordToSpeak);
+                }
+                
+                draggedBtn.classList.add('in-build');
+                const afterElement = getDragAfterElement(buildArea, e.clientX, e.clientY);
+                if (afterElement == null) buildArea.appendChild(draggedBtn);
+                else buildArea.insertBefore(draggedBtn, afterElement);
+            }
+            updatePlaceholder();
+        }
+        function getDragAfterElement(container, x, y) {
+            const draggableElements = [...container.querySelectorAll('.word-btn:not(.dragging)')];
+            return draggableElements.reduce((closest, child) => {
+                const box = child.getBoundingClientRect();
+                const offset = x - box.left - box.width / 2;
+                if (offset < 0 && offset > closest.offset) return { offset: offset, element: child };
+                else return closest;
+            }, { offset: Number.NEGATIVE_INFINITY }).element;
+        }
+
+        function undoWord() {
+            const wordsInBuild = document.getElementById('buildArea').querySelectorAll('.word-btn');
+            if (wordsInBuild.length > 0) handleWordClick(wordsInBuild[wordsInBuild.length - 1]);
+        }
+
+        function clearArea() {
+            const buildArea = document.getElementById('buildArea');
+            const wordsInBuild = [...buildArea.querySelectorAll('.word-btn')];
+            if (wordsInBuild.length > 0) {
+                playSound('pop');
+                const wordBank = document.getElementById('wordBank');
+                wordsInBuild.forEach(w => {
+                    w.classList.remove('in-build');
+                    wordBank.appendChild(w);
+                });
+                updatePlaceholder();
+            }
+        }
+
+        function giveHint() {
+            const buildArea = document.getElementById('buildArea');
+            const wordBank = document.getElementById('wordBank');
+            const cleanQuestion = currentQData.question.replace(/[?.!]/g, '').trim();
+            const targetWords = cleanQuestion.split(/\s+/);
+
+            const currentBuiltBtns = [...buildArea.querySelectorAll('.word-btn')].filter(b => b.innerText !== '?');
+            let matchedCount = 0;
+            for (let i = 0; i < currentBuiltBtns.length; i++) {
+                if (i < targetWords.length && currentBuiltBtns[i].innerText.toLowerCase() === targetWords[i].toLowerCase()) {
+                    matchedCount++;
+                } else {
+                    break;
+                }
+            }
+
+            // Hoàn trả các từ sai về kho từ
+            while (currentBuiltBtns.length > matchedCount) {
+                const wrongBtn = currentBuiltBtns.pop();
+                wrongBtn.classList.remove('in-build');
+                wordBank.appendChild(wrongBtn);
+            }
+
+            // Thêm từ đúng tiếp theo
+            if (matchedCount < targetWords.length) {
+                const nextWord = targetWords[matchedCount];
+                const candidateBtn = [...wordBank.querySelectorAll('.word-btn')].find(b => 
+                    !b.classList.contains('in-build') && b.innerText.toLowerCase() === nextWord.toLowerCase()
+                );
+                if (candidateBtn) {
+                    playSound('tap');
+                    candidateBtn.classList.add('in-build');
+                    buildArea.appendChild(candidateBtn);
+                    updatePlaceholder();
+                }
+            } else {
+                const qBtn = [...wordBank.querySelectorAll('.word-btn')].find(b => b.innerText === '?');
+                if (qBtn && !qBtn.classList.contains('in-build')) {
+                    playSound('tap');
+                    qBtn.classList.add('in-build');
+                    buildArea.appendChild(qBtn);
+                    updatePlaceholder();
+                }
+            }
+        }
+
+        function showExpectedAnswer() {
+            const box = document.getElementById('expectedAnswerBox');
+            if (!box) return;
+            if (box.style.display === 'block') {
+                box.style.display = 'none';
+                return;
+            }
+            box.innerHTML = `💡 <b>Đáp án chuẩn:</b> "${currentQData.question}"`;
+            box.style.display = 'block';
+            playSound('tap');
+            autoAssembleTargetWords();
+        }
+
+        function autoAssembleTargetWords() {
+            clearArea();
+            const buildArea = document.getElementById('buildArea');
+            const wordBank = document.getElementById('wordBank');
+            const cleanQuestion = currentQData.question.replace(/[?.!]/g, '').trim();
+            const targetWords = cleanQuestion.split(/\s+/);
+
+            targetWords.forEach(w => {
+                const candidate = [...wordBank.querySelectorAll('.word-btn')].find(b => 
+                    !b.classList.contains('in-build') && b.innerText.toLowerCase() === w.toLowerCase()
+                );
+                if (candidate) {
+                    candidate.classList.add('in-build');
+                    buildArea.appendChild(candidate);
+                }
+            });
+
+            const qBtn = [...wordBank.querySelectorAll('.word-btn')].find(b => b.innerText === '?');
+            if (qBtn) {
+                qBtn.classList.add('in-build');
+                buildArea.appendChild(qBtn);
+            }
+            updatePlaceholder();
+        }
+
+        function normalizeSentence(str) {
+            return str
+                .toLowerCase()
+                .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?’'"]/g, "")
+                .replace(/\s+/g, " ")
+                .trim();
+        }
+
+        function checkAnswer() {
+            const buildArea = document.getElementById('buildArea');
+            const builtBtns = [...buildArea.querySelectorAll('.word-btn')];
+            if (builtBtns.length === 0) {
+                playSound('wrong');
+                buildArea.classList.add('wrong');
+                setTimeout(() => buildArea.classList.remove('wrong'), 400);
+                return;
+            }
+
+            const userSentence = builtBtns.map(b => b.innerText).join(' ');
+            const normalizedUser = normalizeSentence(userSentence);
+            const normalizedTarget = normalizeSentence(currentQData.question);
+
+           if (normalizedUser === normalizedTarget) {
+                // ... (các dòng code khác)
+                
+                document.getElementById('btnCheck').style.display = 'none';
+                document.getElementById('btnNext').style.display = 'inline-flex';
+
+                triggerConfetti(50);
+                playCurrentAudio();
+
+                // Tắt tự động chuyển để học sinh có thời gian xem lại đáp án
+                // autoNextTimeout = setTimeout(() => nextQuestion(), 1800);
+            }
+ else {
+                playSound('wrong');
+                stats.wrong++;
+                document.getElementById('statWrong').innerText = stats.wrong;
+                buildArea.classList.add('wrong');
+                
+                // Phát âm đáp án chuẩn ngay cả khi sai
+                playCurrentAudio();
+                
+                setTimeout(() => buildArea.classList.remove('wrong'), 400);
+            }
+        }
+
+        function nextQuestion() {
+            clearTimeout(autoNextTimeout);
+            qIndex++;
+            if (qIndex < currentQuestions.length) loadQuestion();
+            else endGame();
+        }
+
+        function endGame() {
+            stopTimer();
+            playSound('fanfare');
+            triggerConfetti(100);
+
+            const total = currentQuestions.length;
+            const accuracy = Math.round((stats.correct / (stats.correct + stats.wrong)) * 100) || 0;
+            const m = Math.floor(stats.time / 60).toString().padStart(2, '0');
+            const s = (stats.time % 60).toString().padStart(2, '0');
+
+            document.getElementById('endAccuracy').innerText = `${accuracy}%`;
+            document.getElementById('endTime').innerText = `${m}:${s}`;
+            document.getElementById('endCorrect').innerText = `${stats.correct} / ${total}`;
+            document.getElementById('endWrong').innerText = stats.wrong;
+
+            const trophyEl = document.getElementById('endTrophy');
+            const starsEl = document.getElementById('endStars');
+            const titleEl = document.getElementById('endTitle');
+            const subEl = document.getElementById('endSubtitle');
+
+            if (accuracy >= 90) {
+                trophyEl.innerText = '🏆'; starsEl.innerText = '⭐⭐⭐';
+                titleEl.innerText = 'Xuất Sắc!'; subEl.innerText = 'Bạn đã làm chủ hoàn hảo các câu hỏi WH-!';
+            } else if (accuracy >= 70) {
+                trophyEl.innerText = '🥈'; starsEl.innerText = '⭐⭐';
+                titleEl.innerText = 'Rất Tốt!'; subEl.innerText = 'Bạn hoàn thành thử thách với kết quả ấn tượng!';
+            } else {
+                trophyEl.innerText = '🥉'; starsEl.innerText = '⭐';
+                titleEl.innerText = 'Cố Gắng Lên!'; subEl.innerText = 'Hãy thử lại để đạt kết quả tốt hơn nhé!';
+            }
+
+            switchScreen('screen-end');
+        }
+
+        function handleWordLookup(rawWord, e) {
+            e.stopPropagation();
+            const cleanWord = rawWord.toLowerCase().replace(/[^a-z0-9]/g, '');
+            if (!cleanWord) return;
+            lookupWordDirect(cleanWord, e.pageX, e.pageY);
+        }
+
+        function lookupWordDirect(word, x, y) {
+            const clean = word.toLowerCase().replace(/[^a-z0-9]/g, '');
+            if (!clean) return;
+            const popover = document.getElementById('dictPopover');
+            const data = dictionary[clean] || { ipa: "/.../", pos: "Từ vựng", vn: "Chưa có định nghĩa offline cho từ này." };
+
+            document.getElementById('dictWord').innerText = clean;
+            document.getElementById('dictPhonetic').innerText = data.ipa || '/.../';
+            document.getElementById('dictPos').innerText = data.pos || 'từ vựng';
+            document.getElementById('dictMeaning').innerText = data.vn || data.meaning || 'Nghĩa tiếng Việt';
+
+            popover.style.display = 'block';
+
+            let posX = x || (window.innerWidth / 2 - 160);
+            let posY = y || (window.innerHeight / 2 - 100);
+            if (posX + 330 > window.innerWidth) posX = window.innerWidth - 340;
+            if (posY + 220 > window.innerHeight) posY = window.innerHeight - 230;
+            if (posX < 10) posX = 10;
+            if (posY < 10) posY = 10;
+
+            popover.style.left = posX + 'px';
+            popover.style.top = posY + 'px';
+            playDictVoice();
+        }
+
+        function closeDictPopover() { document.getElementById('dictPopover').style.display = 'none'; }
+        function playDictVoice() {
+            const word = document.getElementById('dictWord').innerText;
+            if (word) speakTTS(word);
+        }
+
+        function toggleTranslation() {
+            const transEl = document.getElementById('promptTranslation');
+            const btn = document.getElementById('btnTranslateToggle');
+            transEl.classList.toggle('show');
+            btn.classList.toggle('active');
+        }
+
+        let audioSegmentTimer = null;
+        let contAudio = new Audio('sounds/cont.mp3');
+        contAudio.preload = 'auto';
+
+        function playCurrentAudio() {
+            if (isMuted || !currentQData) return;
+            if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+            
+            if (window.currentAudioObj) {
+                try {
+                    window.currentAudioObj.pause();
+                    window.currentAudioObj.currentTime = 0;
+                } catch (e) {}
+            }
+            if (audioSegmentTimer) {
+                clearTimeout(audioSegmentTimer);
+                audioSegmentTimer = null;
+            }
+
+            const playFallback = () => {
+                const fbSrc = currentQData.fallback || (currentQData.audio !== 'sounds/cont.mp3' ? currentQData.audio : null);
+                if (fbSrc) {
+                    const fallbackAudio = new Audio(fbSrc);
+                    window.currentAudioObj = fallbackAudio;
+                    fallbackAudio.play().catch(() => {
+                        speakTTS(currentQData.question);
+                    });
+                } else {
+                    speakTTS(currentQData.question);
+                }
+            };
+
+            if (currentQData.audio === 'sounds/cont.mp3' && currentQData.start !== undefined && currentQData.end !== undefined) {
+                window.currentAudioObj = contAudio;
+                const startTime = currentQData.start;
+                const endTime = currentQData.end;
+                const durationMs = Math.max(300, (endTime - startTime) * 1000);
+
+                const stopCheck = () => {
+                    if (contAudio.currentTime >= endTime) {
+                        contAudio.pause();
+                        contAudio.removeEventListener('timeupdate', stopCheck);
+                    }
+                };
+
+                contAudio.removeEventListener('timeupdate', stopCheck);
+                contAudio.addEventListener('timeupdate', stopCheck);
+
+                try {
+                    contAudio.currentTime = startTime;
+                } catch (e) {}
+
+                contAudio.play().then(() => {
+                    audioSegmentTimer = setTimeout(() => {
+                        contAudio.pause();
+                        contAudio.removeEventListener('timeupdate', stopCheck);
+                    }, durationMs + 200);
+                }).catch(err => {
+                    console.warn("contAudio segment play failed, trying fallback:", err);
+                    playFallback();
+                });
+            } else if (currentQData.audio) {
+                const normalAudio = new Audio(currentQData.audio);
+                window.currentAudioObj = normalAudio;
+                normalAudio.play().catch(playFallback);
+            } else {
+                playFallback();
+            }
+        }
+
+        document.addEventListener('click', (e) => {
+            const popover = document.getElementById('dictPopover');
+            if (popover.style.display === 'block' && !popover.contains(e.target) && !e.target.classList.contains('clickable-word')) {
+                closeDictPopover();
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeDictPopover();
+            else if (e.key === 'Enter') {
+                const btnNext = document.getElementById('btnNext');
+                if (btnNext.style.display !== 'none') nextQuestion();
+                else checkAnswer();
+            } else if (e.key === 'Backspace') undoWord();
+        });
+
+        const canvas = document.getElementById('confettiCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let confettiRunning = false;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function triggerConfetti(count = 60) {
+            canvas.style.display = 'block';
+            confettiRunning = true;
+            const colors = ['#0284c7', '#10b981', '#f59e0b', '#ef4444', '#6366f1'];
+            for (let i = 0; i < count; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: -20,
+                    size: Math.random() * 8 + 5,
+                    vx: (Math.random() - 0.5) * 6,
+                    vy: Math.random() * 5 + 3,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    rot: Math.random() * 360,
+                    dRot: (Math.random() - 0.5) * 10
+                });
+            }
+            animateConfetti();
+        }
+
+        function animateConfetti() {
+            if (!confettiRunning) return;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            let hasActive = false;
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const p = particles[i];
+                p.x += p.vx; p.y += p.vy; p.rot += p.dRot;
+                if (p.y < canvas.height + 20) {
+                    hasActive = true;
+                    ctx.save();
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate((p.rot * Math.PI) / 180);
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+                    ctx.restore();
+                } else {
+                    particles.splice(i, 1);
+                }
+            }
+            if (hasActive) requestAnimationFrame(animateConfetti);
+            else {
+                canvas.style.display = 'none';
+                confettiRunning = false;
+                particles = [];
+            }
+        }
+
+        function openVerbDictModal() {
+            const modal = document.getElementById('verb-dict-modal');
+            const iframe = document.getElementById('vdict-iframe');
+            if (iframe && !iframe.src && iframe.dataset.src) {
+                iframe.src = iframe.dataset.src;
+            }
+            if (modal) modal.style.display = 'flex';
+        }
+        function closeVerbDictModal() {
+            const modal = document.getElementById('verb-dict-modal');
+            if (modal) modal.style.display = 'none';
+        }
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeVerbDictModal();
+        });
+    </script>
+
+<!-- VERB DICTIONARY MODAL -->
+<style>
+.vdict-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(4px);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
+  animation: vdictFadeIn 0.2s ease-out;
+}
+.vdict-modal-box {
+  width: min(1200px, 96vw);
+  height: min(88vh, 850px);
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.vdict-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #0B3C5D;
+  color: #ffffff;
+  padding: 12px 20px;
+  flex-shrink: 0;
+}
+.vdict-title {
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.vdict-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.vdict-btn-ext {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.18);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.vdict-btn-ext:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+.vdict-btn-close {
+  background: rgba(239, 68, 68, 0.85);
+  color: #ffffff;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.vdict-btn-close:hover {
+  background: #dc2626;
+}
+.vdict-modal-body {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: #F4F8FB;
+}
+.vdict-modal-body iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+@keyframes vdictFadeIn {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+</style>
+
+<div id="verb-dict-modal" class="vdict-modal-overlay" style="display:none;" onclick="if(event.target===this) closeVerbDictModal()">
+  <div class="vdict-modal-box">
+    <div class="vdict-modal-header">
+      <div class="vdict-title">
+        <span>📖</span> English Verb Dictionary (V1 - V2 - V3)
+      </div>
+      <div class="vdict-actions">
+        <a id="vdict-open-newtab" href="ENGLISH VERB DICTIONARY.html" target="_blank" class="vdict-btn-ext" title="Mở trong tab mới">
+          ↗ Mở tab mới
+        </a>
+        <button type="button" class="vdict-btn-close" onclick="closeVerbDictModal()" title="Đóng">✕</button>
+      </div>
+    </div>
+    <div class="vdict-modal-body">
+      <iframe id="vdict-iframe" data-src="ENGLISH VERB DICTIONARY.html" title="English Verb Dictionary"></iframe>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Verb Dictionary - Offline</title>
+    <style>
+        :root {
+            --bg-color: #F4F8FB;
+            --header-bg: #0B3C5D;
+            --text-main: #333333;
+            --col-v1-bg: #E8F4F8;
+            --col-v2-bg: #F8EEE8;
+            --col-v3-bg: #E8F8EC;
+            --btn-bg: #328CC1;
+            --btn-hover: #1D2731;
+            --border-color: #d0d7de;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "UTM Avo", Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden; /* Prevent body scroll, scroll only table */
+        }
+
+        header {
+            background-color: var(--header-bg);
+            color: white;
+            text-align: center;
+            padding: 12px 20px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-home-btn {
+            color: white;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: bold;
+            padding: 8px 16px;
+            background: rgba(255,255,255,0.18);
+            border-radius: 8px;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .header-home-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-1px);
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .controls-container {
+            background-color: white;
+            padding: 15px 20px;
+            border-bottom: 2px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            z-index: 10;
+        }
+
+        .search-row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        input[type="text"] {
+            width: 50%;
+            max-width: 600px;
+            padding: 12px 20px;
+            font-size: 1.5rem;
+            border: 2px solid var(--btn-bg);
+            border-radius: 8px;
+            outline: none;
+            font-family: inherit;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--header-bg);
+        }
+
+        button {
+            padding: 12px 24px;
+            font-size: 1.2rem;
+            font-family: inherit;
+            font-weight: bold;
+            color: white;
+            background-color: var(--btn-bg);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        button:hover {
+            background-color: var(--btn-hover);
+        }
+
+        button:active {
+            transform: scale(0.97);
+        }
+
+        .btn-clear {
+            background-color: #D9534F;
+        }
+        .btn-clear:hover {
+            background-color: #C9302C;
+        }
+        .btn-quiz {
+            background-color: #F0AD4E;
+            color: #fff;
+        }
+        .btn-quiz:hover {
+            background-color: #EC971F;
+        }
+
+        .settings-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .speed-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.2rem;
+            background: var(--bg-color);
+            padding: 8px 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        input[type="range"] {
+            cursor: pointer;
+        }
+
+        #table-container {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background-color: var(--bg-color);
+        }
+
+        table {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th {
+            position: sticky;
+            top: 0;
+            background-color: var(--header-bg);
+            color: white;
+            font-size: 1.6rem;
+            padding: 15px;
+            text-align: left;
+            z-index: 2;
+            border-right: 1px solid rgba(255,255,255,0.2);
+        }
+
+        th:last-child {
+            border-right: none;
+        }
+
+        td {
+            padding: 15px;
+            font-size: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            border-right: 1px solid var(--border-color);
+            vertical-align: middle;
+        }
+
+        td:last-child {
+            border-right: none;
+        }
+
+        /* Column Colors */
+        td:nth-child(1) { background-color: var(--col-v1-bg); }
+        td:nth-child(2) { background-color: var(--col-v2-bg); }
+        td:nth-child(3) { background-color: var(--col-v3-bg); }
+
+        tr:hover td {
+            filter: brightness(0.95);
+        }
+
+        .word-cell {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .speaker-btn {
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            padding: 5px;
+            color: var(--header-bg);
+            border-radius: 50%;
+            transition: transform 0.2s;
+            line-height: 1;
+        }
+
+        .speaker-btn:hover {
+            transform: scale(1.2);
+            background-color: rgba(0,0,0,0.05);
+        }
+
+        .hidden-word {
+            background-color: #ccc;
+            color: #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+            user-select: none;
+            padding: 0 10px;
+            transition: all 0.3s;
+        }
+
+        .hidden-word:hover::after {
+            content: " (Click to reveal)";
+            font-size: 1rem;
+            color: #666;
+        }
+
+        .hidden-word.revealed {
+            background-color: transparent;
+            color: inherit;
+        }
+        .hidden-word.revealed:hover::after {
+            content: "";
+        }
+
+        .no-result {
+            text-align: center;
+            font-size: 2rem;
+            padding: 50px;
+            color: #D9534F;
+            font-weight: bold;
+        }
+
+        footer {
+            background-color: var(--header-bg);
+            color: white;
+            text-align: center;
+            padding: 12px;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+            display: flex;
+            justify-content: space-between;
+            padding-left: 30px;
+            padding-right: 30px;
+        }
+
+        /* Responsive for projector/TVs */
+        @media (min-width: 1600px) {
+            h1 { font-size: 2.8rem; }
+            input[type="text"] { font-size: 1.8rem; }
+            button { font-size: 1.4rem; }
+            th { font-size: 1.8rem; }
+            td { font-size: 1.8rem; }
+            .speaker-btn { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="../SIMPLE PAST.html" target="_top" class="header-home-btn" title="Quay về danh mục Simple Past">🏠 Trang Chủ</a>
+        <h1>ENGLISH VERB DICTIONARY</h1>
+        <div style="width: 120px;" class="header-spacer"></div>
+    </header>
+
+    <div class="controls-container">
+        <div class="search-row">
+            <input type="text" id="searchInput" placeholder="Enter a verb (e.g., went, go, gone)..." autocomplete="off">
+            <button class="btn-clear" onclick="clearSearch()">✖ CLEAR</button>
+        </div>
+        
+        <div class="settings-row">
+            <div class="speed-control">
+                <label for="speed-slider">Speed:</label>
+                <input type="range" id="speed-slider" min="0.5" max="1.2" step="0.05" value="0.85">
+                <span id="speed-val">0.85x</span>
+            </div>
+            <button onclick="replayLast()">🔄 REPLAY</button>
+            <button onclick="showRandom()">🎲 RANDOM</button>
+            <button class="btn-quiz" onclick="startQuiz()">❓ VERB QUIZ</button>
+            <button onclick="showAll()">📋 SHOW ALL</button>
+        </div>
+    </div>
+
+    <div id="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>V1 – BASE FORM</th>
+                    <th>V2 – PAST SIMPLE</th>
+                    <th>V3 – PAST PARTICIPLE</th>
+                </tr>
+            </thead>
+            <tbody id="verbTableBody">
+                <!-- Data will be populated here -->
+            </tbody>
+        </table>
+        <div id="noResultMsg" class="no-result" style="display: none;">NO RESULT</div>
+    </div>
+
+    <footer>
+        <span id="showingCount">Showing: 0</span>
+        <span>Offline Dictionary</span>
+        <span id="totalCount">Total verbs: 0</span>
+    </footer>
+
+    <script>
+        // 220+ Verbs Data (Irregular + Common Regular)
+        const verbsData = [
+            {v1: "arise", v2: "arose", v3: "arisen"}, {v1: "awake", v2: "awoke", v3: "awoken"},
+            {v1: "be", v2: "was/were", v3: "been"}, {v1: "bear", v2: "bore", v3: "borne"},
+            {v1: "beat", v2: "beat", v3: "beaten"}, {v1: "become", v2: "became", v3: "become"},
+            {v1: "begin", v2: "began", v3: "begun"}, {v1: "bend", v2: "bent", v3: "bent"},
+            {v1: "bet", v2: "bet", v3: "bet"}, {v1: "bind", v2: "bound", v3: "bound"},
+            {v1: "bite", v2: "bit", v3: "bitten"}, {v1: "bleed", v2: "bled", v3: "bled"},
+            {v1: "blow", v2: "blew", v3: "blown"}, {v1: "break", v2: "broke", v3: "broken"},
+            {v1: "breed", v2: "bred", v3: "bred"}, {v1: "bring", v2: "brought", v3: "brought"},
+            {v1: "broadcast", v2: "broadcast", v3: "broadcast"}, {v1: "build", v2: "built", v3: "built"},
+            {v1: "burn", v2: "burnt/burned", v3: "burnt/burned"}, {v1: "burst", v2: "burst", v3: "burst"},
+            {v1: "buy", v2: "bought", v3: "bought"}, {v1: "catch", v2: "caught", v3: "caught"},
+            {v1: "choose", v2: "chose", v3: "chosen"}, {v1: "come", v2: "came", v3: "come"},
+            {v1: "cost", v2: "cost", v3: "cost"}, {v1: "creep", v2: "crept", v3: "crept"},
+            {v1: "cut", v2: "cut", v3: "cut"}, {v1: "deal", v2: "dealt", v3: "dealt"},
+            {v1: "dig", v2: "dug", v3: "dug"}, {v1: "do", v2: "did", v3: "done"},
+            {v1: "draw", v2: "drew", v3: "drawn"}, {v1: "dream", v2: "dreamt/dreamed", v3: "dreamt/dreamed"},
+            {v1: "drink", v2: "drank", v3: "drunk"}, {v1: "drive", v2: "drove", v3: "driven"},
+            {v1: "eat", v2: "ate", v3: "eaten"}, {v1: "fall", v2: "fell", v3: "fallen"},
+            {v1: "feed", v2: "fed", v3: "fed"}, {v1: "feel", v2: "felt", v3: "felt"},
+            {v1: "fight", v2: "fought", v3: "fought"}, {v1: "find", v2: "found", v3: "found"},
+            {v1: "flee", v2: "fled", v3: "fled"}, {v1: "fly", v2: "flew", v3: "flown"},
+            {v1: "forbid", v2: "forbade", v3: "forbidden"}, {v1: "forget", v2: "forgot", v3: "forgotten"},
+            {v1: "forgive", v2: "forgave", v3: "forgiven"}, {v1: "freeze", v2: "froze", v3: "frozen"},
+            {v1: "get", v2: "got", v3: "got/gotten"}, {v1: "give", v2: "gave", v3: "given"},
+            {v1: "go", v2: "went", v3: "gone"}, {v1: "grow", v2: "grew", v3: "grown"},
+            {v1: "hang", v2: "hung", v3: "hung"}, {v1: "have", v2: "had", v3: "had"},
+            {v1: "hear", v2: "heard", v3: "heard"}, {v1: "hide", v2: "hid", v3: "hidden"},
+            {v1: "hit", v2: "hit", v3: "hit"}, {v1: "hold", v2: "held", v3: "held"},
+            {v1: "hurt", v2: "hurt", v3: "hurt"}, {v1: "keep", v2: "kept", v3: "kept"},
+            {v1: "kneel", v2: "knelt", v3: "knelt"}, {v1: "know", v2: "knew", v3: "known"},
+            {v1: "lay", v2: "laid", v3: "laid"}, {v1: "lead", v2: "led", v3: "led"},
+            {v1: "lean", v2: "leant/leaned", v3: "leant/leaned"}, {v1: "leap", v2: "leapt/leaped", v3: "leapt/leaped"},
+            {v1: "learn", v2: "learnt/learned", v3: "learnt/learned"}, {v1: "leave", v2: "left", v3: "left"},
+            {v1: "lend", v2: "lent", v3: "lent"}, {v1: "let", v2: "let", v3: "let"},
+            {v1: "lie", v2: "lay", v3: "lain"}, {v1: "light", v2: "lit/lighted", v3: "lit/lighted"},
+            {v1: "lose", v2: "lost", v3: "lost"}, {v1: "make", v2: "made", v3: "made"},
+            {v1: "mean", v2: "meant", v3: "meant"}, {v1: "meet", v2: "met", v3: "met"},
+            {v1: "overcome", v2: "overcame", v3: "overcome"}, {v1: "pay", v2: "paid", v3: "paid"},
+            {v1: "put", v2: "put", v3: "put"}, {v1: "read", v2: "read", v3: "read"},
+            {v1: "ride", v2: "rode", v3: "ridden"}, {v1: "ring", v2: "rang", v3: "rung"},
+            {v1: "rise", v2: "rose", v3: "risen"}, {v1: "run", v2: "ran", v3: "run"},
+            {v1: "say", v2: "said", v3: "said"}, {v1: "see", v2: "saw", v3: "seen"},
+            {v1: "seek", v2: "sought", v3: "sought"}, {v1: "sell", v2: "sold", v3: "sold"},
+            {v1: "send", v2: "sent", v3: "sent"}, {v1: "set", v2: "set", v3: "set"},
+            {v1: "sew", v2: "sewed", v3: "sewn/sewed"}, {v1: "shake", v2: "shook", v3: "shaken"},
+            {v1: "shine", v2: "shone", v3: "shone"}, {v1: "shoot", v2: "shot", v3: "shot"},
+            {v1: "show", v2: "showed", v3: "shown"}, {v1: "shrink", v2: "shrank", v3: "shrunk"},
+            {v1: "shut", v2: "shut", v3: "shut"}, {v1: "sing", v2: "sang", v3: "sung"},
+            {v1: "sink", v2: "sank", v3: "sunk"}, {v1: "sit", v2: "sat", v3: "sat"},
+            {v1: "sleep", v2: "slept", v3: "slept"}, {v1: "slide", v2: "slid", v3: "slid"},
+            {v1: "smell", v2: "smelt/smelled", v3: "smelt/smelled"}, {v1: "speak", v2: "spoke", v3: "spoken"},
+            {v1: "spell", v2: "spelt/spelled", v3: "spelt/spelled"}, {v1: "spend", v2: "spent", v3: "spent"},
+            {v1: "spill", v2: "spilt/spilled", v3: "spilt/spilled"}, {v1: "spin", v2: "spun", v3: "spun"},
+            {v1: "spit", v2: "spat", v3: "spat"}, {v1: "split", v2: "split", v3: "split"},
+            {v1: "spoil", v2: "spoilt/spoiled", v3: "spoilt/spoiled"}, {v1: "spread", v2: "spread", v3: "spread"},
+            {v1: "spring", v2: "sprang", v3: "sprung"}, {v1: "stand", v2: "stood", v3: "stood"},
+            {v1: "steal", v2: "stole", v3: "stolen"}, {v1: "stick", v2: "stuck", v3: "stuck"},
+            {v1: "sting", v2: "stung", v3: "stung"}, {v1: "stink", v2: "stank", v3: "stunk"},
+            {v1: "strike", v2: "struck", v3: "struck"}, {v1: "swear", v2: "swore", v3: "sworn"},
+            {v1: "sweep", v2: "swept", v3: "swept"}, {v1: "swell", v2: "swelled", v3: "swollen/swelled"},
+            {v1: "swim", v2: "swam", v3: "swum"}, {v1: "swing", v2: "swung", v3: "swung"},
+            {v1: "take", v2: "took", v3: "taken"}, {v1: "teach", v2: "taught", v3: "taught"},
+            {v1: "tear", v2: "tore", v3: "torn"}, {v1: "tell", v2: "told", v3: "told"},
+            {v1: "think", v2: "thought", v3: "thought"}, {v1: "throw", v2: "threw", v3: "thrown"},
+            {v1: "understand", v2: "understood", v3: "understood"}, {v1: "wake", v2: "woke", v3: "woken"},
+            {v1: "wear", v2: "wore", v3: "worn"}, {v1: "weave", v2: "wove", v3: "woven"},
+            {v1: "weep", v2: "wept", v3: "wept"}, {v1: "win", v2: "won", v3: "won"},
+            {v1: "wind", v2: "wound", v3: "wound"}, {v1: "wring", v2: "wrung", v3: "wrung"},
+            {v1: "write", v2: "wrote", v3: "written"},
+            // Common Regular Verbs
+            {v1: "accept", v2: "accepted", v3: "accepted"}, {v1: "act", v2: "acted", v3: "acted"},
+            {v1: "add", v2: "added", v3: "added"}, {v1: "admit", v2: "admitted", v3: "admitted"},
+            {v1: "agree", v2: "agreed", v3: "agreed"}, {v1: "allow", v2: "allowed", v3: "allowed"},
+            {v1: "answer", v2: "answered", v3: "answered"}, {v1: "appear", v2: "appeared", v3: "appeared"},
+            {v1: "arrive", v2: "arrived", v3: "arrived"}, {v1: "ask", v2: "asked", v3: "asked"},
+            {v1: "bake", v2: "baked", v3: "baked"}, {v1: "call", v2: "called", v3: "called"},
+            {v1: "care", v2: "cared", v3: "cared"}, {v1: "cause", v2: "caused", v3: "caused"},
+            {v1: "change", v2: "changed", v3: "changed"}, {v1: "check", v2: "checked", v3: "checked"},
+            {v1: "clean", v2: "cleaned", v3: "cleaned"}, {v1: "close", v2: "closed", v3: "closed"},
+            {v1: "compare", v2: "compared", v3: "compared"}, {v1: "complain", v2: "complained", v3: "complained"},
+            {v1: "complete", v2: "completed", v3: "completed"}, {v1: "continue", v2: "continued", v3: "continued"},
+            {v1: "cook", v2: "cooked", v3: "cooked"}, {v1: "copy", v2: "copied", v3: "copied"},
+            {v1: "count", v2: "counted", v3: "counted"}, {v1: "create", v2: "created", v3: "created"},
+            {v1: "cross", v2: "crossed", v3: "crossed"}, {v1: "cry", v2: "cried", v3: "cried"},
+            {v1: "dance", v2: "danced", v3: "danced"}, {v1: "decide", v2: "decided", v3: "decided"},
+            {v1: "describe", v2: "described", v3: "described"}, {v1: "design", v2: "designed", v3: "designed"},
+            {v1: "destroy", v2: "destroyed", v3: "destroyed"}, {v1: "die", v2: "died", v3: "died"},
+            {v1: "discover", v2: "discovered", v3: "discovered"}, {v1: "discuss", v2: "discussed", v3: "discussed"},
+            {v1: "dress", v2: "dressed", v3: "dressed"}, {v1: "dry", v2: "dried", v3: "dried"},
+            {v1: "earn", v2: "earned", v3: "earned"}, {v1: "end", v2: "ended", v3: "ended"},
+            {v1: "enjoy", v2: "enjoyed", v3: "enjoyed"}, {v1: "examine", v2: "examined", v3: "examined"},
+            {v1: "exist", v2: "existed", v3: "existed"}, {v1: "expect", v2: "expected", v3: "expected"},
+            {v1: "explain", v2: "explained", v3: "explained"}, {v1: "fail", v2: "failed", v3: "failed"},
+            {v1: "fill", v2: "filled", v3: "filled"}, {v1: "finish", v2: "finished", v3: "finished"},
+            {v1: "fix", v2: "fixed", v3: "fixed"}, {v1: "follow", v2: "followed", v3: "followed"},
+            {v1: "force", v2: "forced", v3: "forced"}, {v1: "form", v2: "formed", v3: "formed"},
+            {v1: "guess", v2: "guessed", v3: "guessed"}, {v1: "happen", v2: "happened", v3: "happened"},
+            {v1: "hate", v2: "hated", v3: "hated"}, {v1: "help", v2: "helped", v3: "helped"},
+            {v1: "hope", v2: "hoped", v3: "hoped"}, {v1: "hurry", v2: "hurried", v3: "hurried"},
+            {v1: "include", v2: "included", v3: "included"}, {v1: "introduce", v2: "introduced", v3: "introduced"},
+            {v1: "invite", v2: "invited", v3: "invited"}, {v1: "join", v2: "joined", v3: "joined"},
+            {v1: "jump", v2: "jumped", v3: "jumped"}, {v1: "kick", v2: "kicked", v3: "kicked"},
+            {v1: "kill", v2: "killed", v3: "killed"}, {v1: "kiss", v2: "kissed", v3: "kissed"},
+            {v1: "laugh", v2: "laughed", v3: "laughed"}, {v1: "like", v2: "liked", v3: "liked"},
+            {v1: "listen", v2: "listened", v3: "listened"}, {v1: "live", v2: "lived", v3: "lived"},
+            {v1: "look", v2: "looked", v3: "looked"}, {v1: "love", v2: "loved", v3: "loved"},
+            {v1: "miss", v2: "missed", v3: "missed"}, {v1: "move", v2: "moved", v3: "moved"},
+            {v1: "need", v2: "needed", v3: "needed"}, {v1: "open", v2: "opened", v3: "opened"},
+            {v1: "paint", v2: "painted", v3: "painted"}, {v1: "pass", v2: "passed", v3: "passed"},
+            {v1: "plan", v2: "planned", v3: "planned"}, {v1: "play", v2: "played", v3: "played"},
+            {v1: "point", v2: "pointed", v3: "pointed"}, {v1: "practice", v2: "practiced", v3: "practiced"},
+            {v1: "prepare", v2: "prepared", v3: "prepared"}, {v1: "promise", v2: "promised", v3: "promised"},
+            {v1: "pull", v2: "pulled", v3: "pulled"}, {v1: "push", v2: "pushed", v3: "pushed"},
+            {v1: "rain", v2: "rained", v3: "rained"}, {v1: "reach", v2: "reached", v3: "reached"},
+            {v1: "realize", v2: "realized", v3: "realized"}, {v1: "receive", v2: "received", v3: "received"},
+            {v1: "remember", v2: "remembered", v3: "remembered"}, {v1: "repair", v2: "repaired", v3: "repaired"},
+            {v1: "repeat", v2: "repeated", v3: "repeated"}, {v1: "reply", v2: "replied", v3: "replied"},
+            {v1: "report", v2: "reported", v3: "reported"}, {v1: "rest", v2: "rested", v3: "rested"},
+            {v1: "return", v2: "returned", v3: "returned"}, {v1: "save", v2: "saved", v3: "saved"},
+            {v1: "seem", v2: "seemed", v3: "seemed"}, {v1: "shout", v2: "shouted", v3: "shouted"},
+            {v1: "smile", v2: "smiled", v3: "smiled"}, {v1: "snow", v2: "snowed", v3: "snowed"},
+            {v1: "solve", v2: "solved", v3: "solved"}, {v1: "sound", v2: "sounded", v3: "sounded"},
+            {v1: "start", v2: "started", v3: "started"}, {v1: "stop", v2: "stopped", v3: "stopped"},
+            {v1: "study", v2: "studied", v3: "studied"}, {v1: "talk", v2: "talked", v3: "talked"},
+            {v1: "taste", v2: "tasted", v3: "tasted"}, {v1: "test", v2: "tested", v3: "tested"},
+            {v1: "thank", v2: "thanked", v3: "thanked"}, {v1: "touch", v2: "touched", v3: "touched"},
+            {v1: "travel", v2: "traveled", v3: "traveled"}, {v1: "try", v2: "tried", v3: "tried"},
+            {v1: "turn", v2: "turned", v3: "turned"}, {v1: "use", v2: "used", v3: "used"},
+            {v1: "visit", v2: "visited", v3: "visited"}, {v1: "wait", v2: "waited", v3: "waited"},
+            {v1: "walk", v2: "walked", v3: "walked"}, {v1: "want", v2: "wanted", v3: "wanted"},
+            {v1: "wash", v2: "washed", v3: "washed"}, {v1: "watch", v2: "watched", v3: "watched"},
+            {v1: "wish", v2: "wished", v3: "wished"}, {v1: "work", v2: "worked", v3: "worked"},
+            {v1: "worry", v2: "worried", v3: "worried"}
+        ];
+
+        // Sort verbs alphabetically by V1
+        verbsData.sort((a, b) => a.v1.localeCompare(b.v1));
+
+        let currentData = [...verbsData];
+        let isQuizMode = false;
+        let lastSpokenText = "";
+        
+        const tableBody = document.getElementById("verbTableBody");
+        const searchInput = document.getElementById("searchInput");
+        const speedSlider = document.getElementById("speed-slider");
+        const speedVal = document.getElementById("speed-val");
+        const noResultMsg = document.getElementById("noResultMsg");
+        const tableElement = document.querySelector("table");
+        const showingCount = document.getElementById("showingCount");
+        const totalCount = document.getElementById("totalCount");
+
+        // Initialize App
+        document.addEventListener("DOMContentLoaded", () => {
+            totalCount.textContent = `Total verbs: ${verbsData.length}`;
+            renderTable(currentData);
+        });
+
+        // Search logic
+        searchInput.addEventListener("input", (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            if (query === "") {
+                currentData = [...verbsData];
+            } else {
+                currentData = verbsData.filter(v => 
+                    v.v1.toLowerCase().includes(query) || 
+                    v.v2.toLowerCase().includes(query) || 
+                    v.v3.toLowerCase().includes(query)
+                );
+            }
+            isQuizMode = false;
+            renderTable(currentData);
+        });
+
+        // Speed slider text update
+        speedSlider.addEventListener("input", (e) => {
+            speedVal.textContent = e.target.value + "x";
+        });
+
+        function clearSearch() {
+            searchInput.value = "";
+            currentData = [...verbsData];
+            isQuizMode = false;
+            renderTable(currentData);
+            searchInput.focus();
+        }
+
+        function showRandom() {
+            const randomVerb = verbsData[Math.floor(Math.random() * verbsData.length)];
+            currentData = [randomVerb];
+            isQuizMode = false;
+            searchInput.value = "";
+            renderTable(currentData);
+        }
+
+        function showAll() {
+            searchInput.value = "";
+            currentData = [...verbsData];
+            isQuizMode = false;
+            renderTable(currentData);
+        }
+
+        function startQuiz() {
+            isQuizMode = true;
+            renderTable(currentData);
+        }
+
+        function revealWord(element) {
+            element.classList.add("revealed");
+        }
+
+        // Parse word to remove slashes (e.g. "was/were" -> "was") for speech synthesis
+        function cleanForSpeech(word) {
+            if (word.includes('/')) {
+                return word.split('/')[0];
+            }
+            return word;
+        }
+
+        function speak(text) {
+            if (!text) return;
+            lastSpokenText = cleanForSpeech(text);
+            
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel(); // Stop current speech
+                const utterance = new SpeechSynthesisUtterance(lastSpokenText);
+                utterance.lang = 'en-US';
+                utterance.rate = parseFloat(speedSlider.value);
+                
+                // Try to use a specific US English voice if available
+                const voices = window.speechSynthesis.getVoices();
+                const usVoice = voices.find(v => v.lang === 'en-US' && v.name.includes('Google')) || 
+                                voices.find(v => v.lang === 'en-US');
+                if (usVoice) utterance.voice = usVoice;
+
+                window.speechSynthesis.speak(utterance);
+            } else {
+                alert("Sorry, your browser doesn't support Text-to-Speech.");
+            }
+        }
+
+        function replayLast() {
+            if (lastSpokenText) {
+                speak(lastSpokenText);
+            }
+        }
+
+        // Chrome requires voices to load asynchronously
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.onvoiceschanged = function() {
+                window.speechSynthesis.getVoices();
+            };
+        }
+
+        function renderTable(data) {
+            tableBody.innerHTML = "";
+            
+            if (data.length === 0) {
+                tableElement.style.display = "none";
+                noResultMsg.style.display = "block";
+                showingCount.textContent = `Showing: 0`;
+                return;
+            }
+
+            tableElement.style.display = "table";
+            noResultMsg.style.display = "none";
+            showingCount.textContent = `Showing: ${data.length}`;
+
+            data.forEach(verb => {
+                const tr = document.createElement("tr");
+
+                // Logic for Quiz Mode (Hide V2 or V3 randomly)
+                let hideV2 = false;
+                let hideV3 = false;
+                if (isQuizMode) {
+                    if (Math.random() > 0.5) hideV2 = true;
+                    else hideV3 = true;
+                }
+
+                // Render Cells
+                tr.innerHTML = `
+                    <td>
+                        <div class="word-cell">
+                            <span>${verb.v1}</span>
+                            <button class="speaker-btn" onclick="speak('${verb.v1}')" title="Pronounce">🔊</button>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="word-cell">
+                            <span class="${hideV2 ? 'hidden-word' : ''}" onclick="revealWord(this)">${verb.v2}</span>
+                            <button class="speaker-btn" onclick="speak('${verb.v2}')" title="Pronounce">🔊</button>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="word-cell">
+                            <span class="${hideV3 ? 'hidden-word' : ''}" onclick="revealWord(this)">${verb.v3}</span>
+                            <button class="speaker-btn" onclick="speak('${verb.v3}')" title="Pronounce">🔊</button>
+                        </div>
+                    </td>
+                `;
+                tableBody.appendChild(tr);
+            });
+        }
+    </script>
+</body>
+</html>

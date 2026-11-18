@@ -1,0 +1,1399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IRREGULAR VERBS CHALLENGE – MASTER V2</title>
+    <style>
+        /* ==========================================================================
+           CUSTOM CSS - FULLY OFFLINE, NO FRAMEWORKS
+           ========================================================================== */
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap');
+
+        :root {
+            --bg-color: #eef2f6;
+            --app-bg: #ffffff;
+            --primary: #4361ee;
+            --primary-hover: #3a53d0;
+            --secondary: #3f37c9;
+            --success: #4cc9f0;
+            --success-dark: #2ab1db;
+            --danger: #f72585;
+            --warning: #f8961e;
+            --text-main: #2b2d42;
+            --text-muted: #8d99ae;
+            --border-color: #edf2f4;
+            --shadow: 0 10px 25px rgba(0,0,0,0.08);
+            --font-main: 'Montserrat', 'UTM Avo', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            font-family: var(--font-main);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        /* 16:9 Aspect Ratio Container */
+        #app {
+            background-color: var(--app-bg);
+            width: 100vw;
+            max-width: 1280px;
+            aspect-ratio: 16 / 9;
+            max-height: 100vh;
+            position: relative;
+            box-shadow: var(--shadow);
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Standardized Screen Views */
+        .screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            flex-direction: column;
+            background: var(--app-bg);
+            z-index: 1;
+        }
+        .screen.active {
+            display: flex;
+            animation: fadeIn 0.3s ease-in-out;
+            z-index: 2;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Typography & Common */
+        h1, h2, h3 { font-weight: 800; color: var(--secondary); }
+        h1 { font-size: 3rem; text-align: center; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 2px;}
+        h2 { font-size: 2rem; margin-bottom: 1rem; }
+        
+        button {
+            font-family: inherit;
+            cursor: pointer;
+            border: none;
+            outline: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        button:active { transform: scale(0.95); }
+        
+        .btn-primary { background: var(--primary); color: white; padding: 12px 24px; font-size: 1.2rem; }
+        .btn-primary:hover { background: var(--primary-hover); box-shadow: 0 4px 12px rgba(67, 97, 238, 0.4); }
+        .btn-success { background: var(--success); color: white; padding: 12px 24px; font-size: 1.2rem; }
+        .btn-success:hover { background: var(--success-dark); }
+        .btn-danger { background: var(--danger); color: white; padding: 12px 24px; font-size: 1.2rem; }
+        .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); padding: 10px 20px; font-size: 1rem;}
+        
+        /* Dashboard */
+        #screen-dashboard {
+            padding: 40px;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+        }
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            width: 80%;
+            max-width: 900px;
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+        }
+        .form-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px;}
+        .form-group label { font-weight: 600; color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase;}
+        select, input[type="text"] {
+            padding: 12px;
+            border-radius: 8px;
+            border: 2px solid var(--border-color);
+            font-size: 1.1rem;
+            font-family: inherit;
+            outline: none;
+            width: 100%;
+        }
+        select:focus, input[type="text"]:focus { border-color: var(--primary); }
+        .toggle-group { display: flex; gap: 15px; align-items: center; }
+        .start-btn-container { grid-column: 1 / -1; display: flex; justify-content: center; margin-top: 10px; }
+        .start-btn-container button { font-size: 1.5rem; padding: 15px 40px; border-radius: 50px; }
+
+        /* Game Top Bar */
+        .top-bar {
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            background: white;
+            border-bottom: 2px solid var(--border-color);
+        }
+        .stats-group { display: flex; gap: 20px; font-size: 1.2rem; font-weight: 600;}
+        .stat-box { background: var(--bg-color); padding: 5px 15px; border-radius: 20px; display: flex; align-items: center; gap: 8px;}
+        .progress-container { flex-grow: 1; margin: 0 30px; height: 10px; background: var(--border-color); border-radius: 5px; overflow: hidden; }
+        .progress-bar { height: 100%; background: var(--success); width: 0%; transition: width 0.3s ease; }
+
+        /* Game Area Common */
+        .game-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+        }
+        .question-text {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 30px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .question-text:hover { color: var(--primary); }
+
+        /* Game 1 & 5: Options Grid */
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            width: 80%;
+            max-width: 800px;
+        }
+        .option-btn {
+            font-size: 1.8rem;
+            padding: 25px;
+            background: white;
+            border: 3px solid var(--border-color);
+            border-radius: 12px;
+            color: var(--text-main);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .option-btn:hover { border-color: var(--primary); transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
+        .option-btn.correct { background: var(--success); border-color: var(--success); color: white; }
+        .option-btn.wrong { background: var(--danger); border-color: var(--danger); color: white; }
+
+        /* Game 2: Input Field */
+        .input-container { display: flex; flex-direction: column; align-items: center; gap: 20px; width: 100%; }
+        .input-container input {
+            font-size: 2.5rem;
+            text-align: center;
+            padding: 15px;
+            width: 60%;
+            max-width: 500px;
+            border: 4px solid var(--border-color);
+            border-radius: 16px;
+        }
+        .action-buttons { display: flex; gap: 20px; }
+
+        /* Game 3: Match */
+        .match-container {
+            display: flex;
+            justify-content: center;
+            gap: 80px;
+            width: 100%;
+        }
+        .match-column { display: flex; flex-direction: column; gap: 15px; width: 250px;}
+        .match-item {
+            padding: 15px;
+            font-size: 1.5rem;
+            text-align: center;
+            background: white;
+            border: 3px solid var(--border-color);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .match-item:hover { border-color: var(--primary); }
+        .match-item.selected { background: var(--primary); color: white; border-color: var(--primary); transform: scale(1.05);}
+        .match-item.matched { background: var(--success); color: white; border-color: var(--success); opacity: 0; pointer-events: none; transition: opacity 0.5s;}
+        .match-item.error { background: var(--danger); color: white; border-color: var(--danger); animation: shake 0.4s; }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            50% { transform: translateX(10px); }
+            75% { transform: translateX(-10px); }
+        }
+
+        /* Game 4: Memory */
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            width: 90%;
+            max-width: 800px;
+            perspective: 1000px;
+        }
+        .memory-card {
+            aspect-ratio: 4/3;
+            position: relative;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
+        .memory-card.flipped { transform: rotateY(180deg); }
+        .memory-card.matched { opacity: 0; pointer-events: none; transition: opacity 0.5s; }
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .card-front { background: var(--primary); color: white; font-size: 3rem;}
+        .card-back { background: white; color: var(--text-main); transform: rotateY(180deg); border: 3px solid var(--primary); }
+
+        /* Game 6: Master Table */
+        .master-container { padding: 20px; display: flex; flex-direction: column; height: 100%; }
+        .master-controls { display: flex; justify-content: space-between; margin-bottom: 15px; align-items: center;}
+        .master-controls input[type="text"] { width: 300px; }
+        .table-wrapper { flex-grow: 1; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 8px; background: white;}
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th, td { padding: 12px 20px; border-bottom: 1px solid var(--border-color); font-size: 1.1rem;}
+        th { background: var(--bg-color); position: sticky; top: 0; z-index: 10; font-weight: 800; color: var(--secondary);}
+        tr:hover { background: #f8f9fa; }
+        .speakable { cursor: pointer; color: var(--primary); font-weight: 600;}
+        .speakable:hover { text-decoration: underline; }
+        .hidden-col { filter: blur(6px); user-select: none; color: transparent; background: #e9ecef; transition: all 0.3s; }
+        .hidden-col:hover { filter: blur(0); color: inherit; background: transparent; }
+
+        /* Result Screen */
+        #screen-result { justify-content: center; align-items: center; background: white;}
+        .result-box {
+            text-align: center;
+            background: var(--bg-color);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            width: 60%;
+            max-width: 600px;
+        }
+        .result-score { font-size: 5rem; font-weight: 800; color: var(--success); margin: 20px 0;}
+        .result-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; font-size: 1.2rem; margin-bottom: 30px; text-align: left;}
+        .wrong-list { max-height: 200px; overflow-y: auto; text-align: left; background: white; padding: 15px; border-radius: 8px; margin-bottom: 20px; font-size: 1rem;}
+        .wrong-item { color: var(--danger); margin-bottom: 8px; border-bottom: 1px dashed #ccc; padding-bottom: 4px;}
+
+        /* Utilities */
+        .icon { width: 24px; height: 24px; fill: currentColor; }
+        .hidden { display: none !important; }
+        .feedback-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 6rem; font-weight: bold; pointer-events: none; opacity: 0; z-index: 10;
+        }
+        .feedback-overlay.show { animation: popFade 1.5s forwards; }
+        .feedback-overlay.correct { color: var(--success); text-shadow: 0 0 20px rgba(76, 201, 240, 0.5); }
+        .feedback-overlay.wrong { color: var(--danger); text-shadow: 0 0 20px rgba(247, 37, 133, 0.5); }
+        
+        @keyframes popFade {
+            0% { opacity: 0; transform: scale(0.5); }
+            20% { opacity: 1; transform: scale(1.2); }
+            80% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(1.5); }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="app">
+        <!-- SCREEN: DASHBOARD -->
+        <div id="screen-dashboard" class="screen active">
+            <div style="width: 100%; max-width: 900px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <a href="../SIMPLE PAST.html" style="text-decoration: none;" class="btn-outline">🏠 Trang Chủ</a>
+                <button type="button" class="btn-outline" onclick="openVerbDictModal()">📖 Từ Điển Động Từ</button>
+            </div>
+            <h1>Irregular Verbs Master V2</h1>
+            <div class="dashboard-grid">
+                <div class="form-group">
+                    <label>Select Level</label>
+                    <select id="config-level">
+                        <option value="1">Level 1 - Basic (30 Verbs)</option>
+                        <option value="2">Level 2 - Intermediate (30 Verbs)</option>
+                        <option value="3">Level 3 - Advanced (40 Verbs)</option>
+                        <option value="all">Mix All Levels (100 Verbs)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Game Mode</label>
+                    <select id="config-mode">
+                        <option value="1">Game 01: Find V2</option>
+                        <option value="2">Game 02: Complete The Verb</option>
+                        <option value="3">Game 03: Match V1 with V2</option>
+                        <option value="4">Game 04: Verb Memory</option>
+                        <option value="5">Game 05: Choose Correct Verb</option>
+                        <option value="6">Game 06: V1, V2, V3 Master (Table)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Number of Questions / Rounds</label>
+                    <select id="config-count">
+                        <option value="10">10 Questions</option>
+                        <option value="20">20 Questions</option>
+                        <option value="30">30 Questions</option>
+                        <option value="50">50 Questions</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Play Mode</label>
+                    <select id="config-type">
+                        <option value="practice">Practice (No Timer)</option>
+                        <option value="test">Test (With Timer)</option>
+                    </select>
+                </div>
+                <div class="form-group toggle-group" style="grid-column: 1 / -1; justify-content: center;">
+                    <label style="display:flex; align-items:center; gap:5px; cursor:pointer;">
+                        <input type="checkbox" id="config-audio" checked style="width:20px;height:20px;"> Enable TTS Audio
+                    </label>
+                </div>
+                <div class="start-btn-container">
+                    <button class="btn-primary" onclick="startGame()">START GAME <svg class="icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCREEN: GAME AREA -->
+        <div id="screen-game" class="screen">
+            <div class="top-bar">
+                <button class="btn-outline" onclick="exitGame()">Exit</button>
+                <div class="progress-container">
+                    <div class="progress-bar" id="ui-progress"></div>
+                </div>
+                <div class="stats-group">
+                    <div class="stat-box" id="box-timer">
+                        <svg class="icon" viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                        <span id="ui-timer">00:00</span>
+                    </div>
+                    <div class="stat-box">
+                        <span>Q: <span id="ui-question-count">1/10</span></span>
+                    </div>
+                    <div class="stat-box">
+                        <span>Score: <span id="ui-score">0</span></span>
+                    </div>
+                    <button class="btn-outline" id="btn-mute" onclick="toggleMute()" style="padding: 5px; border:none;">
+                        <svg class="icon" id="icon-sound" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="game-content" id="game-dynamic-area">
+                <!-- Dynamically populated based on mode -->
+            </div>
+            <div id="feedback-layer" class="feedback-overlay"></div>
+        </div>
+
+        <!-- SCREEN: MASTER TABLE -->
+        <div id="screen-master" class="screen">
+            <div class="top-bar">
+                <button class="btn-outline" onclick="exitGame()">Back to Menu</button>
+                <h2>V1, V2, V3 Master Table</h2>
+                <button class="btn-outline" onclick="toggleMute()" style="border:none;">
+                    <svg class="icon" id="icon-sound-table" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+                </button>
+            </div>
+            <div class="master-container">
+                <div class="master-controls">
+                    <input type="text" id="search-table" placeholder="Search by verb..." onkeyup="filterTable()">
+                    <div class="toggle-group">
+                        <label><input type="checkbox" onchange="toggleColumn(2)"> Hide V2</label>
+                        <label><input type="checkbox" onchange="toggleColumn(3)"> Hide V3</label>
+                        <label><input type="checkbox" onchange="toggleColumn(4)"> Hide Meaning</label>
+                    </div>
+                </div>
+                <div class="table-wrapper">
+                    <table id="verbs-table">
+                        <thead>
+                            <tr>
+                                <th>V1 (Base)</th>
+                                <th>V2 (Past Simple)</th>
+                                <th>V3 (Past Participle)</th>
+                                <th>Meaning</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body">
+                            <!-- Populated via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCREEN: RESULT -->
+        <div id="screen-result" class="screen">
+            <div class="result-box">
+                <h2>Challenge Completed!</h2>
+                <div class="result-score" id="res-score">100%</div>
+                <div class="result-stats">
+                    <div>Total Questions: <strong id="res-total">10</strong></div>
+                    <div>Correct: <strong id="res-correct" style="color:var(--success)">8</strong></div>
+                    <div>Wrong: <strong id="res-wrong" style="color:var(--danger)">2</strong></div>
+                    <div>Time Taken: <strong id="res-time">01:20</strong></div>
+                </div>
+                
+                <h3 style="text-align: left; font-size:1rem; margin-bottom: 10px;" id="wrong-title">Needs Review:</h3>
+                <div class="wrong-list" id="res-wrong-list">
+                    <!-- Populated dynamically -->
+                </div>
+
+                <div class="action-buttons" style="justify-content: center; margin-top:20px;">
+                    <button class="btn-outline" onclick="exitGame()">MENU</button>
+                    <button class="btn-primary" onclick="playAgain()">PLAY AGAIN</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* ==========================================================================
+           VERB DATABASE (100 Verbs neatly packed)
+           Format: Level | V1 | V2 | V3 | Meaning | Sentence | Correct V2 | V-ing
+           ========================================================================== */
+        const rawVerbs = [
+            // Level 1 (30)
+            "1|be|was/were|been|thì, là, ở|Yesterday, I ___ at home.|was|being",
+            "1|go|went|gone|đi|She ___ to the park last week.|went|going",
+            "1|come|came|come|đến|They ___ to my house last night.|came|coming",
+            "1|do|did|done|làm|I ___ my homework early.|did|doing",
+            "1|have|had|had|có|We ___ a great time at the party.|had|having",
+            "1|make|made|made|làm, chế tạo|My mom ___ a delicious cake.|made|making",
+            "1|get|got|got/gotten|nhận được, lấy|He ___ a new phone for his birthday.|got|getting",
+            "1|see|saw|seen|nhìn thấy|I ___ a beautiful bird in the garden.|saw|seeing",
+            "1|eat|ate|eaten|ăn|They ___ pizza for dinner yesterday.|ate|eating",
+            "1|drink|drank|drunk|uống|She ___ a glass of milk.|drank|drinking",
+            "1|give|gave|given|cho, tặng|He ___ me a nice gift.|gave|giving",
+            "1|take|took|taken|lấy, mang|I ___ an umbrella because it rained.|took|taking",
+            "1|buy|bought|bought|mua|We ___ a new car last month.|bought|buying",
+            "1|bring|brought|brought|mang đến|She ___ some snacks to the class.|brought|bringing",
+            "1|find|found|found|tìm thấy|He ___ his lost keys under the sofa.|found|finding",
+            "1|know|knew|known|biết|I ___ the answer to the question.|knew|knowing",
+            "1|say|said|said|nói|She ___ hello to everyone.|said|saying",
+            "1|tell|told|told|kể, bảo|He ___ me a funny story.|told|telling",
+            "1|think|thought|thought|nghĩ|I ___ the movie was very good.|thought|thinking",
+            "1|write|wrote|written|viết|She ___ a long letter to her friend.|wrote|writing",
+            "1|read|read|read|đọc|He ___ a whole book last night.|read|reading",
+            "1|speak|spoke|spoken|nói|We ___ English with the tourists.|spoke|speaking",
+            "1|run|ran|run|chạy|I ___ in the park this morning.|ran|running",
+            "1|swim|swam|swum|bơi|She ___ in the pool yesterday.|swam|swimming",
+            "1|sit|sat|sat|ngồi|He ___ on the comfortable chair.|sat|sitting",
+            "1|stand|stood|stood|đứng|They ___ up when the teacher entered.|stood|standing",
+            "1|sleep|slept|slept|ngủ|I ___ very well last night.|slept|sleeping",
+            "1|meet|met|met|gặp gỡ|We ___ at the cafe two days ago.|met|meeting",
+            "1|feel|felt|felt|cảm thấy|She ___ sick yesterday morning.|felt|feeling",
+            "1|leave|left|left|rời đi|He ___ the house early today.|left|leaving",
+            
+            // Level 2 (30)
+            "2|begin|began|begun|bắt đầu|The concert ___ at 8 PM.|began|beginning",
+            "2|break|broke|broken|làm vỡ|He ___ the window with a ball.|broke|breaking",
+            "2|choose|chose|chosen|chọn|She ___ the red dress.|chose|choosing",
+            "2|drive|drove|driven|lái xe|My father ___ us to the airport.|drove|driving",
+            "2|fall|fell|fallen|rơi, ngã|The apple ___ from the tree.|fell|falling",
+            "2|fly|flew|flown|bay|The bird ___ away quickly.|flew|flying",
+            "2|forget|forgot|forgotten|quên|I ___ my umbrella at home.|forgot|forgetting",
+            "2|grow|grew|grown|lớn lên, trồng|The plant ___ very fast.|grew|growing",
+            "2|hear|heard|heard|nghe thấy|I ___ a strange noise outside.|heard|hearing",
+            "2|hold|held|held|cầm, nắm|She ___ the baby carefully.|held|holding",
+            "2|keep|kept|kept|giữ|He ___ his promise.|kept|keeping",
+            "2|lose|lost|lost|đánh mất|I ___ my wallet yesterday.|lost|losing",
+            "2|pay|paid|paid|trả tiền|She ___ for the meal.|paid|paying",
+            "2|ride|rode|ridden|cưỡi, đạp xe|He ___ his bike to school.|rode|riding",
+            "2|ring|rang|rung|rung chuông|The school bell ___ loudly.|rang|ringing",
+            "2|sell|sold|sold|bán|They ___ their old house.|sold|selling",
+            "2|send|sent|sent|gửi|I ___ an email to my boss.|sent|sending",
+            "2|sing|sang|sung|hát|She ___ a beautiful song.|sang|singing",
+            "2|spend|spent|spent|tiêu, dành|We ___ all our money on games.|spent|spending",
+            "2|teach|taught|taught|dạy|Mr. John ___ us math last year.|taught|teaching",
+            "2|understand|understood|understood|hiểu|I clearly ___ the lesson.|understood|understanding",
+            "2|wear|wore|worn|mặc, đội|She ___ a blue jacket yesterday.|wore|wearing",
+            "2|win|won|won|chiến thắng|Our team ___ the match.|won|winning",
+            "2|build|built|built|xây dựng|They ___ a new bridge here.|built|building",
+            "2|catch|caught|caught|bắt lấy|The dog ___ the ball in the air.|caught|catching",
+            "2|cut|cut|cut|cắt|He ___ his finger with a knife.|cut|cutting",
+            "2|draw|drew|drawn|vẽ|She ___ a picture of a cat.|drew|drawing",
+            "2|fight|fought|fought|đánh nhau, chiến đấu|The two boys ___ in the yard.|fought|fighting",
+            "2|lend|lent|lent|cho mượn|I ___ him my favorite book.|lent|lending",
+            "2|throw|threw|thrown|ném|He ___ the trash into the bin.|threw|throwing",
+
+            // Level 3 (40)
+            "3|arise|arose|arisen|phát sinh|A new problem ___ yesterday.|arose|arising",
+            "3|bite|bit|bitten|cắn|The stray dog ___ him.|bit|biting",
+            "3|blow|blew|blown|thổi|The wind ___ hard last night.|blew|blowing",
+            "3|cost|cost|cost|có giá trị|The ticket ___ ten dollars.|cost|costing",
+            "3|dig|dug|dug|đào|They ___ a hole in the garden.|dug|digging",
+            "3|feed|fed|fed|cho ăn|She ___ the street cats.|fed|feeding",
+            "3|hide|hid|hidden|giấu, trốn|The child ___ under the bed.|hid|hiding",
+            "3|hurt|hurt|hurt|làm đau|He ___ his leg playing soccer.|hurt|hurting",
+            "3|lay|laid|laid|đặt, để|She ___ the book on the table.|laid|laying",
+            "3|lead|led|led|dẫn dắt|The guide ___ us through the forest.|led|leading",
+            "3|mean|meant|meant|có nghĩa là|I knew what he ___.|meant|meaning",
+            "3|rise|rose|risen|mọc, tăng|The sun ___ early today.|rose|rising",
+            "3|shake|shook|shaken|rung, lắc|He ___ his head in disagreement.|shook|shaking",
+            "3|shine|shone|shone|chiếu sáng|The stars ___ brightly.|shone|shining",
+            "3|shoot|shot|shot|bắn|The hunter ___ the target.|shot|shooting",
+            "3|show|showed|shown|chỉ, cho xem|She ___ me her new phone.|showed|showing",
+            "3|steal|stole|stolen|ăn cắp|Someone ___ his bicycle.|stole|stealing",
+            "3|stick|stuck|stuck|dính, dán|The stamp ___ to the envelope.|stuck|sticking",
+            "3|strike|struck|struck|đánh, đập|Lightning ___ the tall tree.|struck|striking",
+            "3|swear|swore|sworn|thề|He ___ to tell the truth.|swore|swearing",
+            "3|sweep|swept|swept|quét|She ___ the floor clean.|swept|sweeping",
+            "3|wake|woke|woken|thức dậy|I ___ up very late today.|woke|waking",
+            "3|withdraw|withdrew|withdrawn|rút tiền|He ___ money from the ATM.|withdrew|withdrawing",
+            "3|tear|tore|torn|xé|She ___ the paper into pieces.|tore|tearing",
+            "3|sink|sank|sunk|chìm|The heavy ship ___ in the ocean.|sank|sinking",
+            "3|become|became|become|trở nên|He ___ a famous doctor.|became|becoming",
+            "3|bleed|bled|bled|chảy máu|His nose ___ after the fall.|bled|bleeding",
+            "3|burn|burnt|burnt|đốt cháy|She ___ the old letters.|burnt|burning",
+            "3|dream|dreamt|dreamt|mơ|I ___ about flying last night.|dreamt|dreaming",
+            "3|freeze|froze|frozen|đóng băng|The lake ___ in winter.|froze|freezing",
+            "3|hang|hung|hung|treo|He ___ the painting on the wall.|hung|hanging",
+            "3|let|let|let|để cho, cho phép|My dad ___ me go out.|let|letting",
+            "3|light|lit|lit|thắp sáng|She ___ a candle in the dark.|lit|lighting",
+            "3|put|put|put|đặt, để|He ___ his keys on the desk.|put|putting",
+            "3|quit|quit|quit|từ bỏ|He ___ his job last month.|quit|quitting",
+            "3|set|set|set|thiết lập|She ___ the alarm for 6 AM.|set|setting",
+            "3|shut|shut|shut|đóng|He ___ the door quietly.|shut|shutting",
+            "3|smell|smelt|smelt|ngửi thấy|The food ___ delicious.|smelt|smelling",
+            "3|spell|spelt|spelt|đánh vần|He ___ his name wrong.|spelt|spelling",
+            "3|spread|spread|spread|lan truyền|The news ___ very fast.|spread|spreading"
+        ];
+
+        let verbs = [];
+        rawVerbs.forEach(str => {
+            const parts = str.split('|');
+            verbs.push({
+                level: parseInt(parts[0]),
+                v1: parts[1], v2: parts[2], v3: parts[3], meaning: parts[4],
+                sentence: parts[5], answer: parts[6], ving: parts[7]
+            });
+        });
+
+        /* ==========================================================================
+           STATE & CONFIG
+           ========================================================================== */
+        let state = {
+            mode: 1, type: 'practice', level: '1', targetCount: 10,
+            questionList: [], currentIndex: 0, score: 0, wrongAnswers: [],
+            startTime: 0, timerInterval: null, timeLeft: 0,
+            audioEnabled: true,
+            // For specific games
+            matchData: null, memoryData: null
+        };
+
+        const synth = window.speechSynthesis;
+        let voiceCache = null;
+
+        // Ensure TTS is initialized
+        function initVoice() {
+            if(!voiceCache) {
+                const voices = synth.getVoices();
+                voiceCache = voices.find(v => v.lang.includes('en-US') && v.name.includes('Female')) 
+                             || voices.find(v => v.lang.includes('en-US')) 
+                             || voices[0];
+            }
+        }
+        if (speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = initVoice;
+        }
+
+        function speak(text) {
+            if (!state.audioEnabled) return;
+            initVoice();
+            synth.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            if (voiceCache) utterance.voice = voiceCache;
+            utterance.rate = 0.9;
+            synth.speak(utterance);
+        }
+
+        function toggleMute() {
+            state.audioEnabled = !state.audioEnabled;
+            const path = state.audioEnabled 
+                ? "M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" // Sound on
+                : "M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"; // Sound off
+            
+            document.getElementById('icon-sound').innerHTML = `<path d="${path}"/>`;
+            document.getElementById('icon-sound-table').innerHTML = `<path d="${path}"/>`;
+        }
+
+        /* ==========================================================================
+           UTILITIES
+           ========================================================================== */
+        function shuffle(array) {
+            let currentIndex = array.length, randomIndex;
+            while (currentIndex != 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+            }
+            return array;
+        }
+
+        function showScreen(id) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+        }
+
+        function formatTime(seconds) {
+            const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+            const s = (seconds % 60).toString().padStart(2, '0');
+            return `${m}:${s}`;
+        }
+
+        /* ==========================================================================
+           GAME ENGINE
+           ========================================================================== */
+        function startGame(retryQuestions = null) {
+            // Read config
+            state.level = document.getElementById('config-level').value;
+            state.mode = parseInt(document.getElementById('config-mode').value);
+            state.targetCount = parseInt(document.getElementById('config-count').value);
+            state.type = document.getElementById('config-type').value;
+            state.audioEnabled = document.getElementById('config-audio').checked;
+            
+            toggleMute(); // Sync visual icon
+            toggleMute(); // double toggle to restore real state
+
+            // Prepare Verb List
+            let pool = [];
+            if (state.level === 'all') pool = [...verbs];
+            else pool = verbs.filter(v => v.level == state.level);
+
+            shuffle(pool);
+
+            if (retryQuestions) {
+                state.questionList = retryQuestions;
+                state.targetCount = retryQuestions.length;
+            } else {
+                state.questionList = pool.slice(0, Math.min(state.targetCount, pool.length));
+                state.targetCount = state.questionList.length;
+            }
+
+            // Reset Game State
+            state.currentIndex = 0;
+            state.score = 0;
+            state.wrongAnswers = [];
+            state.startTime = Date.now();
+            
+            if (state.type === 'test') {
+                state.timeLeft = state.targetCount * 10; // 10 seconds per question
+                document.getElementById('ui-timer').style.color = 'inherit';
+            } else {
+                state.timeLeft = 0; // act as stopwatch
+            }
+
+            // UI Reset
+            document.getElementById('ui-score').innerText = state.score;
+            updateProgress();
+
+            if(state.mode === 6) {
+                showScreen('screen-master');
+                renderTable();
+                return;
+            }
+
+            showScreen('screen-game');
+            
+            // Start Timer
+            if (state.timerInterval) clearInterval(state.timerInterval);
+            state.timerInterval = setInterval(timerTick, 1000);
+            timerTick();
+
+            // First TTS init gesture hack
+            speak("");
+
+            loadQuestion();
+        }
+
+        function exitGame() {
+            if(state.timerInterval) clearInterval(state.timerInterval);
+            showScreen('screen-dashboard');
+        }
+
+        function timerTick() {
+            if (state.type === 'test') {
+                state.timeLeft--;
+                document.getElementById('ui-timer').innerText = formatTime(state.timeLeft);
+                if (state.timeLeft <= 10) document.getElementById('ui-timer').style.color = 'var(--danger)';
+                if (state.timeLeft <= 0) endGame();
+            } else {
+                state.timeLeft++;
+                document.getElementById('ui-timer').innerText = formatTime(state.timeLeft);
+            }
+        }
+
+        function updateProgress() {
+            const countStr = `${state.currentIndex + 1}/${state.targetCount}`;
+            document.getElementById('ui-question-count').innerText = state.currentIndex < state.targetCount ? countStr : `${state.targetCount}/${state.targetCount}`;
+            const pct = (state.currentIndex / state.targetCount) * 100;
+            document.getElementById('ui-progress').style.width = `${pct}%`;
+        }
+
+        function showFeedback(isCorrect) {
+            const fb = document.getElementById('feedback-layer');
+            fb.className = 'feedback-overlay show ' + (isCorrect ? 'correct' : 'wrong');
+            fb.innerHTML = isCorrect ? 'O' : 'X';
+            setTimeout(() => fb.className = 'feedback-overlay', 1500);
+            
+            // Audio feedback
+            if(state.audioEnabled) {
+                const au = new Audio(isCorrect ? 'data:audio/mp3;base64,//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq' : '');
+                // Note: Real sound assets omitted to keep offline and pure text without huge base64 blobs, relying on TTS instead for verb feedback.
+            }
+        }
+
+        function handleAnswer(isCorrect, verbObj) {
+            if (isCorrect) {
+                state.score += 10;
+                document.getElementById('ui-score').innerText = state.score;
+                showFeedback(true);
+            } else {
+                state.wrongAnswers.push(verbObj);
+                showFeedback(false);
+            }
+
+            setTimeout(() => {
+                state.currentIndex++;
+                loadQuestion();
+            }, 1500);
+        }
+
+        function loadQuestion() {
+            // Mode 3 & 4 process in chunks, check if we reached target
+            if (state.mode === 3 || state.mode === 4) {
+                 if (state.currentIndex >= state.targetCount) {
+                     endGame();
+                     return;
+                 }
+            } else {
+                if (state.currentIndex >= state.targetCount) {
+                    endGame();
+                    return;
+                }
+            }
+
+            updateProgress();
+            const area = document.getElementById('game-dynamic-area');
+            area.innerHTML = ''; // clear
+
+            switch(state.mode) {
+                case 1: renderFindV2(area); break;
+                case 2: renderCompleteVerb(area); break;
+                case 3: renderMatch(area); break;
+                case 4: renderMemory(area); break;
+                case 5: renderChooseCorrect(area); break;
+            }
+        }
+
+        function endGame() {
+            if(state.timerInterval) clearInterval(state.timerInterval);
+            showScreen('screen-result');
+
+            const total = state.targetCount;
+            const wrong = state.wrongAnswers.length;
+            const correct = total - wrong;
+            const acc = total > 0 ? Math.round((correct / total) * 100) : 0;
+
+            document.getElementById('res-score').innerText = `${acc}%`;
+            document.getElementById('res-total').innerText = total;
+            document.getElementById('res-correct').innerText = correct;
+            document.getElementById('res-wrong').innerText = wrong;
+            
+            const timeStr = state.type === 'test' ? formatTime((total*10) - state.timeLeft) : formatTime(state.timeLeft);
+            document.getElementById('res-time').innerText = timeStr;
+
+            const list = document.getElementById('res-wrong-list');
+            list.innerHTML = '';
+            if(wrong === 0) {
+                document.getElementById('wrong-title').innerText = "Perfect! No mistakes.";
+            } else {
+                document.getElementById('wrong-title').innerText = "Needs Review:";
+                // Deduplicate wrong answers
+                const uniqueWrong = [...new Set(state.wrongAnswers)];
+                uniqueWrong.forEach(v => {
+                    list.innerHTML += `<div class="wrong-item"><strong>${v.v1}</strong> → ${v.answer} (${v.meaning})</div>`;
+                });
+            }
+        }
+
+        function playAgain() {
+            if (state.wrongAnswers.length > 0 && confirm("Do you want to practice your wrong answers only?")) {
+                startGame([...new Set(state.wrongAnswers)]);
+            } else {
+                showScreen('screen-dashboard');
+            }
+        }
+
+        /* ==========================================================================
+           GAME MODE RENDERERS
+           ========================================================================== */
+
+        // MODE 1: FIND V2
+        function renderFindV2(container) {
+            const verb = state.questionList[state.currentIndex];
+            let options = [verb.answer];
+            
+            // get 3 random wrong answers from same level
+            let pool = verbs.filter(v => v.level == verb.level && v.answer !== verb.answer);
+            shuffle(pool);
+            for(let i=0; i<3 && i<pool.length; i++) {
+                options.push(pool[i].answer);
+            }
+            shuffle(options);
+
+            const qEl = document.createElement('div');
+            qEl.className = 'question-text';
+            qEl.innerText = `Find Past Simple (V2) of: ${verb.v1.toUpperCase()}`;
+            qEl.onclick = () => speak(verb.v1);
+            speak(verb.v1);
+
+            const grid = document.createElement('div');
+            grid.className = 'options-grid';
+
+            options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = opt;
+                btn.onclick = function() {
+                    // disable others
+                    Array.from(grid.children).forEach(c => c.disabled = true);
+                    speak(opt);
+                    const isCorrect = opt === verb.answer;
+                    if(isCorrect) this.classList.add('correct');
+                    else {
+                        this.classList.add('wrong');
+                        // highlight correct
+                        Array.from(grid.children).find(c => c.innerText === verb.answer).classList.add('correct');
+                    }
+                    handleAnswer(isCorrect, verb);
+                };
+                grid.appendChild(btn);
+            });
+
+            container.appendChild(qEl);
+            container.appendChild(grid);
+        }
+
+        // MODE 2: COMPLETE THE VERB
+        function renderCompleteVerb(container) {
+            const verb = state.questionList[state.currentIndex];
+            
+            const qEl = document.createElement('div');
+            qEl.className = 'question-text';
+            // Replace ___ with actual input in mental model, but here display sentence and input below
+            let sentence = verb.sentence.replace('___', '_____');
+            qEl.innerHTML = `${sentence} <br><span style="font-size:1.5rem; color:var(--text-muted)">(${verb.v1})</span>`;
+            qEl.onclick = () => speak(verb.v1);
+            speak(verb.v1);
+
+            const inputContainer = document.createElement('div');
+            inputContainer.className = 'input-container';
+
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.placeholder = 'Type V2 here...';
+            input.autocomplete = 'off';
+
+            const btnContainer = document.createElement('div');
+            btnContainer.className = 'action-buttons';
+
+            const btnCheck = document.createElement('button');
+            btnCheck.className = 'btn-success';
+            btnCheck.innerText = 'CHECK';
+
+            const btnShow = document.createElement('button');
+            btnShow.className = 'btn-outline';
+            btnShow.innerText = 'SHOW ANSWER';
+
+            const checkLogic = () => {
+                const val = input.value.toLowerCase().trim();
+                // some answers have alternate (was/were) -> handle appropriately or just check if includes.
+                // since 'answer' field holds the exact one for the sentence (e.g. 'was')
+                const correctAnswers = verb.answer.toLowerCase().split('/');
+                const isCorrect = correctAnswers.includes(val);
+                
+                input.disabled = true;
+                btnCheck.disabled = true;
+                btnShow.disabled = true;
+                
+                if(isCorrect) {
+                    input.style.borderColor = 'var(--success)';
+                    input.style.color = 'var(--success)';
+                } else {
+                    input.style.borderColor = 'var(--danger)';
+                    input.style.color = 'var(--danger)';
+                    input.value = verb.answer; // show correct
+                }
+                speak(verb.answer);
+                handleAnswer(isCorrect, verb);
+            };
+
+            btnCheck.onclick = checkLogic;
+            input.onkeypress = (e) => { if(e.key === 'Enter') checkLogic(); };
+
+            btnShow.onclick = () => {
+                input.value = verb.answer;
+                input.disabled = true;
+                btnCheck.disabled = true;
+                btnShow.disabled = true;
+                speak(verb.answer);
+                handleAnswer(false, verb); // Mark wrong if they peek
+            };
+
+            btnContainer.appendChild(btnShow);
+            btnContainer.appendChild(btnCheck);
+            inputContainer.appendChild(input);
+            inputContainer.appendChild(btnContainer);
+
+            container.appendChild(qEl);
+            container.appendChild(inputContainer);
+            input.focus();
+        }
+
+        // MODE 3: MATCH
+        function renderMatch(container) {
+            // Get batch of 5
+            const batchSize = 5;
+            const endIndex = Math.min(state.currentIndex + batchSize, state.targetCount);
+            const batch = state.questionList.slice(state.currentIndex, endIndex);
+            
+            if (batch.length === 0) { endGame(); return; }
+
+            const qEl = document.createElement('h2');
+            qEl.innerText = "Match V1 with V2";
+            container.appendChild(qEl);
+
+            const matchDiv = document.createElement('div');
+            matchDiv.className = 'match-container';
+
+            const col1 = document.createElement('div'); col1.className = 'match-column';
+            const col2 = document.createElement('div'); col2.className = 'match-column';
+
+            let v1s = batch.map(b => ({id: b.v1, text: b.v1, data: b}));
+            let v2s = batch.map(b => ({id: b.v1, text: b.answer, data: b}));
+            
+            shuffle(v1s);
+            shuffle(v2s);
+
+            let selectedV1 = null;
+            let selectedV2 = null;
+            let matchesFound = 0;
+            let wrongs = 0; // count mistakes in this round
+
+            const checkMatch = () => {
+                if(!selectedV1 || !selectedV2) return;
+                
+                if(selectedV1.dataset.id === selectedV2.dataset.id) {
+                    // Match
+                    speak(selectedV2.innerText);
+                    selectedV1.classList.remove('selected');
+                    selectedV2.classList.remove('selected');
+                    selectedV1.classList.add('matched');
+                    selectedV2.classList.add('matched');
+                    matchesFound++;
+                    
+                    selectedV1 = null; selectedV2 = null;
+
+                    if(matchesFound === batch.length) {
+                        state.score += (batch.length * 10) - (wrongs * 5); // penalize
+                        document.getElementById('ui-score').innerText = state.score;
+                        state.currentIndex += batch.length;
+                        setTimeout(loadQuestion, 1000);
+                    }
+                } else {
+                    // Error
+                    selectedV1.classList.remove('selected');
+                    selectedV2.classList.remove('selected');
+                    selectedV1.classList.add('error');
+                    selectedV2.classList.add('error');
+                    wrongs++;
+                    
+                    const obj = batch.find(b => b.v1 === selectedV1.dataset.id);
+                    if(obj && !state.wrongAnswers.includes(obj)) state.wrongAnswers.push(obj);
+
+                    setTimeout(() => {
+                        if(selectedV1) selectedV1.classList.remove('error');
+                        if(selectedV2) selectedV2.classList.remove('error');
+                        selectedV1 = null; selectedV2 = null;
+                    }, 500);
+                }
+            }
+
+            v1s.forEach(item => {
+                const el = document.createElement('div');
+                el.className = 'match-item';
+                el.innerText = item.text;
+                el.dataset.id = item.id;
+                el.onclick = () => {
+                    speak(item.text);
+                    if(selectedV1) selectedV1.classList.remove('selected');
+                    selectedV1 = el;
+                    el.classList.add('selected');
+                    checkMatch();
+                };
+                col1.appendChild(el);
+            });
+
+            v2s.forEach(item => {
+                const el = document.createElement('div');
+                el.className = 'match-item';
+                el.innerText = item.text;
+                el.dataset.id = item.id;
+                el.onclick = () => {
+                    if(selectedV2) selectedV2.classList.remove('selected');
+                    selectedV2 = el;
+                    el.classList.add('selected');
+                    checkMatch();
+                };
+                col2.appendChild(el);
+            });
+
+            matchDiv.appendChild(col1);
+            matchDiv.appendChild(col2);
+            container.appendChild(matchDiv);
+        }
+
+        // MODE 4: MEMORY
+        function renderMemory(container) {
+            const batchSize = 6; // 6 pairs = 12 cards
+            const endIndex = Math.min(state.currentIndex + batchSize, state.targetCount);
+            const batch = state.questionList.slice(state.currentIndex, endIndex);
+            
+            if (batch.length === 0) { endGame(); return; }
+
+            const qEl = document.createElement('h2');
+            qEl.innerText = "Memory Game: Find Pairs";
+            container.appendChild(qEl);
+
+            let cardsData = [];
+            batch.forEach(b => {
+                cardsData.push({id: b.v1, text: b.v1, type: 'v1'});
+                cardsData.push({id: b.v1, text: b.answer, type: 'v2'});
+            });
+            shuffle(cardsData);
+
+            const grid = document.createElement('div');
+            grid.className = 'memory-grid';
+            
+            // adjust columns if less than 6 pairs
+            if(cardsData.length < 12) grid.style.gridTemplateColumns = 'repeat(3, 1fr)';
+
+            let flippedCards = [];
+            let matchesFound = 0;
+            let wrongs = 0;
+
+            cardsData.forEach((item, idx) => {
+                const card = document.createElement('div');
+                card.className = 'memory-card';
+                card.dataset.id = item.id;
+                
+                const front = document.createElement('div'); front.className = 'card-face card-front'; front.innerText = '?';
+                const back = document.createElement('div'); back.className = 'card-face card-back'; back.innerText = item.text;
+
+                card.appendChild(front);
+                card.appendChild(back);
+
+                card.onclick = () => {
+                    if (card.classList.contains('flipped') || flippedCards.length >= 2) return;
+                    
+                    card.classList.add('flipped');
+                    speak(item.text);
+                    flippedCards.push(card);
+
+                    if (flippedCards.length === 2) {
+                        const [c1, c2] = flippedCards;
+                        if (c1.dataset.id === c2.dataset.id) {
+                            // Match
+                            setTimeout(() => {
+                                c1.classList.add('matched');
+                                c2.classList.add('matched');
+                                flippedCards = [];
+                                matchesFound++;
+                                if (matchesFound === batch.length) {
+                                    state.score += (batch.length * 10) - (wrongs * 2);
+                                    document.getElementById('ui-score').innerText = state.score;
+                                    state.currentIndex += batch.length;
+                                    setTimeout(loadQuestion, 1000);
+                                }
+                            }, 1000);
+                        } else {
+                            // No Match
+                            wrongs++;
+                            const obj = batch.find(b => b.v1 === c1.dataset.id || b.v1 === c2.dataset.id);
+                            if(obj && !state.wrongAnswers.includes(obj)) state.wrongAnswers.push(obj);
+
+                            setTimeout(() => {
+                                c1.classList.remove('flipped');
+                                c2.classList.remove('flipped');
+                                flippedCards = [];
+                            }, 1200);
+                        }
+                    }
+                };
+
+                grid.appendChild(card);
+            });
+
+            container.appendChild(grid);
+        }
+
+        // MODE 5: CHOOSE CORRECT VERB
+        function renderChooseCorrect(container) {
+            const verb = state.questionList[state.currentIndex];
+            
+            const qEl = document.createElement('div');
+            qEl.className = 'question-text';
+            qEl.innerText = verb.sentence;
+
+            const grid = document.createElement('div');
+            grid.className = 'options-grid';
+
+            // Options: V1, V2, V3, V-ing
+            let options = [verb.v1, verb.answer, verb.v3, verb.ving];
+            // Fix duplicate options if v2 and v3 are the same
+            options = [...new Set(options)]; 
+            
+            // if we have less than 4 options because of duplicates (e.g. cut, cut, cut), add some random forms
+            while(options.length < 4) {
+                const randomVerb = verbs[Math.floor(Math.random() * verbs.length)];
+                const rOpt = [randomVerb.v1, randomVerb.answer, randomVerb.v3, randomVerb.ving][Math.floor(Math.random()*4)];
+                if(!options.includes(rOpt)) options.push(rOpt);
+            }
+            
+            shuffle(options);
+
+            options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = opt;
+                btn.onclick = function() {
+                    Array.from(grid.children).forEach(c => c.disabled = true);
+                    speak(opt);
+                    const isCorrect = opt === verb.answer;
+                    if(isCorrect) this.classList.add('correct');
+                    else {
+                        this.classList.add('wrong');
+                        Array.from(grid.children).find(c => c.innerText === verb.answer).classList.add('correct');
+                    }
+                    // fill in the blank
+                    qEl.innerText = verb.sentence.replace('___', verb.answer);
+                    handleAnswer(isCorrect, verb);
+                };
+                grid.appendChild(btn);
+            });
+
+            container.appendChild(qEl);
+            container.appendChild(grid);
+        }
+
+        // MODE 6: MASTER TABLE
+        function renderTable() {
+            const tbody = document.getElementById('table-body');
+            tbody.innerHTML = '';
+            
+            verbs.forEach(v => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="speakable" onclick="speak('${v.v1}')">${v.v1}</td>
+                    <td class="col-v2 speakable" onclick="speak('${v.v2}')">${v.v2}</td>
+                    <td class="col-v3 speakable" onclick="speak('${v.v3}')">${v.v3}</td>
+                    <td class="col-meaning">${v.meaning}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function filterTable() {
+            const query = document.getElementById('search-table').value.toLowerCase();
+            const rows = document.getElementById('table-body').getElementsByTagName('tr');
+            for (let i = 0; i < rows.length; i++) {
+                const v1 = rows[i].getElementsByTagName('td')[0].innerText.toLowerCase();
+                const meaning = rows[i].getElementsByTagName('td')[3].innerText.toLowerCase();
+                if (v1.startsWith(query) || meaning.includes(query)) {
+                    rows[i].style.display = "";
+                } else {
+                    rows[i].style.display = "none";
+                }
+            }
+        }
+
+        function toggleColumn(colIndex) {
+            const colClass = colIndex === 2 ? 'col-v2' : (colIndex === 3 ? 'col-v3' : 'col-meaning');
+            const cells = document.querySelectorAll(`.${colClass}`);
+            const isChecked = event.target.checked;
+            cells.forEach(c => {
+                if(isChecked) c.classList.add('hidden-col');
+                else c.classList.remove('hidden-col');
+            });
+        }
+
+        function openVerbDictModal() {
+            const modal = document.getElementById('verb-dict-modal');
+            const iframe = document.getElementById('vdict-iframe');
+            if (iframe && !iframe.src && iframe.dataset.src) {
+                iframe.src = iframe.dataset.src;
+            }
+            if (modal) modal.style.display = 'flex';
+        }
+        function closeVerbDictModal() {
+            const modal = document.getElementById('verb-dict-modal');
+            if (modal) modal.style.display = 'none';
+        }
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeVerbDictModal();
+        });
+    </script>
+
+<!-- VERB DICTIONARY MODAL -->
+<style>
+.vdict-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(4px);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
+  animation: vdictFadeIn 0.2s ease-out;
+}
+.vdict-modal-box {
+  width: min(1200px, 96vw);
+  height: min(88vh, 850px);
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.vdict-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #0B3C5D;
+  color: #ffffff;
+  padding: 12px 20px;
+  flex-shrink: 0;
+}
+.vdict-title {
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.vdict-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.vdict-btn-ext {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.18);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.vdict-btn-ext:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+.vdict-btn-close {
+  background: rgba(239, 68, 68, 0.85);
+  color: #ffffff;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.vdict-btn-close:hover {
+  background: #dc2626;
+}
+.vdict-modal-body {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: #F4F8FB;
+}
+.vdict-modal-body iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+@keyframes vdictFadeIn {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+</style>
+
+<div id="verb-dict-modal" class="vdict-modal-overlay" style="display:none;" onclick="if(event.target===this) closeVerbDictModal()">
+  <div class="vdict-modal-box">
+    <div class="vdict-modal-header">
+      <div class="vdict-title">
+        <span>📖</span> English Verb Dictionary (V1 - V2 - V3)
+      </div>
+      <div class="vdict-actions">
+        <a id="vdict-open-newtab" href="ENGLISH VERB DICTIONARY.html" target="_blank" class="vdict-btn-ext" title="Mở trong tab mới">
+          ↗ Mở tab mới
+        </a>
+        <button type="button" class="vdict-btn-close" onclick="closeVerbDictModal()" title="Đóng">✕</button>
+      </div>
+    </div>
+    <div class="vdict-modal-body">
+      <iframe id="vdict-iframe" data-src="ENGLISH VERB DICTIONARY.html" title="English Verb Dictionary"></iframe>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PAST TENSE DETECTIVE</title>
+    <style>
+        :root {
+            --primary: #2B5876;
+            --primary-light: #4E4376;
+            --accent: #FFB75E;
+            --accent-dark: #ED8F03;
+            --danger: #FF416C;
+            --danger-dark: #FF4B2B;
+            --success: #00B4DB;
+            --success-dark: #0083B0;
+            --dark: #1F1C2C;
+            --white: #FFFFFF;
+            --bg-game: #F4F7F6;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'UTM Avo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1F1C2C 0%, #928DAB 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        #game-container {
+            width: 100%;
+            max-width: 1280px;
+            aspect-ratio: 16/9;
+            background: var(--bg-game);
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6), inset 0 0 0 8px rgba(255,255,255,0.2);
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- Tittle & HUD --- */
+        .hud {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid #E0E0E0;
+            z-index: 10;
+        }
+
+        .hud-group { display: flex; gap: 12px; align-items: center; }
+        
+        .pill {
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .pill-mode { background: linear-gradient(45deg, #2B5876, #4E4376); }
+        .pill-q { background: #607D8B; }
+        .pill-correct { background: linear-gradient(45deg, #11998e, #38ef7d); }
+        .pill-wrong { background: linear-gradient(45deg, #FF416C, #FF4B2B); }
+        .pill-score { background: linear-gradient(45deg, #FFB75E, #ED8F03); font-size: 1.2rem; }
+        
+        .progress-bar-container {
+            width: 100%; height: 6px; background: #E0E0E0;
+        }
+        .progress-bar {
+            height: 100%; width: 0%;
+            background: linear-gradient(90deg, #00B4DB, #0083B0);
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 10px rgba(0, 180, 219, 0.5);
+        }
+
+        /* --- Screens --- */
+        .screen {
+            flex: 1; display: none; flex-direction: column;
+            align-items: center; justify-content: center;
+            padding: 20px; text-align: center;
+            position: relative;
+        }
+        .screen.active { display: flex; animation: fadeIn 0.5s ease; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* --- Menu Screen --- */
+        #menu-screen::before {
+            content: '🕵️‍♂️';
+            font-size: 8rem;
+            position: absolute;
+            top: 20px;
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        h1 {
+            font-size: 4rem; color: var(--primary); text-transform: uppercase;
+            text-shadow: 3px 3px 0px rgba(0,0,0,0.1);
+            margin-bottom: 5px; z-index: 1; letter-spacing: 2px;
+        }
+        h2 { font-size: 1.8rem; color: var(--accent-dark); margin-bottom: 40px; z-index: 1; font-weight: bold; }
+        
+        .menu-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 25px;
+            width: 85%; max-width: 900px; z-index: 1;
+        }
+
+        /* 3D Button Style */
+        .btn-3d {
+            border: none; padding: 20px; font-size: 1.5rem; font-weight: bold;
+            border-radius: 16px; cursor: pointer; color: white;
+            transition: transform 0.1s, box-shadow 0.1s;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        .btn-3d span.desc { font-size: 1rem; opacity: 0.9; font-weight: normal; margin-top: 8px; }
+        
+        .btn-3d:active { transform: translateY(6px); }
+        
+        .btn-g1 { background: linear-gradient(to bottom, #4A90E2, #2468B1); box-shadow: 0 8px 0 #1A4D85, 0 15px 20px rgba(0,0,0,0.3); }
+        .btn-g1:active { box-shadow: 0 2px 0 #1A4D85, 0 5px 10px rgba(0,0,0,0.3); }
+
+        .btn-g2 { background: linear-gradient(to bottom, #9B51E0, #6C2DA9); box-shadow: 0 8px 0 #4C1B7A, 0 15px 20px rgba(0,0,0,0.3); }
+        .btn-g2:active { box-shadow: 0 2px 0 #4C1B7A, 0 5px 10px rgba(0,0,0,0.3); }
+
+        .btn-g3 { background: linear-gradient(to bottom, #F2994A, #D67721); box-shadow: 0 8px 0 #A85A14, 0 15px 20px rgba(0,0,0,0.3); }
+        .btn-g3:active { box-shadow: 0 2px 0 #A85A14, 0 5px 10px rgba(0,0,0,0.3); }
+
+        .btn-g4 { background: linear-gradient(to bottom, #EB5757, #C63535); box-shadow: 0 8px 0 #952121, 0 15px 20px rgba(0,0,0,0.3); }
+        .btn-g4:active { box-shadow: 0 2px 0 #952121, 0 5px 10px rgba(0,0,0,0.3); }
+
+        /* --- Game Screen --- */
+        .question-box {
+            background: white; padding: 40px; border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            width: 90%; max-width: 950px; margin-bottom: 40px;
+            font-size: 2.8rem; color: var(--primary); font-weight: bold;
+            cursor: pointer; position: relative;
+            border-top: 8px solid var(--accent);
+        }
+        .question-box::before {
+            content: '📌 CASE FILE'; position: absolute; top: -18px; left: 30px;
+            background: var(--accent); color: white; padding: 4px 15px;
+            border-radius: 20px; font-size: 1rem; font-weight: bold;
+        }
+        .question-box:hover { transform: scale(1.01); transition: 0.2s; }
+        .question-box:hover::after {
+            content: '🔊 Click to listen'; position: absolute; bottom: 10px; right: 20px;
+            font-size: 1rem; color: #888;
+        }
+
+        .options-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+            width: 90%; max-width: 950px;
+        }
+        
+        .option-btn {
+            background: white; color: var(--dark);
+            border: 3px solid #E0E6ED; padding: 20px;
+            font-size: 1.8rem; font-weight: bold; border-radius: 16px;
+            cursor: pointer; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex; align-items: center;
+            box-shadow: 0 6px 0 #E0E6ED, 0 10px 15px rgba(0,0,0,0.05);
+        }
+        .option-btn:hover { border-color: var(--success); transform: translateY(-4px); box-shadow: 0 10px 0 #0083B0, 0 15px 20px rgba(0,0,0,0.1); color: var(--success-dark); }
+        .option-btn:active { transform: translateY(6px); box-shadow: 0 0 0 transparent; }
+        
+        .option-btn .key-hint {
+            background: #EDF2F7; color: #4A5568; font-size: 1.2rem;
+            width: 35px; height: 35px; display: flex; justify-content: center; align-items: center;
+            border-radius: 8px; margin-right: 20px; font-weight: 800;
+        }
+
+        /* States */
+        .option-btn.correct {
+            background: var(--success); border-color: var(--success); color: white;
+            box-shadow: 0 6px 0 var(--success-dark); animation: pulse 0.5s;
+        }
+        .option-btn.correct .key-hint { background: rgba(255,255,255,0.3); color: white; }
+        
+        .option-btn.wrong {
+            background: var(--danger); border-color: var(--danger); color: white;
+            box-shadow: 0 6px 0 var(--danger-dark); animation: shake 0.4s;
+        }
+        .option-btn.wrong .key-hint { background: rgba(255,255,255,0.3); color: white; }
+        .option-btn:disabled { cursor: not-allowed; pointer-events: none; }
+
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 50% { transform: translateX(10px); } 75% { transform: translateX(-10px); } }
+
+        /* --- Feedback Modal --- */
+        .feedback-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(31, 28, 44, 0.8); backdrop-filter: blur(5px);
+            display: none; justify-content: center; align-items: center; z-index: 100;
+        }
+        .feedback-box {
+            background: white; padding: 40px; border-radius: 24px;
+            width: 85%; max-width: 750px; text-align: left;
+            position: relative; border-top: 10px solid var(--accent);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes popIn { 0% { transform: scale(0.6) translateY(50px); opacity: 0; } 100% { transform: scale(1) translateY(0); opacity: 1; } }
+        
+        .feedback-status { font-size: 3rem; font-weight: 900; text-align: center; margin-bottom: 20px; text-transform: uppercase; }
+        .status-correct { color: var(--success); text-shadow: 2px 2px 0px rgba(0,180,219,0.2); }
+        .status-wrong { color: var(--danger); text-shadow: 2px 2px 0px rgba(255,65,108,0.2); }
+        
+        .feedback-explanation { font-size: 1.4rem; color: var(--dark); margin-bottom: 25px; text-align: center; line-height: 1.5; }
+        
+        .grammar-rule {
+            background: #FFF8E1; border: 2px dashed var(--accent);
+            padding: 20px; border-radius: 12px; font-size: 1.2rem;
+            line-height: 1.8; margin-bottom: 30px; color: #5D4037;
+        }
+        
+        .btn-next {
+            display: block; width: 100%; background: linear-gradient(90deg, var(--success), #00d2ff);
+            color: white; padding: 20px; border: none; border-radius: 16px;
+            font-size: 1.8rem; cursor: pointer; font-weight: bold;
+            box-shadow: 0 8px 0 var(--success-dark), 0 15px 20px rgba(0,0,0,0.2);
+            transition: all 0.1s; text-transform: uppercase; letter-spacing: 1px;
+        }
+        .btn-next:active { transform: translateY(6px); box-shadow: 0 2px 0 var(--success-dark), 0 5px 10px rgba(0,0,0,0.2); }
+
+        /* Sound Toggle */
+        #sound-toggle { 
+            background: #E0E6ED; border: none; font-size: 1.5rem; 
+            cursor: pointer; width: 45px; height: 45px; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            box-shadow: 0 4px 0 #CBD5E0; transition: 0.1s;
+        }
+        #sound-toggle:active { transform: translateY(4px); box-shadow: 0 0 0 transparent; }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            h1 { font-size: 3rem; }
+            .question-box { font-size: 2rem; padding: 30px; }
+            .option-btn { font-size: 1.4rem; padding: 15px; }
+        }
+        @media (max-width: 600px) {
+            .options-grid { grid-template-columns: 1fr; }
+            .menu-grid { grid-template-columns: 1fr; }
+            .hud { flex-direction: column; gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="game-container">
+    <div class="hud" id="hud" style="display: none;">
+        <div class="hud-group">
+            <a href="../SIMPLE PAST.html" class="pill" style="text-decoration: none; cursor:pointer;" title="Về danh mục bài học">🏠 Home</a>
+            <button type="button" class="pill" onclick="openVerbDictModal()" style="border:none; cursor:pointer; background: #0284c7;" title="Tra từ điển động từ">📖 Từ Điển</button>
+            <div class="pill pill-mode">🕵️‍♂️ <span id="mode-label">Game 1</span></div>
+            <div class="pill pill-q">📝 <span id="q-current">1</span>/<span id="q-total">10</span></div>
+        </div>
+        <div class="hud-group">
+            <div class="pill pill-correct">✔ <span id="score-correct">0</span></div>
+            <div class="pill pill-wrong">✘ <span id="score-incorrect">0</span></div>
+            <div class="pill pill-score">⭐ <span id="score-points">0</span></div>
+            <div class="pill" style="background:#4A5568;">🎯 <span id="score-acc">0</span>%</div>
+            <button id="sound-toggle">🔊</button>
+        </div>
+    </div>
+    <div class="progress-bar-container" id="progress-container" style="display: none;">
+        <div class="progress-bar" id="progress-bar"></div>
+    </div>
+
+    <!-- Menu Screen -->
+    <div id="menu-screen" class="screen active">
+        <div style="position: absolute; top: 20px; left: 30px; display: flex; gap: 12px; z-index: 20;">
+            <a href="../SIMPLE PAST.html" class="pill" style="text-decoration: none; background: rgba(255,255,255,0.95); color: var(--primary); font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.15);" title="Về danh mục bài học">
+                🏠 Trang Chủ
+            </a>
+            <button type="button" class="pill" onclick="openVerbDictModal()" style="border:none; cursor:pointer; background: linear-gradient(135deg, #0284c7, #2563eb); color: white; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.15);" title="Tra cứu động từ V1 - V2 - V3">
+                📖 Từ Điển Động Từ
+            </button>
+        </div>
+        <h1>PAST TENSE DETECTIVE</h1>
+        <h2>🔍 FIND THE PAST SIMPLE! 🕵️‍♂️</h2>
+        <div class="menu-grid">
+            <button class="btn-3d btn-g1" onclick="startGame(1)">
+                1. FIND THE PAST
+                <span class="desc">Nhận dạng thì của câu (20 Qs)</span>
+            </button>
+            <button class="btn-3d btn-g2" onclick="startGame(2)">
+                2. TIME DETECTIVE
+                <span class="desc">Dấu hiệu thời gian (15 Qs)</span>
+            </button>
+            <button class="btn-3d btn-g3" onclick="startGame(3)">
+                3. VERB DETECTIVE
+                <span class="desc">Nhận dạng động từ (15 Qs)</span>
+            </button>
+            <button class="btn-3d btn-g4" onclick="startGame(4)">
+                4. SENTENCE CHALLENGE
+                <span class="desc">Thử thách tổng hợp (10 Qs)</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Game Screen -->
+    <div id="game-screen" class="screen">
+        <div id="question-text" class="question-box" onclick="speakQuestion()">Question text</div>
+        <div class="options-grid" id="options-container">
+            <!-- Options injected by JS -->
+        </div>
+    </div>
+
+    <!-- End Screen -->
+    <div id="end-screen" class="screen">
+        <h1 id="end-title" style="font-size: 5rem;">🏆 MISSION COMPLETE!</h1>
+        <div style="font-size: 2.5rem; margin: 30px; background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+            <p style="margin-bottom:15px; color: var(--dark);">Total Score: <span id="final-score" style="color:var(--accent-dark); font-weight:900; font-size: 3.5rem;">0</span> ⭐</p>
+            <p style="color: var(--dark);">Accuracy: <span id="final-acc" style="color:var(--success); font-weight:bold;">0%</span> 🎯</p>
+        </div>
+        <button class="btn-3d btn-g1" style="width: 300px; padding: 25px;" onclick="returnToMenu()">🔄 PLAY AGAIN</button>
+    </div>
+
+    <!-- Feedback Modal -->
+    <div class="feedback-overlay" id="feedback-modal">
+        <div class="feedback-box">
+            <div id="feedback-status" class="feedback-status">CORRECT! 🎉</div>
+            <div id="feedback-explanation" class="feedback-explanation"></div>
+            <div class="grammar-rule">
+                <strong>📝 PAST SIMPLE (Quá khứ đơn) CẦN NHỚ:</strong><br><br>
+                ✅ <strong>Khẳng định:</strong> S + V2/ed.<br>
+                ❌ <strong>Phủ định:</strong> S + did not (didn't) + V1.<br>
+                ❓ <strong>Nghi vấn:</strong> Did + S + V1?<br><br>
+                🕰 <strong>Dấu hiệu:</strong> yesterday, last..., ...ago, in + năm quá khứ.<br>
+                <em>⚠️ Lưu ý: Sau "did/didn't", động từ LUÔN trở về nguyên mẫu V1.</em>
+            </div>
+            <button class="btn-next" id="btn-next" onclick="nextQuestion()">NEXT QUESTION ➔</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- QUESTION DATABASE (60 Questions) ---
+    // [Giữ nguyên cấu trúc mảng câu hỏi từ code trước để tiết kiệm không gian]
+    const allQuestions = {
+        1: [ // 20 Questions (NEW)
+            {q: "We visited the museum last Friday.", o: ["Past Simple", "Present Simple", "Present Continuous"], a: 0, ex: "Có 'visited' (V-ed) và thời gian 'last Friday'.", audioStart: 0, audioEnd: 2.38 },
+            {q: "Shh! The baby is sleeping in the bedroom.", o: ["Past Simple", "Present Simple", "Present Continuous"], a: 2, ex: "Có từ gây chú ý 'Shh!' và 'is sleeping' -> đang diễn ra.", audioStart: 3.04, audioEnd: 6.86 },
+            {q: "My brother usually drinks coffee in the morning.", o: ["Past Simple", "Present Simple", "Present Continuous"], a: 1, ex: "Trạng từ tần suất 'usually' và động từ 'drinks' (V-s).", audioStart: 7.48, audioEnd: 10.34 },
+            {q: "I didn't see you at the party yesterday.", o: ["Past Simple", "Present Simple", "Present Continuous"], a: 0, ex: "Có trợ động từ 'didn't' và 'yesterday'.", audioStart: 10.76, audioEnd: 12.76 },
+            {q: "They are building a new supermarket right now.", o: ["Past Simple", "Present Simple", "Present Continuous"], a: 2, ex: "Có 'are building' và 'right now'.", audioStart: 13.38, audioEnd: 16.32 },
+            {q: "Does she often go to the library?", o: ["Past Simple", "Present Simple", "Present Continuous"], a: 1, ex: "Câu hỏi bắt đầu bằng 'Does' và có 'often'.", audioStart: 16.84, audioEnd: 18.54 },
+            {q: "The train arrived ten minutes ago.", o: ["Past Simple", "Present Simple", "Present Continuous"], a: 0, ex: "Có 'arrived' (V-ed) và dấu hiệu '...ago'.", audioStart: 19.32, audioEnd: 21.44 },
+            {q: "We bought this house in 2018.", o: ["Past Simple", "Present Simple", "Present Continuous"], a: 0, ex: "Có 'bought' (V2 của buy) và mốc thời gian quá khứ 'in 2018'.", audioStart: 21.86, audioEnd: 24.18 },
+            {q: "Listen! Someone is knocking on the door.", o: ["Past Simple", "Present Simple", "Present Continuous"], a: 2, ex: "Từ gây chú ý 'Listen!' và 'is knocking'.", audioStart: 24.7, audioEnd: 28.12 },
+            {q: "The sun sets in the west.", o: ["Past Simple", "Present Simple", "Present Continuous"], a: 1, ex: "Chỉ một sự thật hiển nhiên -> Hiện tại đơn.", audioStart: 28.38, audioEnd: 30.34 },
+            {q: "Did you hear the news last night?", o: ["Past Simple", "Present Simple", "Present Continuous"], a: 0, ex: "Câu hỏi bắt đầu bằng trợ động từ 'Did' và có 'last night'.", audioStart: 30.86, audioEnd: 32.92 },
+            {q: "He never eats fast food because it's unhealthy.", o: ["Past Simple", "Present Simple", "Present Continuous"], a: 1, ex: "Trạng từ tần suất 'never' và động từ 'eats' (V-s).", audioStart: 33.28, audioEnd: 36.18 },
+            {q: "I am not wearing a jacket today.", o: ["Past Simple", "Present Simple", "Present Continuous"], a: 2, ex: "Cấu trúc am/is/are + not + V-ing.", audioStart: 36.88, audioEnd: 39.02 },
+            {q: "She forgot her keys at home this morning.", o: ["Past Simple", "Present Simple", "Present Continuous"], a: 0, ex: "Có 'forgot' (V2 của forget) chỉ hành động đã xảy ra xong.", audioStart: 39.42, audioEnd: 41.88 },
+            {q: "We don't have English lessons on Sundays.", o: ["Past Simple", "Present Simple", "Present Continuous"], a: 1, ex: "Trợ động từ 'don't' chỉ một lịch trình thường xuyên.", audioStart: 42.2, audioEnd: 44.42 },
+            {q: "My parents traveled to Japan two years ago.", o: ["Past Simple", "Present Simple", "Present Continuous"], a: 0, ex: "Có 'traveled' (V-ed) và 'two years ago'.", audioStart: 45.14, audioEnd: 48.12 },
+            {q: "Are you waiting for the bus?", o: ["Past Simple", "Present Simple", "Present Continuous"], a: 2, ex: "Cấu trúc Are + S + V-ing (hỏi hành động đang diễn ra).", audioStart: 48.44, audioEnd: 50.0 },
+            {q: "He was very tired after the football match.", o: ["Past Simple", "Present Simple", "Present Continuous"], a: 0, ex: "Sử dụng động từ to be ở dạng quá khứ 'was'.", audioStart: 50.34, audioEnd: 53.12 },
+            {q: "How often do you clean your room?", o: ["Past Simple", "Present Simple", "Present Continuous"], a: 1, ex: "Câu hỏi về tần suất (How often + do + S + V).", audioStart: 53.48, audioEnd: 55.64 },
+            {q: "Someone stole my bike yesterday afternoon.", o: ["Past Simple", "Present Simple", "Present Continuous"], a: 0, ex: "Có 'stole' (V2 của steal) và 'yesterday afternoon'.", audioStart: 56.02, audioEnd: 59.06 }
+        ],
+        2: [ // 15 Questions: Time expressions
+            {q: "I visited my grandmother yesterday.", o: ["yesterday", "every day", "right now"], a: 0, ex: "'Yesterday' là dấu hiệu thường gặp của thì quá khứ đơn.", audioStart: 59.66, audioEnd: 61.72 },
+            {q: "They moved here two years ago.", o: ["tomorrow", "two years ago", "usually"], a: 1, ex: "'Two years ago' diễn tả một thời điểm trong quá khứ.", audioStart: 62.46, audioEnd: 64.5 },
+            {q: "We watched a film last night.", o: ["at the moment", "last night", "every night"], a: 1, ex: "'Last night' là dấu hiệu của thì quá khứ đơn.", audioStart: 64.78, audioEnd: 66.8 },
+            {q: "She was born in 2010.", o: ["in 2010", "next year", "now"], a: 0, ex: "'In 2010' là mốc thời gian đã qua.", audioStart: 67.06, audioEnd: 68.8 },
+            {q: "He called me an hour ago.", o: ["an hour ago", "every hour", "in an hour"], a: 0, ex: "'An hour ago' cho biết hành động xảy ra trong quá khứ.", audioStart: 69.62, audioEnd: 71.18 },
+            {q: "We went to Da Nang last summer.", o: ["this summer", "last summer", "next summer"], a: 1, ex: "'Last summer' là dấu hiệu thời gian quá khứ.", audioStart: 71.54, audioEnd: 73.6 },
+            {q: "I met Anna three days ago.", o: ["three days ago", "every three days", "in three days"], a: 0, ex: "'Three days ago' diễn tả thời gian đã qua.", audioStart: 73.84, audioEnd: 75.74 },
+            {q: "My father bought a car in 2020.", o: ["in 2020", "in 2030", "every year"], a: 0, ex: "'In 2020' là mốc thời gian trong quá khứ.", audioStart: 76.18, audioEnd: 78.24 },
+            {q: "They arrived yesterday morning.", o: ["tomorrow morning", "yesterday morning", "every morning"], a: 1, ex: "'Yesterday morning' là dấu hiệu quá khứ đơn.", audioStart: 79.3, audioEnd: 81.22 },
+            {q: "I saw him a week ago.", o: ["next week", "last week", "a week ago"], a: 2, ex: "'A week ago' cho biết việc đã xảy ra cách đây một tuần.", audioStart: 81.78, audioEnd: 83.36 },
+            {q: "She studied English last weekend.", o: ["last weekend", "this weekend", "every weekend"], a: 0, ex: "'Last weekend' là khoảng thời gian đã kết thúc.", audioStart: 83.64, audioEnd: 85.82 },
+            {q: "We had a test yesterday afternoon.", o: ["now", "yesterday afternoon", "every afternoon"], a: 1, ex: "'Yesterday afternoon' là dấu hiệu quá khứ đơn.", audioStart: 86.54, audioEnd: 88.6 },
+            {q: "He left school five minutes ago.", o: ["five minutes ago", "in five minutes", "usually"], a: 0, ex: "'Five minutes ago' diễn tả thời điểm trong quá khứ.", audioStart: 89.34, audioEnd: 91.5 },
+            {q: "They traveled to Japan in 2019.", o: ["next year", "in 2019", "at present"], a: 1, ex: "'In 2019' là mốc thời gian đã qua.", audioStart: 91.84, audioEnd: 94.18 },
+            {q: "I cleaned my room last Sunday.", o: ["every Sunday", "last Sunday", "this Sunday"], a: 1, ex: "'Last Sunday' là dấu hiệu của thì quá khứ đơn.", audioStart: 95.34, audioEnd: 97.54 }
+        ],
+        3: [ // 15 Questions: Verb forms
+            {q: "Yesterday, Tom ___ to school.", o: ["go", "went", "goes"], a: 1, ex: "'Go' có dạng quá khứ bất quy tắc là 'went'.", audioStart: 97.94, audioEnd: 100.38 },
+            {q: "My mother ___ dinner last night.", o: ["cooked", "cook", "cooks"], a: 0, ex: "'Cook' là động từ có quy tắc: cook → cooked.", audioStart: 100.9, audioEnd: 103.04 },
+            {q: "We ___ a new house in 2021.", o: ["buy", "bought", "buys"], a: 1, ex: "'Buy' có dạng quá khứ bất quy tắc là 'bought'.", audioStart: 103.3, audioEnd: 105.16 },
+            {q: "She ___ a letter two days ago.", o: ["writes", "write", "wrote"], a: 2, ex: "'Write' có dạng quá khứ bất quy tắc là 'wrote'.", audioStart: 106.52, audioEnd: 108.78 },
+            {q: "They ___ football yesterday.", o: ["played", "play", "plays"], a: 0, ex: "'Play' là động từ có quy tắc: play → played.", audioStart: 109.06, audioEnd: 110.48 },
+            {q: "I ___ my keys this morning.", o: ["lose", "lost", "loses"], a: 1, ex: "'Lose' có dạng quá khứ bất quy tắc là 'lost'.", audioStart: 110.49, audioEnd: 113.42 },
+            {q: "He ___ up late last Sunday.", o: ["gets", "get", "got"], a: 2, ex: "'Get' có dạng quá khứ bất quy tắc là 'got'.", audioStart: 113.96, audioEnd: 115.62 },
+            {q: "Mary ___ her homework yesterday.", o: ["finished", "finish", "finishes"], a: 0, ex: "'Finish' là động từ có quy tắc: finish → finished.", audioStart: 116.16, audioEnd: 118.24 },
+            {q: "The baby ___ for two hours last night.", o: ["sleep", "slept", "sleeps"], a: 1, ex: "'Sleep' có dạng quá khứ bất quy tắc là 'slept'.", audioStart: 118.96, audioEnd: 121.86 },
+            {q: "We ___ the museum last Friday.", o: ["visited", "visit", "visits"], a: 0, ex: "'Visit' là động từ có quy tắc: visit → visited.", audioStart: 122.12, audioEnd: 124.5 },
+            {q: "She ___ a beautiful song yesterday.", o: ["sing", "sings", "sang"], a: 2, ex: "'Sing' có dạng quá khứ bất quy tắc là 'sang'.", audioStart: 125.16, audioEnd: 127.54 },
+            {q: "They ___ home late last night.", o: ["come", "came", "comes"], a: 1, ex: "'Come' có dạng quá khứ bất quy tắc là 'came'.", audioStart: 128.28, audioEnd: 130.38 },
+            {q: "Dad ___ the window an hour ago.", o: ["opened", "open", "opens"], a: 0, ex: "'Open' là động từ có quy tắc: open → opened.", audioStart: 130.7, audioEnd: 133.28 },
+            {q: "I ___ breakfast at seven yesterday.", o: ["have", "has", "had"], a: 2, ex: "'Have' có dạng quá khứ bất quy tắc là 'had'.", audioStart: 133.76, audioEnd: 136.0 },
+            {q: "The children ___ very happy yesterday.", o: ["were", "are", "is"], a: 0, ex: "Động từ 'are' chuyển thành 'were' ở thì quá khứ.", audioStart: 136.58, audioEnd: 138.96 }
+        ],
+        4: [ // 10 Questions: Mixed sentence challenge
+            {q: "Did you ___ your teacher yesterday?", o: ["see", "saw", "seen"], a: 0, ex: "Sau 'Did' dùng động từ nguyên mẫu V1: see.", audioStart: 139.52, audioEnd: 141.48 },
+            {q: "She ___ to the market last Sunday.", o: ["go", "goes", "went"], a: 2, ex: "Câu khẳng định quá khứ dùng V2: went.", audioStart: 142.14, audioEnd: 144.22 },
+            {q: "They didn't ___ TV last night.", o: ["watched", "watch", "watches"], a: 1, ex: "Sau 'didn't' dùng động từ nguyên mẫu V1: watch.", audioStart: 144.68, audioEnd: 147.1 },
+            {q: "___ he visit his uncle yesterday?", o: ["Does", "Did", "Do"], a: 1, ex: "Câu hỏi quá khứ đơn dùng 'Did' + chủ ngữ + V1.", audioStart: 147.36, audioEnd: 149.12 },
+            {q: "My friends ___ at home last night.", o: ["was", "were", "are"], a: 1, ex: "Chủ ngữ số nhiều 'my friends' đi với 'were'.", audioStart: 150.0, audioEnd: 152.2 },
+            {q: "I ___ breakfast this morning.", o: ["didn't ate", "don't eat", "didn't eat"], a: 2, ex: "Phủ định quá khứ: didn't + động từ nguyên mẫu V1.", audioStart: 152.5, audioEnd: 154.66 },
+            {q: "Where ___ you go last weekend?", o: ["do", "did", "does"], a: 1, ex: "Câu hỏi WH ở quá khứ: Where + did + S + V1.", audioStart: 155.2, audioEnd: 156.76 },
+            {q: "He ___ his homework two hours ago.", o: ["does", "did", "do"], a: 1, ex: "'Two hours ago' chỉ quá khứ; dạng quá khứ của 'do' là 'did'.", audioStart: 157.48, audioEnd: 159.68 },
+            {q: "The students ___ English yesterday.", o: ["studied", "study", "studies"], a: 0, ex: "Câu khẳng định quá khứ dùng V2: studied.", audioStart: 160.24, audioEnd: 162.58 },
+            {q: "What time ___ the train arrive yesterday?", o: ["does", "do", "did"], a: 2, ex: "Câu hỏi quá khứ đơn dùng 'did' + động từ nguyên mẫu.", audioStart: 163.38, audioEnd: 165.86 }
+        ]
+    };
+
+    // --- GAME STATE ---
+    let currentQuestions = [];
+    let currentQIndex = 0;
+    let score = 0, correctCount = 0, incorrectCount = 0;
+    let soundEnabled = true;
+    let isAnswering = false;
+
+    // --- AUDIO SYSTEM (sounds/001.mp3 + Web Audio + TTS Fallback) ---
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    const audioCtx = AudioContextClass ? new AudioContextClass() : null;
+
+    // Master audio for questions from sounds/001.mp3
+    const questionAudio = new Audio('sounds/001.mp3');
+    let questionAudioTimer = null;
+
+    function stopQuestionAudio() {
+        if (questionAudioTimer) {
+            clearTimeout(questionAudioTimer);
+            questionAudioTimer = null;
+        }
+        questionAudio.pause();
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+        }
+    }
+
+    function playTone(freq, type, duration, startTime) {
+        if (!soundEnabled || !audioCtx) return;
+        const osc = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime + startTime);
+        gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime + startTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + startTime + duration);
+        osc.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        osc.start(audioCtx.currentTime + startTime);
+        osc.stop(audioCtx.currentTime + startTime + duration);
+    }
+
+    function playCorrectSound() {
+        if(audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+        playTone(523.25, 'sine', 0.1, 0);
+        playTone(659.25, 'sine', 0.2, 0.1);
+        playTone(783.99, 'sine', 0.3, 0.2); // Thêm 1 nốt cho bắt tai hơn
+    }
+
+    function playWrongSound() {
+        if(audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+        playTone(200, 'square', 0.2, 0);
+        playTone(150, 'square', 0.3, 0.15);
+    }
+
+    function speakQuestion() {
+        if (!soundEnabled) return;
+        stopQuestionAudio();
+
+        const qData = currentQuestions[currentQIndex];
+        if (!qData) return;
+
+        if (qData.audioStart !== undefined && qData.audioEnd !== undefined) {
+            questionAudio.currentTime = qData.audioStart;
+            const playPromise = questionAudio.play();
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    const durationMs = Math.max(300, (qData.audioEnd - qData.audioStart) * 1000);
+                    questionAudioTimer = setTimeout(() => {
+                        questionAudio.pause();
+                    }, durationMs);
+                }).catch(err => {
+                    console.warn("Cannot play sounds/001.mp3, falling back to TTS:", err);
+                    playFallbackTTS(qData.q);
+                });
+            }
+        } else {
+            playFallbackTTS(qData.q);
+        }
+    }
+
+    function playFallbackTTS(text) {
+        if (!soundEnabled || !('speechSynthesis' in window)) return;
+        window.speechSynthesis.cancel();
+        const cleanText = text.replace(/\*\*/g, '');
+        const utterance = new SpeechSynthesisUtterance(cleanText);
+        utterance.lang = 'en-US';
+        utterance.rate = 0.9;
+        window.speechSynthesis.speak(utterance);
+    }
+
+    // --- GAME LOGIC ---
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    function startGame(mode) {
+        if (!allQuestions[mode] || allQuestions[mode].length === 0) {
+            alert("Bộ câu hỏi này hiện chưa có dữ liệu.");
+            return;
+        }
+        currentQuestions = [...allQuestions[mode]];
+        shuffleArray(currentQuestions);
+        currentQIndex = 0;
+        score = 0; correctCount = 0; incorrectCount = 0;
+        
+        document.getElementById('menu-screen').classList.remove('active');
+        document.getElementById('end-screen').classList.remove('active');
+        document.getElementById('game-screen').classList.add('active');
+        document.getElementById('hud').style.display = 'flex';
+        document.getElementById('progress-container').style.display = 'block';
+        
+        const modeNames = ["FIND THE PAST", "TIME DETECTIVE", "VERB DETECTIVE", "SENTENCE CHALLENGE"];
+        document.getElementById('mode-label').innerText = modeNames[mode-1];
+        document.getElementById('q-total').innerText = currentQuestions.length;
+        
+        updateHUD();
+        loadQuestion();
+    }
+
+    function formatText(text) {
+        return text.replace(/\*\*(.*?)\*\*/g, '<span style="color:var(--danger); text-decoration: underline;">$1</span>');
+    }
+
+    function loadQuestion() {
+        isAnswering = false;
+        const qData = currentQuestions[currentQIndex];
+        document.getElementById('q-current').innerText = currentQIndex + 1;
+        document.getElementById('question-text').innerHTML = formatText(qData.q);
+        
+        const optionsContainer = document.getElementById('options-container');
+        optionsContainer.innerHTML = '';
+        
+        qData.o.forEach((opt, index) => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.innerHTML = `<span class="key-hint">${index+1}</span> <span>${opt}</span>`;
+            btn.onclick = () => selectOption(index);
+            optionsContainer.appendChild(btn);
+        });
+
+        setTimeout(speakQuestion, 400);
+    }
+
+    function selectOption(selectedIndex) {
+        if (isAnswering) return;
+        isAnswering = true;
+        stopQuestionAudio();
+        
+        const qData = currentQuestions[currentQIndex];
+        const buttons = document.querySelectorAll('.option-btn');
+        const isCorrect = selectedIndex === qData.a;
+        
+        buttons.forEach((btn, idx) => {
+            btn.disabled = true;
+            if (idx === qData.a) btn.classList.add('correct');
+            else if (idx === selectedIndex) btn.classList.add('wrong');
+        });
+
+        const statusEl = document.getElementById('feedback-status');
+        if (isCorrect) {
+            score += 10;
+            correctCount++;
+            playCorrectSound();
+            statusEl.innerText = "🌟 EXCELLENT! 🌟";
+            statusEl.className = "feedback-status status-correct";
+        } else {
+            incorrectCount++;
+            playWrongSound();
+            statusEl.innerText = "❌ NOT QUITE! ❌";
+            statusEl.className = "feedback-status status-wrong";
+        }
+
+        updateHUD();
+        
+        setTimeout(() => {
+            document.getElementById('feedback-explanation').innerHTML = `<strong>💡 Giải thích:</strong> ${qData.ex}`;
+            document.getElementById('feedback-modal').style.display = 'flex';
+            document.getElementById('btn-next').focus();
+        }, 600); // Đợi nửa giây cho học sinh nhìn thấy nút đỏ/xanh rồi mới hiện giải thích
+    }
+
+    function updateHUD() {
+        document.getElementById('score-points').innerText = score;
+        document.getElementById('score-correct').innerText = correctCount;
+        document.getElementById('score-incorrect').innerText = incorrectCount;
+        
+        const totalPlayed = correctCount + incorrectCount;
+        const acc = totalPlayed === 0 ? 0 : Math.round((correctCount / totalPlayed) * 100);
+        document.getElementById('score-acc').innerText = acc;
+        
+        const progress = ((currentQIndex) / currentQuestions.length) * 100;
+        document.getElementById('progress-bar').style.width = progress + '%';
+    }
+
+    function nextQuestion() {
+        stopQuestionAudio();
+        document.getElementById('feedback-modal').style.display = 'none';
+        currentQIndex++;
+        
+        if (currentQIndex < currentQuestions.length) {
+            updateHUD();
+            loadQuestion();
+        } else {
+            endGame();
+        }
+    }
+
+    function endGame() {
+        stopQuestionAudio();
+        document.getElementById('progress-bar').style.width = '100%';
+        document.getElementById('game-screen').classList.remove('active');
+        document.getElementById('hud').style.display = 'none';
+        document.getElementById('progress-container').style.display = 'none';
+        document.getElementById('end-screen').classList.add('active');
+        
+        document.getElementById('final-score').innerText = score;
+        const acc = Math.round((correctCount / currentQuestions.length) * 100);
+        document.getElementById('final-acc').innerText = acc + '%';
+        
+        const titleEl = document.getElementById('end-title');
+        if(acc >= 90) titleEl.innerText = "🏆 MASTER DETECTIVE! 🏆";
+        else if (acc >= 70) titleEl.innerText = "🌟 GREAT DETECTIVE! 🌟";
+        else titleEl.innerText = "💪 KEEP PRACTICING! 💪";
+    }
+
+    function returnToMenu() {
+        stopQuestionAudio();
+        document.getElementById('end-screen').classList.remove('active');
+        document.getElementById('menu-screen').classList.add('active');
+    }
+
+    // --- EVENT LISTENERS ---
+    document.getElementById('sound-toggle').addEventListener('click', (e) => {
+        soundEnabled = !soundEnabled;
+        if (!soundEnabled) {
+            stopQuestionAudio();
+        }
+        e.target.innerText = soundEnabled ? '🔊' : '🔇';
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (document.getElementById('game-screen').classList.contains('active') && !isAnswering) {
+            const keyMap = {'1': 0, '2': 1, '3': 2, '4': 3};
+            if (keyMap[e.key] !== undefined) {
+                const buttons = document.querySelectorAll('.option-btn');
+                if (keyMap[e.key] < buttons.length) selectOption(keyMap[e.key]);
+            }
+        }
+        if (e.key === 'Enter' && document.getElementById('feedback-modal').style.display === 'flex') {
+            nextQuestion();
+        }
+    });
+
+    document.body.addEventListener('touchstart', () => { if(audioCtx && audioCtx.state === 'suspended') audioCtx.resume(); }, {once:true});
+    document.body.addEventListener('click', () => { if(audioCtx && audioCtx.state === 'suspended') audioCtx.resume(); }, {once:true});
+
+    function openVerbDictModal() {
+        const modal = document.getElementById('verb-dict-modal');
+        const iframe = document.getElementById('vdict-iframe');
+        if (iframe && !iframe.src && iframe.dataset.src) {
+            iframe.src = iframe.dataset.src;
+        }
+        if (modal) modal.style.display = 'flex';
+    }
+    function closeVerbDictModal() {
+        const modal = document.getElementById('verb-dict-modal');
+        if (modal) modal.style.display = 'none';
+    }
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeVerbDictModal();
+    });
+</script>
+
+<!-- VERB DICTIONARY MODAL -->
+<style>
+.vdict-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(4px);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
+  animation: vdictFadeIn 0.2s ease-out;
+}
+.vdict-modal-box {
+  width: min(1200px, 96vw);
+  height: min(88vh, 850px);
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.vdict-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #0B3C5D;
+  color: #ffffff;
+  padding: 12px 20px;
+  flex-shrink: 0;
+}
+.vdict-title {
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.vdict-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.vdict-btn-ext {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.18);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.vdict-btn-ext:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+.vdict-btn-close {
+  background: rgba(239, 68, 68, 0.85);
+  color: #ffffff;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.vdict-btn-close:hover {
+  background: #dc2626;
+}
+.vdict-modal-body {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: #F4F8FB;
+}
+.vdict-modal-body iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+@keyframes vdictFadeIn {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+</style>
+
+<div id="verb-dict-modal" class="vdict-modal-overlay" style="display:none;" onclick="if(event.target===this) closeVerbDictModal()">
+  <div class="vdict-modal-box">
+    <div class="vdict-modal-header">
+      <div class="vdict-title">
+        <span>📖</span> English Verb Dictionary (V1 - V2 - V3)
+      </div>
+      <div class="vdict-actions">
+        <a id="vdict-open-newtab" href="ENGLISH VERB DICTIONARY.html" target="_blank" class="vdict-btn-ext" title="Mở trong tab mới">
+          ↗ Mở tab mới
+        </a>
+        <button type="button" class="vdict-btn-close" onclick="closeVerbDictModal()" title="Đóng">✕</button>
+      </div>
+    </div>
+    <div class="vdict-modal-body">
+      <iframe id="vdict-iframe" data-src="ENGLISH VERB DICTIONARY.html" title="English Verb Dictionary"></iframe>
+    </div>
+  </div>
+</div>
+</body>
+</html>
